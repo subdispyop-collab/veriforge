@@ -9,7 +9,7 @@ Consequences:
 - The Streamlit interface (Phase 8) presents engines honestly: UNKNOWN/timeout are never labeled equivalent; charts require completed-run measurements; missing capabilities show unavailable states. It does not invent research findings.
 - Phase 9 documents the threat model and §15 controls in `docs/SECURITY.md`. **VERIFORGE does not claim resistance to every attack.**
 - Phase 10 literature review (`docs/LITERATURE_REVIEW.md`) uses real sources and makes **no novelty claim**.
-- Held-out evaluation harness exists (`veriforge/evaluation_engine.py`). On hosts without installable `z3-solver`, held-out **measurements are unavailable** and must be labeled as such. Do not invent rates or timings.
+- Held-out evaluation harness exists (`veriforge/evaluation_engine.py`). Actual Phase 10 held-out numbers are in `experiments/reports/phase10-held-out-evaluation.md` (warm host, seed `20261009`, n=8). On hosts without installable `z3-solver`, measurements remain **unavailable** and must be labeled as such. Do not invent rates or timings. Small-n sample statuses are not population estimates.
 - Baselines 1–4 are implemented in the harness; baseline 5 (external tool) remains not selected.
 - Metric unit tests and benchmark-engine validation runs may use development/fixture data. Those numbers are not scientific findings unless a held-out report says otherwise with traceable raw observations.
 - Timing and solver wall-clock measurements are subject to platform and Z3 nondeterminism; exact bit-for-bit reproduction of durations is not guaranteed.
