@@ -2,9 +2,9 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 5 — experimental framework (frozen protocol, versioned datasets, experiment identifiers, raw persistence, metric validation).
+**Current phase:** Phase 6 — benchmark engine (separated §10 timings, repeated trials, raw saves, reproduction).
 
-Phases 6–12 (benchmark engine, full audit/export, Streamlit UI, and related modules) are not implemented. **No held-out evaluation has been run.**
+Phases 7–12 (full audit/export, Streamlit UI, and related modules) are not implemented. **No held-out evaluation has been run as a research conclusion.**
 
 ## Requirements
 
@@ -31,30 +31,39 @@ python3 -m pytest
 
 See `docs/SEMANTICS.md` for the full contract and `docs/FORMAL_MODEL.md` for the encoded equivalence query and TCB assumptions.
 
-## Research protocol (Phase 5)
+## Benchmark engine (Phase 6)
+
+Measures section-10 quantities **separately** (solver latency is not expression execution time). Reports use medians and variability. Never claims execution speedup from a shorter expression or a faster solver alone.
+
+```bash
+python3 scripts/run_benchmarks.py --case-id dev-hand-001 --trials 2 --warmup 1 \
+  --save-config /tmp/veriforge-bench-config.json --json-summary /tmp/veriforge-bench-summary.json
+```
+
+```python
+from veriforge import make_benchmark_configuration, run_benchmark
+from veriforge.benchmark_engine import load_development_cases_for_engine_validation
+from veriforge.models import DatasetPartition
+
+cases = load_development_cases_for_engine_validation()
+cfg = make_benchmark_configuration(
+    trials_per_case=2,
+    warmup_trials=1,
+    dataset_partition=DatasetPartition.DEVELOPMENT,
+    case_ids=["dev-hand-001"],
+)
+run_id, measurements, report = run_benchmark(cfg, cases, persist=False)
+assert report.is_research_conclusion is False
+```
+
+Development datasets validate the engine only. Timing nondeterminism is disclosed on every configuration and report.
+
+## Research protocol (Phase 5, still frozen)
 
 - Preregistered plan: `docs/RESEARCH_PLAN.md` (hypotheses are not findings)
 - Frozen protocol: `docs/EXPERIMENT_PROTOCOL.md` (version `0.5.0`)
+- Benchmark protocol id: `veriforge-phase6-benchmark-protocol` (version `0.6.0`)
 - Datasets: `datasets/development/`, `datasets/held_out/` — see `datasets/README.md`
-- Experiment APIs: `veriforge.experiment_engine`, `veriforge.dataset_engine`
-
-```python
-from veriforge import (
-    DatasetPartition,
-    create_experiment_run,
-    configuration_fingerprint,
-    baseline_catalog,
-    load_all_partitions,
-)
-
-bundles = load_all_partitions()  # asserts no cross-partition near-duplicate leakage
-run = create_experiment_run(
-    configuration={"note": "framework check only"},
-    dataset_partition=DatasetPartition.DEVELOPMENT,
-)
-print(run.run_id, run.configuration_fingerprint)
-print([b.baseline_id for b in baseline_catalog()])
-```
 
 Creating a run does not execute held-out evaluation. An artificial 90/10 mix, if used, is a controlled configuration — not real-world prevalence.
 

@@ -51,7 +51,7 @@ The specification does not use the heading "primary outcomes." The outcomes name
 
 Results for every one of these are unavailable.
 
-Section 10 requires the following quantities to be measured independently when a benchmark exists (Phase 6). They are named here for protocol completeness; Phase 5 does not implement the benchmark engine:
+Section 10 quantities are measured independently by `veriforge.benchmark_engine` (Phase 6). Development-partition runs validate the engine only and are **not** research conclusions:
 
 - Parsing time.
 - Optimization time.
@@ -66,7 +66,7 @@ Section 10 requires the following quantities to be measured independently when a
 - Verification completion rate.
 - Rejection and counterexample rates.
 
-Specified reporting rules, not yet applied to research data:
+Specified reporting rules (applied by the Phase 6 report helpers to engine-validation data; not yet applied to held-out research data):
 
 - Report medians and variability.
 - Use confidence intervals and statistical tests only where their assumptions hold.
@@ -103,4 +103,4 @@ Dataset version for the Phase 5 seed partitions: `0.5.0`. Random seed: `20261009
 - No baseline measurement campaign.
 - No sample size, rate, duration, or statistical *research* result.
 - No source has been reviewed. A novelty claim waits on the literature review required by section 16.
-- No Streamlit UI and no Phase 6 benchmark timing engine.
+- No Streamlit UI. Phase 6 benchmark engine exists for development-partition validation only; no held-out research evaluation.

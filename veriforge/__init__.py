@@ -1,5 +1,18 @@
-"""VERIFORGE: semantics, verification, optimizer, adversarial validation, experiments."""
+"""VERIFORGE: semantics, verification, optimizer, adversarial validation, experiments, benchmarks."""
 
+from veriforge.benchmark_engine import (
+    BENCHMARK_PROTOCOL_VERSION,
+    assert_no_spurious_execution_speedup_claim,
+    collect_environment,
+    compute_rate_summary,
+    configuration_to_mapping,
+    load_benchmark_configuration,
+    make_benchmark_configuration,
+    rerun_benchmark_from_saved_configuration,
+    run_benchmark,
+    save_benchmark_configuration,
+    summarize_measurements,
+)
 from veriforge.config import ResourceLimits, SemanticConfiguration, default_limits
 from veriforge.dataset_engine import (
     assert_no_cross_partition_leakage,
@@ -10,6 +23,7 @@ from veriforge.dataset_engine import (
     near_duplicate_key,
 )
 from veriforge.exceptions import (
+    BenchmarkError,
     DomainError,
     EvaluationError,
     InvalidLiteralError,
@@ -46,6 +60,10 @@ from veriforge.models import (
     ARTIFICIAL_90_10_MIX,
     BaselineDefinition,
     BaselineId,
+    BenchmarkConfiguration,
+    BenchmarkMeasurement,
+    BenchmarkRateSummary,
+    BenchmarkReport,
     BinaryOp,
     BinaryOperator,
     CandidateDecision,
@@ -59,6 +77,7 @@ from veriforge.models import (
     DatasetCase,
     DatasetMetadata,
     DatasetPartition,
+    EnvironmentRecord,
     ExpectedOutcome,
     ExperimentRun,
     Expression,
@@ -73,6 +92,8 @@ from veriforge.models import (
     OptimizationRule,
     RawObservation,
     SemanticMode,
+    TimeoutPolicy,
+    TimingStatistic,
     TransformationCategory,
     TransformationStep,
     UnaryOp,
@@ -81,6 +102,7 @@ from veriforge.models import (
     VerificationPolicy,
     VerificationResult,
     VerificationStatus,
+    WarmupPolicy,
 )
 from veriforge.optimizer_engine import (
     RULE_ADD_ZERO,
@@ -96,16 +118,24 @@ from veriforge.optimizer_engine import (
 from veriforge.parser_engine import parse_expression
 from veriforge.reference_evaluator import evaluate
 from veriforge.verifier_engine import (
+    TimedVerificationResult,
     classify_check_result,
     translate_to_z3,
     verify_equivalence,
+    verify_equivalence_timed,
 )
 from veriforge.version import __version__
 
 __all__ = [
     "ARTIFICIAL_90_10_MIX",
+    "BENCHMARK_PROTOCOL_VERSION",
     "BaselineDefinition",
     "BaselineId",
+    "BenchmarkConfiguration",
+    "BenchmarkError",
+    "BenchmarkMeasurement",
+    "BenchmarkRateSummary",
+    "BenchmarkReport",
     "BinaryOp",
     "BinaryOperator",
     "CandidateDecision",
@@ -121,6 +151,7 @@ __all__ = [
     "DatasetMetadata",
     "DatasetPartition",
     "DomainError",
+    "EnvironmentRecord",
     "EvaluationError",
     "ExpectedOutcome",
     "ExperimentRun",
@@ -148,6 +179,9 @@ __all__ = [
     "ResourceLimits",
     "SemanticConfiguration",
     "SemanticMode",
+    "TimedVerificationResult",
+    "TimeoutPolicy",
+    "TimingStatistic",
     "TransformationCategory",
     "TransformationStep",
     "TranslationError",
@@ -161,6 +195,7 @@ __all__ = [
     "VerificationResult",
     "VerificationStatus",
     "VeriforgeError",
+    "WarmupPolicy",
     "__version__",
     "analyze_mutation",
     "analyze_mutations",
@@ -168,11 +203,15 @@ __all__ = [
     "artificial_90_10_mix",
     "assert_mutation_isolation",
     "assert_no_cross_partition_leakage",
+    "assert_no_spurious_execution_speedup_claim",
     "baseline_catalog",
     "build_case",
     "classify_check_result",
+    "collect_environment",
     "compute_metrics_from_observations",
+    "compute_rate_summary",
     "configuration_fingerprint",
+    "configuration_to_mapping",
     "create_experiment_run",
     "default_limits",
     "default_rules",
@@ -180,7 +219,9 @@ __all__ = [
     "find_applicable_matches",
     "generate_mutations",
     "load_all_partitions",
+    "load_benchmark_configuration",
     "load_bundle",
+    "make_benchmark_configuration",
     "make_observation",
     "mutate_and_analyze",
     "mutation_categories",
@@ -188,8 +229,13 @@ __all__ = [
     "optimize",
     "parse_expression",
     "rebuild_mutated",
+    "rerun_benchmark_from_saved_configuration",
     "rule_by_id",
+    "run_benchmark",
+    "save_benchmark_configuration",
+    "summarize_measurements",
     "translate_to_z3",
     "try_apply_rule",
     "verify_equivalence",
+    "verify_equivalence_timed",
 ]

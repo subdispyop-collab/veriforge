@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "veriforge"
-version = "0.5.0"
-description = "Formal-verification-guided arithmetic expression research platform (Phase 5 experimental framework)"
+version = "0.6.0"
+description = "Formal-verification-guided arithmetic expression research platform (Phase 6 benchmark engine)"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Proprietary" }

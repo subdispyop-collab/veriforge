@@ -1,6 +1,6 @@
 # Architecture
 
-Status: Phases 1–5 are implemented (semantic foundation, formal verification, conservative optimizer, adversarial validation, experimental framework). Later-phase components remain planned only.
+Status: Phases 1–6 are implemented (semantic foundation through benchmark engine). Later-phase components remain planned only.
 
 ## Implemented
 
@@ -14,9 +14,10 @@ Status: Phases 1–5 are implemented (semantic foundation, formal verification, 
 | Mutation facility | Generate incorrect candidates for detection tests. Keep them labeled, seeded, and off the production rule set. They must not bypass verification. | Implemented: `veriforge/fuzzer_suite.py` |
 | Datasets | Versioned development / held-out cases, §9.4 metadata, near-duplicate leakage controls, controlled-mix labeling. | Implemented: `veriforge/dataset_engine.py`, `datasets/` |
 | Experiments | Run identifiers, configuration fingerprints, baseline catalog, raw observation persistence, metric calculations from stored observations. | Implemented: `veriforge/experiment_engine.py`, `veriforge/storage/` |
-| Typed models / exceptions | Phase 1–5 records including dataset, experiment, and metric types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
+| Benchmarks | Separate §10 timings, repeated trials, warmups, timeout/environment records, raw saves, medians/variability, reproduction. | Implemented: `veriforge/benchmark_engine.py` |
+| Typed models / exceptions | Phase 1–6 records including dataset, experiment, metric, and benchmark types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
 
-Package layout present after Phase 5:
+Package layout present after Phase 6:
 
 ```
 veriforge/
@@ -33,6 +34,7 @@ veriforge/
     fuzzer_suite.py
     dataset_engine.py
     experiment_engine.py
+    benchmark_engine.py
     storage/
         __init__.py
         database.py
@@ -53,11 +55,12 @@ tests/
 docs/
 scripts/
     seed_phase5_datasets.py
+    run_benchmarks.py
 pyproject.toml
 requirements.lock
 ```
 
-Empty placeholders for unimplemented later phases (Streamlit UI, benchmark engine module) were not created.
+Empty placeholders for unimplemented later phases (Streamlit UI) were not created. Phase 6 adds `veriforge/benchmark_engine.py`.
 
 ## Verifier data flow
 
@@ -102,17 +105,29 @@ Two experimental configurations stay distinct:
 
 Verification states remain distinct: `EQUIVALENT_WITHIN_MODEL`, `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, `UNSUPPORTED`, `INVALID_INPUT`, `TRANSLATION_ERROR`, and `VERIFICATION_ERROR`. A Boolean success flag is not an acceptable substitute.
 
+## Benchmark data flow (Phase 6)
+
+1. Build a `BenchmarkConfiguration` (trials, warmups, seed, timeout policy, environment).
+2. Select development-partition cases for engine validation (held-out research evaluation refused).
+3. For each case: optional warmup trials, then timed trials.
+4. Measure §10 quantities into separate fields on `BenchmarkMeasurement` (never one merged duration).
+5. Persist as `ObservationKind.BENCHMARK_TIMING` raw JSON; snapshot configuration beside the run.
+6. Summarize with medians/variability and outcome rates; `is_research_conclusion=False`.
+7. Rerun from saved configuration JSON; disclose timing nondeterminism.
+
+`verify_equivalence_timed` exposes translation vs solver wall times for the verifier path.
+
 ## Planned boundaries (not implemented)
 
 Logic and presentation stay separate. Streamlit is the specified interface. It calls application functions. It does not own parsing, optimization, or verification.
 
 | Boundary | Specified responsibility | Status |
 | --- | --- | --- |
-| Benchmarks | Store correctness outcomes separately from timing. Solver time and expression execution time are different measurements. | Not implemented (Phase 6) |
+| Benchmarks | Store correctness outcomes separately from timing. Solver time and expression execution time are different measurements. | Implemented (Phase 6) |
 | Audit deepening | Export/replay and richer integrity checks beyond Phase 5 persistence. | Partial (Phase 5 store); full Phase 7 pending |
 | Interface | Six pages: expression workbench, verification explorer, fuzzing and mutation lab, benchmark lab, research dashboard, audit and reproducibility. Unavailable features show an unavailable state. No fabricated results. | Not implemented |
 
-Typed records named by the specification still pending as dedicated Phase 6+ products: `FuzzCase`, `BenchmarkConfiguration`, `BenchmarkMeasurement`, `AuditEvent`, `ResearchClaim`. Phase 5 added `DatasetMetadata` / `DatasetCase`, `ExperimentRun`, `RawObservation`, and metric summary types. Earlier phases already provide `ExpressionInput`, `SemanticConfiguration`, `VerificationResult`, `Counterexample`, `OptimizationRule`, `TransformationStep`, `OptimizationResult`, `MutationRecord`, and `MutationAnalysisResult`.
+Typed records still pending as dedicated later-phase products: `FuzzCase`, `AuditEvent`, `ResearchClaim`. Phase 6 added `BenchmarkConfiguration`, `BenchmarkMeasurement`, `BenchmarkReport`, and related timing/rate types. Phase 5 added `DatasetMetadata` / `DatasetCase`, `ExperimentRun`, `RawObservation`, and metric summary types.
 
 Trusted computing base assumptions for verification are written in `docs/FORMAL_MODEL.md` and summarized in `docs/LIMITATIONS.md`.
 
@@ -124,11 +139,11 @@ Out of scope until a later phase shows a need: distributed infrastructure, cloud
 - Mode B can be implemented as unbounded Python integers by mistake.
 - `UNKNOWN` and timeout can be collapsed into "not SAT" and then displayed as equivalent. The result type makes that collapse a type error.
 - The mutation path and the production rule path can share an acceptance function. Isolation remains structural.
-- Benchmark code can mix solver latency with expression execution time if both are written into one duration field (Phase 6 risk).
+- Benchmark code can mix solver latency with expression execution time if both are written into one duration field. Phase 6 stores them as separate fields and rejects §10.2 spurious speedup claims in helpers.
 - Generated cases can leak between development and held-out partitions; Phase 5 adds key checks, which must stay enforced.
 - Streamlit code can start calling the solver directly. Then limits, classification, and audit records will differ between the API and the UI.
 - Exact replay may fail because of solver or platform nondeterminism.
 - Passing Hypothesis or mutation suites is not a proof of equivalence (documented limitation).
 - Fixture metric tests must not be mistaken for research findings.
 
-Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`. The Phase 5 protocol is specified in `docs/EXPERIMENT_PROTOCOL.md`.
+Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`. The Phase 5 protocol is specified in `docs/EXPERIMENT_PROTOCOL.md`. Phase 6 benchmarking is implemented in `veriforge/benchmark_engine.py`.

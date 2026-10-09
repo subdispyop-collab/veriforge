@@ -47,3 +47,7 @@ class VerificationEngineError(VeriforgeError):
 
 class OptimizerError(VeriforgeError):
     """The optimizer could not run under the requested configuration or policy."""
+
+
+class BenchmarkError(VeriforgeError):
+    """Benchmark configuration, measurement, or reproduction failure."""

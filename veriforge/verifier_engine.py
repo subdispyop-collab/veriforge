@@ -8,6 +8,7 @@ SAT models with the reference evaluator before confirming a counterexample.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Mapping
 
 import z3
@@ -60,14 +61,48 @@ def verify_equivalence(
     always one of the explicit ``VerificationStatus`` values.
     """
 
+    timed = verify_equivalence_timed(original, candidate, config)
+    return timed.result
+
+
+@dataclass(frozen=True, slots=True)
+class TimedVerificationResult:
+    """Verification outcome with translation and solver times stored separately.
+
+    ``end_to_end_seconds`` covers parse/coerce through classification. Solver
+    latency and expression execution time remain distinct measurements (§10).
+    """
+
+    result: VerificationResult
+    parsing_seconds: float | None
+    translation_seconds: float | None
+    solver_seconds: float | None
+    end_to_end_seconds: float
+
+
+def verify_equivalence_timed(
+    original: Expression | str,
+    candidate: Expression | str,
+    config: SemanticConfiguration,
+) -> TimedVerificationResult:
+    """Equivalence check with independently measured stage timings (§10)."""
+
+    from time import perf_counter
+
     timeout_seconds = config.limits.solver_timeout_seconds
     bit_width = config.bit_width if config.mode is SemanticMode.MODE_B else None
+    e2e_start = perf_counter()
+    parsing_seconds: float | None = None
+    translation_seconds: float | None = None
+    solver_seconds: float | None = None
 
     try:
+        parse_start = perf_counter()
         original_expr, original_source = _coerce_expression(original, config)
         candidate_expr, candidate_source = _coerce_expression(candidate, config)
+        parsing_seconds = perf_counter() - parse_start
     except (UnsupportedSyntaxError, UnapprovedASTNodeError) as exc:
-        return VerificationResult(
+        result = VerificationResult(
             status=VerificationStatus.UNSUPPORTED,
             mode=config.mode,
             bit_width=bit_width,
@@ -76,8 +111,15 @@ def verify_equivalence(
             candidate_source=_source_of(candidate),
             reason=str(exc),
         )
+        return TimedVerificationResult(
+            result=result,
+            parsing_seconds=parsing_seconds,
+            translation_seconds=None,
+            solver_seconds=None,
+            end_to_end_seconds=perf_counter() - e2e_start,
+        )
     except (ResourceLimitError, InvalidLiteralError, ParseError) as exc:
-        return VerificationResult(
+        result = VerificationResult(
             status=VerificationStatus.INVALID_INPUT,
             mode=config.mode,
             bit_width=bit_width,
@@ -86,17 +128,31 @@ def verify_equivalence(
             candidate_source=_source_of(candidate),
             reason=str(exc),
         )
+        return TimedVerificationResult(
+            result=result,
+            parsing_seconds=parsing_seconds,
+            translation_seconds=None,
+            solver_seconds=None,
+            end_to_end_seconds=perf_counter() - e2e_start,
+        )
 
     try:
-        return _solve_difference(
+        result, translation_seconds, solver_seconds = _solve_difference_timed(
             original_expr,
             candidate_expr,
             config,
             original_source=original_source,
             candidate_source=candidate_source,
         )
+        return TimedVerificationResult(
+            result=result,
+            parsing_seconds=parsing_seconds,
+            translation_seconds=translation_seconds,
+            solver_seconds=solver_seconds,
+            end_to_end_seconds=perf_counter() - e2e_start,
+        )
     except TranslationError as exc:
-        return VerificationResult(
+        result = VerificationResult(
             status=VerificationStatus.TRANSLATION_ERROR,
             mode=config.mode,
             bit_width=bit_width,
@@ -106,7 +162,7 @@ def verify_equivalence(
             reason=str(exc),
         )
     except VerificationEngineError as exc:
-        return VerificationResult(
+        result = VerificationResult(
             status=VerificationStatus.VERIFICATION_ERROR,
             mode=config.mode,
             bit_width=bit_width,
@@ -116,7 +172,7 @@ def verify_equivalence(
             reason=str(exc),
         )
     except Exception as exc:  # noqa: BLE001 — classify unexpected solver failures
-        return VerificationResult(
+        result = VerificationResult(
             status=VerificationStatus.VERIFICATION_ERROR,
             mode=config.mode,
             bit_width=bit_width,
@@ -125,6 +181,13 @@ def verify_equivalence(
             candidate_source=candidate_source,
             reason=f"unexpected verification failure: {exc}",
         )
+    return TimedVerificationResult(
+        result=result,
+        parsing_seconds=parsing_seconds,
+        translation_seconds=translation_seconds,
+        solver_seconds=solver_seconds,
+        end_to_end_seconds=perf_counter() - e2e_start,
+    )
 
 
 def translate_to_z3(
@@ -190,14 +253,36 @@ def _solve_difference(
     original_source: str,
     candidate_source: str,
 ) -> VerificationResult:
+    result, _translation, _solver = _solve_difference_timed(
+        original,
+        candidate,
+        config,
+        original_source=original_source,
+        candidate_source=candidate_source,
+    )
+    return result
+
+
+def _solve_difference_timed(
+    original: Expression,
+    candidate: Expression,
+    config: SemanticConfiguration,
+    *,
+    original_source: str,
+    candidate_source: str,
+) -> tuple[VerificationResult, float | None, float | None]:
+    from time import perf_counter
+
     timeout_seconds = config.limits.solver_timeout_seconds
     bit_width = config.bit_width if config.mode is SemanticMode.MODE_B else None
     names = sorted(original.variables | candidate.variables)
     symbols = {name: _fresh_symbol(name, config) for name in names}
 
     try:
+        t0 = perf_counter()
         original_term, symbols = translate_to_z3(original, config, symbols)
         candidate_term, symbols = translate_to_z3(candidate, config, symbols)
+        translation_seconds = perf_counter() - t0
     except TranslationError:
         raise
 
@@ -212,7 +297,9 @@ def _solve_difference(
     solver.set("timeout", timeout_ms)
     solver.add(original_term != candidate_term)
 
+    t1 = perf_counter()
     check_result = solver.check()
+    solver_seconds = perf_counter() - t1
     reason_unknown: str | None = None
     if check_result == z3.unknown:
         try:
@@ -223,39 +310,51 @@ def _solve_difference(
     provisional = classify_check_result(check_result, reason_unknown)
 
     if provisional is VerificationStatus.EQUIVALENT_WITHIN_MODEL:
-        return VerificationResult(
-            status=VerificationStatus.EQUIVALENT_WITHIN_MODEL,
-            mode=config.mode,
-            bit_width=bit_width,
-            timeout_seconds=timeout_seconds,
-            original_source=original_source,
-            candidate_source=candidate_source,
-            solver_status="unsat",
-            reason="no differentiating input within the encoded model",
+        return (
+            VerificationResult(
+                status=VerificationStatus.EQUIVALENT_WITHIN_MODEL,
+                mode=config.mode,
+                bit_width=bit_width,
+                timeout_seconds=timeout_seconds,
+                original_source=original_source,
+                candidate_source=candidate_source,
+                solver_status="unsat",
+                reason="no differentiating input within the encoded model",
+            ),
+            translation_seconds,
+            solver_seconds,
         )
 
     if provisional is VerificationStatus.TIMEOUT:
-        return VerificationResult(
-            status=VerificationStatus.TIMEOUT,
-            mode=config.mode,
-            bit_width=bit_width,
-            timeout_seconds=timeout_seconds,
-            original_source=original_source,
-            candidate_source=candidate_source,
-            solver_status="unknown",
-            reason=reason_unknown or "solver timeout or interruption",
+        return (
+            VerificationResult(
+                status=VerificationStatus.TIMEOUT,
+                mode=config.mode,
+                bit_width=bit_width,
+                timeout_seconds=timeout_seconds,
+                original_source=original_source,
+                candidate_source=candidate_source,
+                solver_status="unknown",
+                reason=reason_unknown or "solver timeout or interruption",
+            ),
+            translation_seconds,
+            solver_seconds,
         )
 
     if provisional is VerificationStatus.UNKNOWN:
-        return VerificationResult(
-            status=VerificationStatus.UNKNOWN,
-            mode=config.mode,
-            bit_width=bit_width,
-            timeout_seconds=timeout_seconds,
-            original_source=original_source,
-            candidate_source=candidate_source,
-            solver_status="unknown",
-            reason=reason_unknown or "solver returned UNKNOWN",
+        return (
+            VerificationResult(
+                status=VerificationStatus.UNKNOWN,
+                mode=config.mode,
+                bit_width=bit_width,
+                timeout_seconds=timeout_seconds,
+                original_source=original_source,
+                candidate_source=candidate_source,
+                solver_status="unknown",
+                reason=reason_unknown or "solver returned UNKNOWN",
+            ),
+            translation_seconds,
+            solver_seconds,
         )
 
     # Provisional COUNTEREXAMPLE_FOUND: extract and independently validate.
@@ -272,8 +371,26 @@ def _solve_difference(
     )
 
     if counterexample.validation_status is CounterexampleValidationStatus.CONFIRMED:
-        return VerificationResult(
-            status=VerificationStatus.COUNTEREXAMPLE_FOUND,
+        return (
+            VerificationResult(
+                status=VerificationStatus.COUNTEREXAMPLE_FOUND,
+                mode=config.mode,
+                bit_width=bit_width,
+                timeout_seconds=timeout_seconds,
+                original_source=original_source,
+                candidate_source=candidate_source,
+                counterexample=counterexample,
+                solver_status="sat",
+                reason="solver model independently confirmed by reference evaluator",
+            ),
+            translation_seconds,
+            solver_seconds,
+        )
+
+    # Failed validation is a defect / discrepancy, not a confirmed counterexample.
+    return (
+        VerificationResult(
+            status=VerificationStatus.VERIFICATION_ERROR,
             mode=config.mode,
             bit_width=bit_width,
             timeout_seconds=timeout_seconds,
@@ -281,23 +398,13 @@ def _solve_difference(
             candidate_source=candidate_source,
             counterexample=counterexample,
             solver_status="sat",
-            reason="solver model independently confirmed by reference evaluator",
-        )
-
-    # Failed validation is a defect / discrepancy, not a confirmed counterexample.
-    return VerificationResult(
-        status=VerificationStatus.VERIFICATION_ERROR,
-        mode=config.mode,
-        bit_width=bit_width,
-        timeout_seconds=timeout_seconds,
-        original_source=original_source,
-        candidate_source=candidate_source,
-        counterexample=counterexample,
-        solver_status="sat",
-        reason=(
-            "solver reported a differentiating model, but independent "
-            "reference validation did not confirm it"
+            reason=(
+                "solver reported a differentiating model, but independent "
+                "reference validation did not confirm it"
+            ),
         ),
+        translation_seconds,
+        solver_seconds,
     )
 
 

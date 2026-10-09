@@ -1,5 +1,18 @@
 # Changelog
 
+## Phase 6 — Benchmark engine
+
+Date: 2026-10-09
+
+- Added `veriforge/benchmark_engine.py`: independent §10 timings (parse, optimize, candidate generation, translation, solver, end-to-end verification, original vs optimized execution); warmups; repeated trials; fixed seeds; timeout policy; environment recording; raw observation persistence; medians and variability; reproduction from saved configuration with nondeterminism disclosure.
+- Added `verify_equivalence_timed` / `TimedVerificationResult` so translation and solver times are never collapsed into one duration field.
+- Models: `BenchmarkConfiguration`, `BenchmarkMeasurement`, `BenchmarkReport`, `TimingStatistic`, `BenchmarkRateSummary`, `EnvironmentRecord`, `WarmupPolicy`, `TimeoutPolicy`; `ObservationKind.BENCHMARK_TIMING`.
+- Script: `scripts/run_benchmarks.py` (development partition engine validation only; not a research conclusion).
+- §10.2 guard: `assert_no_spurious_execution_speedup_claim` rejects claims that infer execution speedup from shorter expressions or faster solver returns alone.
+- Held-out final evaluation as a research conclusion is refused by `run_benchmark`.
+- Version `0.6.0`. Docs / `PROJECT_STATUS.md` / `README.md` updated. Phases 1–5 preserved. No Streamlit UI.
+- Tests added: `tests/unit/test_benchmark_engine.py`. Full suite execution on the Phase 6 host was blocked by PyPI egress (see `PROJECT_STATUS.md`).
+
 ## Phase 5 — Experimental framework
 
 Date: 2026-10-09

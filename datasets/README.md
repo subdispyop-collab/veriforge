@@ -22,7 +22,7 @@ datasets/
 | `development` | Protocol freezes, metric fixtures, controlled mixes, method work | Used for framework validation only |
 | `held_out` | Final evaluation set (later phase) | **Not evaluated** |
 
-The benchmark must not be tuned against the held-out set. Phase 5 loads and validates held-out metadata and leakage controls; it does not run held-out evaluation.
+The benchmark must not be tuned against the held-out set. Phase 5 loads and validates held-out metadata and leakage controls. Phase 6 may run the benchmark engine on the **development** partition for engine validation only; it does not run held-out evaluation as a research conclusion.
 
 ## Metadata fields (§9.4)
 

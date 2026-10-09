@@ -1,4 +1,4 @@
-"""Typed models used by Phases 1–5: parsing, verification, optimization, mutations, experiments."""
+"""Typed models used by Phases 1–6: parsing through benchmarking."""
 
 from __future__ import annotations
 
@@ -354,6 +354,7 @@ class ObservationKind(Enum):
     MUTATION_DETECTION = "mutation_detection"
     PARSE_OUTCOME = "parse_outcome"
     METRIC_FIXTURE = "metric_fixture"
+    BENCHMARK_TIMING = "benchmark_timing"
 
 
 @dataclass(frozen=True, slots=True)
@@ -546,3 +547,184 @@ class MetricSummary:
     by_class: tuple[ClassMetricRow, ...]
     overall: ClassMetricRow
     computed_from: str = "raw_observations"
+
+
+# ---------------------------------------------------------------------------
+# Phase 6 — benchmark engine
+# ---------------------------------------------------------------------------
+
+
+class WarmupPolicy(Enum):
+    """How warmup trials are treated when summarizing timings."""
+
+    DISCARD_FROM_SUMMARY = "discard_from_summary"
+    INCLUDE_IN_SUMMARY = "include_in_summary"
+
+
+class TimeoutPolicy(Enum):
+    """Documented solver timeout policy for a benchmark configuration."""
+
+    FIXED_SOLVER_TIMEOUT = "fixed_solver_timeout"
+
+
+@dataclass(frozen=True, slots=True)
+class EnvironmentRecord:
+    """Software and hardware environment recorded with a benchmark run (§10.1)."""
+
+    python_version: str
+    platform: str
+    machine: str
+    processor: str
+    system: str
+    z3_version: str | None
+    veriforge_version: str
+    cpu_count: int | None
+    extra: Mapping[str, str] = field(default_factory=dict)
+
+
+@dataclass(frozen=True, slots=True)
+class BenchmarkConfiguration:
+    """Controlled benchmark settings: trials, seeds, warmup, timeout, environment.
+
+    A saved configuration can be reloaded to reproduce a run. Timing results
+    are not guaranteed bit-for-bit identical across platforms or solver builds
+    (see ``nondeterminism_disclosure``).
+    """
+
+    configuration_id: str
+    protocol_version: str
+    trials_per_case: int
+    warmup_trials: int
+    warmup_policy: WarmupPolicy
+    random_seed: int
+    timeout_policy: TimeoutPolicy
+    solver_timeout_seconds: float
+    execution_iterations: int
+    dataset_version: str | None
+    dataset_partition: DatasetPartition | None
+    case_ids: tuple[str, ...] | None
+    baseline_id: BaselineId | None
+    semantic_mode: SemanticMode | None
+    bit_width: int | None
+    environment: EnvironmentRecord | None
+    notes: str | None = None
+    nondeterminism_disclosure: str = (
+        "Timing and solver wall-clock measurements are subject to platform, "
+        "OS scheduling, and Z3 nondeterminism; exact bit-for-bit reproduction "
+        "of durations is not guaranteed. Outcome classifications under a fixed "
+        "encoding are intended to be stable, but UNKNOWN/TIMEOUT may still vary "
+        "near timeout boundaries."
+    )
+
+    def __post_init__(self) -> None:
+        if not self.configuration_id:
+            raise ValueError("configuration_id must be non-empty")
+        if self.trials_per_case < 1:
+            raise ValueError("trials_per_case must be at least 1")
+        if self.warmup_trials < 0:
+            raise ValueError("warmup_trials must be non-negative")
+        if self.solver_timeout_seconds <= 0:
+            raise ValueError("solver_timeout_seconds must be positive")
+        if self.execution_iterations < 1:
+            raise ValueError("execution_iterations must be at least 1")
+
+
+@dataclass(frozen=True, slots=True)
+class BenchmarkMeasurement:
+    """One raw trial observation with section-10 timings stored separately.
+
+    Solver latency and expression execution time are never collapsed into one
+    duration field. Shorter expressions or faster solver returns must not be
+    read as execution speedup (§10.2).
+    """
+
+    measurement_id: str
+    run_id: str
+    case_id: str
+    trial_index: int
+    is_warmup: bool
+    seed: int
+    parsing_seconds: float | None
+    optimization_seconds: float | None
+    candidate_generation_seconds: float | None
+    translation_seconds: float | None
+    solver_seconds: float | None
+    end_to_end_verification_seconds: float | None
+    original_execution_seconds: float | None
+    optimized_execution_seconds: float | None
+    verification_status: VerificationStatus | None
+    candidate_accepted: bool | None
+    rejection_recorded: bool
+    counterexample_recorded: bool
+    original_source: str
+    candidate_source: str | None
+    optimized_source: str | None
+    transformation_category: TransformationCategory | None
+    error: str | None = None
+    recorded_at_utc: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.measurement_id:
+            raise ValueError("measurement_id must be non-empty")
+        if not self.run_id:
+            raise ValueError("run_id must be non-empty")
+        if not self.case_id:
+            raise ValueError("case_id must be non-empty")
+
+
+@dataclass(frozen=True, slots=True)
+class TimingStatistic:
+    """Median and variability for one independently measured quantity."""
+
+    quantity: str
+    sample_count: int
+    median_seconds: float | None
+    mean_seconds: float | None
+    min_seconds: float | None
+    max_seconds: float | None
+    stdev_seconds: float | None
+    iqr_seconds: float | None
+    values_seconds: tuple[float, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class BenchmarkRateSummary:
+    """Outcome rates derived only from stored benchmark measurements."""
+
+    sample_count: int
+    timeout_count: int
+    unknown_count: int
+    completion_count: int
+    rejection_count: int
+    counterexample_count: int
+    timeout_rate: float | None
+    unknown_rate: float | None
+    completion_rate: float | None
+    rejection_rate: float | None
+    counterexample_rate: float | None
+
+
+@dataclass(frozen=True, slots=True)
+class BenchmarkReport:
+    """Benchmark summary using medians and variability; not a research finding.
+
+    Does not claim execution speedup from shorter expressions or faster solver
+    returns alone. Solver timing and execution timing remain separate fields.
+    """
+
+    run_id: str
+    configuration_id: str
+    configuration_fingerprint: str
+    measurement_count: int
+    summarized_trial_count: int
+    rates: BenchmarkRateSummary
+    timing: tuple[TimingStatistic, ...]
+    nondeterminism_disclosure: str
+    speedup_claim_policy: str = (
+        "Never claim execution speedup merely because an expression is shorter, "
+        "the AST has fewer nodes, the solver returns more quickly, or a dashboard "
+        "looks more efficient. Measure actual execution performance separately "
+        "from solver latency (§10.2)."
+    )
+    computed_from: str = "benchmark_measurements"
+    is_research_conclusion: bool = False
