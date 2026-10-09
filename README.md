@@ -2,9 +2,9 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 10 — Research evaluation (literature review, held-out baselines, evidence ledger).
+**Current phase:** Phase 11 — Independent review (`docs/INDEPENDENT_REVIEW.md`).
 
-Phases 11–12 are not implemented. Held-out measurements require `z3-solver`; on egress-blocked hosts they are labeled **unavailable** (never fabricated). VERIFORGE does **not** claim a novel formal method; see `docs/LITERATURE_REVIEW.md`. VERIFORGE does **not** claim resistance to every attack; see `docs/SECURITY.md`.
+Phase 12 is not implemented. Held-out warm-host measurements are in `experiments/reports/`; on egress-blocked hosts a local re-run may be **unavailable** (never fabricate). VERIFORGE does **not** claim a novel formal method; see `docs/LITERATURE_REVIEW.md`. VERIFORGE does **not** claim resistance to every attack; see `docs/SECURITY.md`. Sample-limited H1/H2 support is **not** a general proof; see `docs/EVIDENCE_LEDGER.md`.
 
 ## Requirements
 

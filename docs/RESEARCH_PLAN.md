@@ -69,4 +69,5 @@ If dependencies cannot be installed (PyPI egress), label results **unavailable**
 
 - No confirmed novel scientific contribution.
 - No external-tool baseline measurement.
-- No claim that Definition of Done (section 20) is fully met (Phases 11–12 remain).
+- No claim that Definition of Done (section 20) is fully met (Phase 11 review done; Phase 12 remains).
+- Phase 11 does not upgrade H1/H2 beyond `supported_on_this_sample` or H3 beyond inconclusive/UNRESOLVED.

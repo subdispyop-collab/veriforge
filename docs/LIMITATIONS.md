@@ -2,13 +2,14 @@
 
 ## Current limitations
 
-Phases 1–10 (semantic foundation through research evaluation) are implemented at the code/docs level. Phases 11–12 are not started.
+Phases 1–11 (through independent review) are implemented at the code/docs level. Phase 12 is not started.
 
 Consequences:
 
 - The Streamlit interface (Phase 8) presents engines honestly: UNKNOWN/timeout are never labeled equivalent; charts require completed-run measurements; missing capabilities show unavailable states. It does not invent research findings.
 - Phase 9 documents the threat model and §15 controls in `docs/SECURITY.md`. **VERIFORGE does not claim resistance to every attack.**
 - Phase 10 literature review (`docs/LITERATURE_REVIEW.md`) uses real sources and makes **no novelty claim**.
+- Phase 11 independent review (`docs/INDEPENDENT_REVIEW.md`) does **not** certify release readiness and does **not** strengthen C2/P1/H\* beyond sample-limited ledger statuses.
 - Held-out evaluation harness exists (`veriforge/evaluation_engine.py`). Actual Phase 10 held-out numbers are in `experiments/reports/phase10-held-out-evaluation.md` (warm host, seed `20261009`, n=8). On hosts without installable `z3-solver`, measurements remain **unavailable** and must be labeled as such. Do not invent rates or timings. Small-n sample statuses are not population estimates.
 - Baselines 1–4 are implemented in the harness; baseline 5 (external tool) remains not selected.
 - Metric unit tests and benchmark-engine validation runs may use development/fixture data. Those numbers are not scientific findings unless a held-out report says otherwise with traceable raw observations.
@@ -18,7 +19,8 @@ Consequences:
 - An artificial 90/10 correct/incorrect mix may appear as a controlled configuration only. It is not real-world prevalence.
 - Passing Hypothesis property tests and mutation campaigns is not a mathematical proof of equivalence.
 - The held-out seed partition is small (8 cases). Even successful runs are not population estimates; related generated variants must not be treated as independent observations.
-- Definition of done (section 20) is not fully met. Independent review and release (Phases 11–12) remain. The project is not complete.
+- Definition of done (section 20) is not fully met. Independent review (Phase 11) is done; release (Phase 12) remains. The project is not complete.
+- Residual TCB risk: correlated encoder/evaluator error can yield false EQUIVALENT_WITHIN_MODEL; see `docs/FORMAL_MODEL.md` and ledger R1/R2.
 - Signed interpretation for Mode B is intentionally unused. If later operators need signedness, that is a new decision.
 - Division, remainder, bitwise ops, shifts, comparisons, Booleans, and casts remain unsupported and rejected.
 - TIMEOUT and UNKNOWN paths for live Z3 searches are classified correctly; unit tests may drive those branches with controlled solver mocks because the initial arithmetic fragment usually decides quickly. The configurable timeout (default 5s) is still applied to every real `check`. The optimizer treats those statuses as rejection, never as acceptance.
@@ -28,9 +30,9 @@ Consequences:
 - Dependency reinstall may be blocked by PyPI egress on some agent hosts; pins are reviewed from lock files, not always from a fresh install attestation.
 - Rule-based-without-SMT is an **evaluation harness** for baseline comparison. Production `optimize()` remains verification-guided.
 
-## Trusted computing base (Phase 2)
+## Trusted computing base
 
-Equivalence claims depend on the components listed in `docs/FORMAL_MODEL.md`: Python `ast` + VERIFORGE parser, the Mode A / Mode B contract, the Z3 translator, the pinned `z3-solver` package, the reference evaluator for counterexample confirmation, and configured resource limits. A solver result does not prove those components correct.
+Equivalence claims depend on the components listed in `docs/FORMAL_MODEL.md` (extended in Phase 11): CPython/`ast` + VERIFORGE parser, the Mode A / Mode B contract, semantic helpers, the Z3 translator, the pinned `z3-solver` package, the reference evaluator for counterexample confirmation, configured resource limits, and (for accepted rewrites) optimizer acceptance policy. A solver result does not prove those components correct.
 
 ## Standing limits from the specification
 

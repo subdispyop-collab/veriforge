@@ -1,6 +1,6 @@
 # Architecture
 
-Status: Phases 1–10 are implemented (semantic foundation through research evaluation). Phases 11–12 remain planned only.
+Status: Phases 1–11 are implemented (through independent review). Phase 12 remains planned only.
 
 ## Implemented
 
@@ -19,9 +19,10 @@ Status: Phases 1–10 are implemented (semantic foundation through research eval
 | Interface | Six Streamlit pages; logic outside presentation; unavailable states; no fabricated results. | Implemented: `veriforge/app.py`, `veriforge/ui/` |
 | Security | Classified errors, secret-safe messages, controlled exports, threat model docs. | Implemented: `veriforge/security.py`, `docs/SECURITY.md` |
 | Research evaluation | Held-out baselines, literature review, evidence ledger. | Implemented: `veriforge/evaluation_engine.py`, `docs/LITERATURE_REVIEW.md`, `docs/EVIDENCE_LEDGER.md` |
+| Independent review | Adversarial review of semantics, TCB, counterexamples, design, claims. | Implemented: `docs/INDEPENDENT_REVIEW.md`; TCB in `docs/FORMAL_MODEL.md` / `docs/SECURITY.md` |
 | Typed models / exceptions | Phase 1–10 records including audit and integrity types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
 
-Package layout present after Phase 10:
+Package layout present after Phase 11:
 
 ```
 veriforge/
@@ -76,6 +77,7 @@ scripts/
     seed_phase5_datasets.py
     run_benchmarks.py
     run_held_out_evaluation.py
+    phase11_static_review_checks.py
     run_ui.py
 pyproject.toml
 requirements.lock

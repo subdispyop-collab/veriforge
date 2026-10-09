@@ -25,6 +25,12 @@ Controlling requirements: master specification §15 and Phase 9.
 | Pinned Python packages (`z3-solver`, Streamlit stack, pytest, hypothesis) | Trusted as installed artifacts; still part of the TCB |
 | Operating system, Python runtime, Z3 native library | Outside VERIFORGE’s control (TCB) |
 
+### Trusted computing base (cross-reference)
+
+Equivalence and verification-guided acceptance claims depend on the TCB enumerated in `docs/FORMAL_MODEL.md` (CPython/`ast`, parser, Mode A/B contract, Z3 translator, pinned `z3-solver`, reference evaluator, limits, and optimizer acceptance policy). UI, charts, datasets, and audit storage are outside that equivalence TCB.
+
+Phase 11 residual risks (documented, not eliminated): correlated encoder/evaluator mis-encoding can yield false `EQUIVALENT_WITHIN_MODEL`; the reference evaluator is Z3-independent but not a second separately authored semantics implementation. See `docs/INDEPENDENT_REVIEW.md`.
+
 ### In-scope adversary goals (research prototype)
 
 1. Cause arbitrary code execution via expression or dataset input.

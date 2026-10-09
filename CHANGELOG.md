@@ -1,5 +1,18 @@
 # Changelog
 
+## Phase 11 — Independent review
+
+Date: 2026-10-09
+
+- Adversarial independent review: `docs/INDEPENDENT_REVIEW.md` (semantics challenges, TCB, counterexample rechecks, experimental design, claim audit).
+- Extended trusted computing base write-up in `docs/FORMAL_MODEL.md` and `docs/SECURITY.md`.
+- Evidence ledger audited against warm-host Phase 10 tip `bdfb533`: C2/P1 remain `EXPERIMENTALLY_SUPPORTED` (sample only); H3 `UNRESOLVED`; N1/N2 `NOT_SUPPORTED`; design rows `INDEPENDENTLY_REVIEWED`; review findings R1–R4.
+- Did **not** strengthen experimental claims beyond the Phase 10 ledger; did **not** upgrade tests/UNSAT into implementation or novelty proofs.
+- Static Z3-free checks: `scripts/phase11_static_review_checks.py`.
+- Merged Phase 10 warm-host measurements (359 pytest passed; held-out `dependency_available=true`).
+- Version `0.11.0`. Phases 1–10 preserved. Phase 12 not started.
+- This Phase 11 authoring host still cannot install Z3/pytest via PyPI egress; warm-host artifacts remain the measurement source of record.
+
 ## Phase 10 — Research evaluation
 
 Date: 2026-10-09

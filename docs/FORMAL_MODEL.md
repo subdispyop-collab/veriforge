@@ -1,6 +1,8 @@
-# Formal model (Phase 2)
+# Formal model
 
-This document records the encoded equivalence query and the trusted computing base (TCB) assumptions for Phase 2 verification. It does not claim that VERIFORGE invents a new verification technique.
+This document records the encoded equivalence query and the trusted computing base (TCB) assumptions for VERIFORGE verification. It does not claim that VERIFORGE invents a new verification technique.
+
+Phase 11 independent review: see `docs/INDEPENDENT_REVIEW.md`. Solver UNSAT is never a proof of the application implementation.
 
 ## Encoded query
 
@@ -28,18 +30,35 @@ A solver result is a statement about the formula submitted to Z3. It is not a pr
 
 ## Trusted computing base
 
-Correctness claims about Phase 2 equivalence checking depend on:
+### In-TCB components (equivalence / accepted-rewrite claims)
 
-1. Python's `ast` module and the VERIFORGE fail-closed parser (`parser_engine`).
-2. The documented Mode A / Mode B contract in `docs/SEMANTICS.md`.
-3. The Z3 translation in `verifier_engine` matching that contract (integer sorts for Mode A; bit-vector sorts for Mode B).
-4. The Z3 SMT solver (`z3-solver`, pinned in `pyproject.toml` / `requirements.lock`).
-5. The independent reference evaluator used to confirm counterexamples.
-6. Correct configuration of resource limits, including solver timeout (default 5 seconds).
+Correctness claims about equivalence checking and verification-guided acceptance depend on:
 
-Components outside this TCB for Phase 2 equivalence claims: Streamlit UI (not implemented), datasets, experiment framework, persistence, the Phase 6 benchmark engine (timing/orchestration only — it calls the verifier but is not part of the equivalence TCB), and the Phase 7 audit/storage layer (records and exports verification outcomes; it does not redefine the encoded query). The Phase 4 mutation harness *uses* Phase 2 results for detection tests; it is not part of the production acceptance TCB and never accepts candidates into the optimizer.
+1. **CPython** runtime and Python's `ast` module (parse without execute).
+2. The VERIFORGE fail-closed parser (`parser_engine`) and its resource limits.
+3. The documented Mode A / Mode B contract in `docs/SEMANTICS.md` plus locked Phase 1 decisions.
+4. Shared semantic helpers in `semantics.py` (literal/assignment domain checks; Mode B wrap/negate) as used by parser and reference evaluator.
+5. The Z3 translation in `verifier_engine` matching that contract (integer sorts for Mode A; bit-vector sorts for Mode B).
+6. The Z3 SMT solver (`z3-solver`, pinned in `pyproject.toml` / `requirements.lock`, currently `5.1.0.0`).
+7. The reference evaluator used to confirm SAT models before `COUNTEREXAMPLE_FOUND`.
+8. Correct configuration of resource limits, including solver timeout (default 5 seconds).
+9. For **accepted** production rewrites only: optimizer rule matching, trace recording, and the verification-guided acceptance policy in `optimizer_engine` (accept only `EQUIVALENT_WITHIN_MODEL`).
 
-The Phase 3 optimizer *uses* Phase 2 results as an acceptance gate. An accepted rewrite therefore depends on the Phase 2 TCB plus correct rule matching, trace recording, and the verification-guided acceptance policy in `optimizer_engine`. A solver UNSAT still does not prove the optimizer implementation correct.
+### Out of TCB for equivalence claims
+
+- Streamlit UI, Plotly, and Pandas presentation layers.
+- Dataset authorship quality and near-duplicate key policy (research design, not the encoded query).
+- Experiment / evaluation / benchmark orchestration, except insofar as they call the verifier.
+- Audit/storage persistence (records outcomes; does not redefine the query).
+- The Phase 4 mutation harness (uses verifier results for detection tests; never production acceptance).
+- pytest / Hypothesis (test oracles; not production acceptance).
+- Operating-system scheduling and wall-clock timer resolution (affects performance claims, not logical UNSAT/SAT classification).
+
+### Residual TCB risks (Phase 11)
+
+- **Correlated mis-encoding:** if the translator systematically makes unequal expressions look equal, Z3 may return UNSAT and there is no SAT model for the reference evaluator to reject. Independent SAT validation does not close this risk.
+- **Partial independence of the reference evaluator:** it does not use Z3, but it shares the same written contract and `semantics.py` helpers. It is not a second, separately authored semantics implementation (§6.2 only partially met).
+- **Pinned native solver bugs** and CPython/`ast` bugs are outside VERIFORGE's proof obligation.
 
 ## Explicit non-claims
 
@@ -47,3 +66,5 @@ The Phase 3 optimizer *uses* Phase 2 results as an acceptance gate. An accepted 
 - UNKNOWN and TIMEOUT are not equivalence.
 - A confirmed counterexample is only a counterexample under the encoded model and after reference validation.
 - Mode A and Mode B results are not interchangeable.
+- A passing test suite, warm-host pytest count, or held-out sample result does not prove novelty or universal correctness.
+- Held-out `supported_on_this_sample` labels are not population estimates (`docs/EVIDENCE_LEDGER.md`, `docs/INDEPENDENT_REVIEW.md`).
