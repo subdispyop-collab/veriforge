@@ -1,4 +1,4 @@
-"""Classified errors for Phase 1 parsing and evaluation."""
+"""Classified errors for parsing, evaluation, and verification."""
 
 
 class VeriforgeError(Exception):
@@ -35,3 +35,11 @@ class MissingVariableError(EvaluationError):
 
 class DomainError(EvaluationError):
     """An assigned value is outside the domain of the active semantic mode."""
+
+
+class TranslationError(VeriforgeError):
+    """An expression IR could not be translated into a Z3 formula."""
+
+
+class VerificationEngineError(VeriforgeError):
+    """The verification engine failed outside of a classified solver outcome."""

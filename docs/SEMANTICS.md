@@ -1,6 +1,6 @@
 # Semantics
 
-This document is the correctness contract for expression meaning. Phase 1 implements parsing, semantic configuration, and the reference evaluator for the initial grammar below. Solver translation, optimization, and verification are not part of Phase 1.
+This document is the correctness contract for expression meaning. Phase 1 implements parsing, semantic configuration, and the reference evaluator for the initial grammar below. Phase 2 implements Z3 translation and equivalence checking under that same contract. Optimization and later research modules are not part of Phase 2.
 
 Source of the contract: sections 3, 5, and 6 of the controlling specification, plus the locked Phase 1 decisions of 2026-10-09.
 
@@ -19,16 +19,17 @@ Specified meaning:
 - Unary plus leaves the integer unchanged. Unary minus is mathematical negation.
 - No fixed-width overflow is part of this mode.
 - An optimization preserves meaning only when, for every assignment of integers to the variables, the original and the candidate denote the same integer.
-- The specified solver encoding is a Z3 integer sort, not a bit-vector sort (Phase 2).
+- The specified solver encoding is a Z3 integer sort, not a bit-vector sort.
 
-Phase 1 status: implemented by the reference evaluator under `SemanticMode.MODE_A`.
+Phase 1 status: implemented by the reference evaluator under `SemanticMode.MODE_A`.  
+Phase 2 status: encoded with Z3 `Int` sorts in `veriforge.verifier_engine`.
 
 ## Mode B — fixed-width bit-vectors
 
 Locked decisions (2026-10-09):
 
 - Width is configurable. Initial default is **32** bits.
-- Arithmetic is modular fixed-width bit-vector wrap. The reference evaluator matches that contract; Z3 bit-vector sorts are reserved for Phase 2 verification.
+- Arithmetic is modular fixed-width bit-vector wrap. The reference evaluator and the Z3 bit-vector encoding both follow that contract.
 - Values are interpreted as **unsigned** integers in the closed range `[0, 2^w - 1]`.
 - Integer literals outside that range are **rejected** (fail closed). They are **not** reduced modulo `2^w`.
 - Unary minus is **bit-vector negation** after a legal literal or subexpression has been converted into the width: `(-x) ≡ (2^w - x) mod 2^w` for `x` already in range (equivalently, modular wrap of mathematical negation).
@@ -37,11 +38,12 @@ Locked decisions (2026-10-09):
 Also specified:
 
 - The initial language has no per-variable widths and no casts. Until casts exist, one width applies to the whole expression, and mixed widths are unsupported.
-- The specified solver encoding is a Z3 bit-vector sort of that width, not an integer sort (Phase 2).
+- The specified solver encoding is a Z3 bit-vector sort of that width, not an integer sort.
 - Bitwise operations and shifts are not in the initial grammar. When they are added later, they follow the bit-vector contract written at that time. They are rejected until then.
 - Operations whose signedness or language-specific behavior is not specified precisely are rejected. They are not given a silent default.
 
-Phase 1 status: implemented by the reference evaluator under `SemanticMode.MODE_B`.
+Phase 1 status: implemented by the reference evaluator under `SemanticMode.MODE_B`.  
+Phase 2 status: encoded with Z3 `BitVec` sorts of width `w` in `veriforge.verifier_engine`.
 
 ## Integer and bit-vector separation
 
@@ -125,7 +127,7 @@ All limits are configurable, documented, and enforced. Locked Phase 1 defaults:
 | AST node count | 256 |
 | Nesting depth | 32 |
 | Mode A integer-literal bit length | 4096 |
-| Solver timeout | 5 seconds (configuration only in Phase 1; solver is Phase 2) |
+| Solver timeout | 5 seconds (enforced by the Phase 2 Z3 solver configuration) |
 
 Also fail closed, from the result contract in section 6 (for later phases):
 
@@ -138,9 +140,7 @@ Solver UNSAT means equivalence inside the encoded model and the stated assumptio
 
 ## Specified verification reading
 
-This reading is part of the contract for later phases. It is not a verifier. Phase 1 does not implement Z3 translation.
-
-For an original expression `E_o` and a candidate `E_c`, the specified query is whether a valid input exists such that `E_o(x) != E_c(x)`, under the selected mode.
+For an original expression `E_o` and a candidate `E_c`, the query is whether a valid input exists such that `E_o(x) != E_c(x)`, under the selected mode. Phase 2 implements this in `veriforge.verifier_engine.verify_equivalence`.
 
 | Condition | Required state | Claim allowed |
 | --- | --- | --- |
@@ -151,11 +151,13 @@ For an original expression `E_o` and a candidate `E_c`, the specified query is w
 | Expression outside the grammar or the mode | `UNSUPPORTED` | No verification claim |
 | Input rejected by syntax or limits | `INVALID_INPUT` | No verification claim |
 | Translation could not be built | `TRANSLATION_ERROR` | Verification was not performed |
-| Any other verifier failure | `VERIFICATION_ERROR` | No equivalence claim |
+| Any other verifier failure, including unconfirmed SAT models | `VERIFICATION_ERROR` | No equivalence claim |
 
-These states stay separate. They are not a Boolean.
+These states stay separate. They are not a Boolean. A SAT model that the reference evaluator cannot confirm is reported as `VERIFICATION_ERROR` with discrepancy/unvalidatable detail, never as `COUNTEREXAMPLE_FOUND`.
 
-## Phase 1 implementation mapping
+See also `docs/FORMAL_MODEL.md` for the encoded query and trusted computing base.
+
+## Implementation mapping
 
 | Contract element | Module |
 | --- | --- |
@@ -164,4 +166,6 @@ These states stay separate. They are not a Boolean.
 | Safe parse | `veriforge.parser_engine.parse_expression` |
 | Mode helpers / literal checks | `veriforge.semantics` |
 | Reference evaluation | `veriforge.reference_evaluator.evaluate` |
+| IR → Z3 translation and equivalence check | `veriforge.verifier_engine` |
+| Verification result / counterexample records | `veriforge.models` |
 | Classified errors | `veriforge.exceptions` |
