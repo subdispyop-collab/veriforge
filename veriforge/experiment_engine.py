@@ -65,7 +65,12 @@ def configuration_fingerprint(configuration: Mapping[str, Any]) -> str:
 
 
 def baseline_catalog() -> tuple[BaselineDefinition, ...]:
-    """Documented baselines from §9.3. None measured in Phase 5."""
+    """Documented baselines from §9.3.
+
+    Status strings are catalog defaults. Phase 10 measurement status is
+    recorded on evaluation reports and via
+    ``veriforge.evaluation_engine.baseline_catalog_phase10``.
+    """
 
     return (
         BaselineDefinition(
@@ -84,7 +89,9 @@ def baseline_catalog() -> tuple[BaselineDefinition, ...]:
             description=(
                 "Apply production identity rules without calling the verifier. "
                 "Differences from the verification-enabled baseline must be "
-                "documented when measured (semantics and workload must match)."
+                "documented when measured (semantics and workload must match). "
+                "Implemented as an evaluation harness only; production "
+                "optimize() remains verification-guided."
             ),
             uses_smt_verification=False,
             uses_production_optimizer=True,
@@ -105,8 +112,9 @@ def baseline_catalog() -> tuple[BaselineDefinition, ...]:
             baseline_id=BaselineId.TESTING_ONLY_VALIDATION,
             name="Testing-only candidate validation",
             description=(
-                "EVALUATION_ONLY mutation harness analyzes deliberately "
-                "incorrect candidates; never accepts into production."
+                "EVALUATION_ONLY harness checks deliberately incorrect "
+                "(or dataset-provided) candidates via SMT; never accepts "
+                "into production."
             ),
             uses_smt_verification=True,
             uses_production_optimizer=False,
@@ -122,7 +130,11 @@ def baseline_catalog() -> tuple[BaselineDefinition, ...]:
             uses_smt_verification=False,
             uses_production_optimizer=False,
             status="not_selected",
-            selection_notes="No external tool selected as of Phase 5.",
+            selection_notes=(
+                "No external tool selected as of Phase 10 "
+                "(Alive/Alive2/CompCert not integrated as a fair "
+                "same-workload baseline)."
+            ),
         ),
     )
 
@@ -156,13 +168,18 @@ def create_experiment_run(
     """
 
     if dataset_partition is DatasetPartition.HELD_OUT:
-        # Allow recording identifiers that *refer* to held_out for later
-        # phases, but refuse any configuration flag that claims evaluation ran.
+        # Phase 5 protocol forbids executing held-out evaluation. Phase 10+
+        # evaluation protocols may set execute_held_out_evaluation=True.
         if bool(configuration.get("execute_held_out_evaluation")):
-            raise ExperimentError(
-                "Phase 5 forbids executing held-out evaluation "
-                "(execute_held_out_evaluation must not be true)"
+            proto = str(
+                configuration.get("protocol_version") or protocol_version
             )
+            phase5_frozen = proto == PROTOCOL_VERSION
+            if phase5_frozen:
+                raise ExperimentError(
+                    "Phase 5 forbids executing held-out evaluation "
+                    "(execute_held_out_evaluation must not be true)"
+                )
 
     cfg = dict(configuration)
     cfg.setdefault("protocol_id", PROTOCOL_ID)

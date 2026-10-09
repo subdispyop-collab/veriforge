@@ -64,6 +64,22 @@ def test_phase5_forbids_held_out_evaluation_flag() -> None:
         )
 
 
+def test_phase10_protocol_allows_held_out_evaluation_flag() -> None:
+    run = create_experiment_run(
+        configuration={
+            "execute_held_out_evaluation": True,
+            "protocol_id": "veriforge-phase10-held-out-evaluation",
+            "protocol_version": "1.0.0",
+        },
+        dataset_partition=DatasetPartition.HELD_OUT,
+        protocol_version="1.0.0",
+        baseline_id=BaselineId.VERIFICATION_ENABLED,
+        random_seed=20261009,
+    )
+    assert run.configuration["execute_held_out_evaluation"] is True
+    assert run.protocol_version == "1.0.0"
+
+
 def test_baselines_defined_not_measured() -> None:
     catalog = baseline_catalog()
     assert len(catalog) == 5

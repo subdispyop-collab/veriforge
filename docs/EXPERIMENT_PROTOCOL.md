@@ -2,9 +2,16 @@
 
 Protocol version: `0.5.0`  
 Protocol id: `veriforge-phase5-research-protocol`  
-Status: **frozen for Phase 5** as a preregistered protocol. Not executed against held-out data.
+Status: **frozen for Phase 5** as a preregistered protocol.
 
-This document freezes the initial research protocol required by specification §9 and Phase 5. Hypotheses remain hypotheses. No experimental findings are reported here.
+Phase 10 held-out execution uses a separate protocol document:
+
+- Protocol id: `veriforge-phase10-held-out-evaluation`
+- Protocol version: `1.0.0`
+- Details: `experiments/protocols/phase10-held-out-protocol.md`
+- Runner: `scripts/run_held_out_evaluation.py`
+
+This document freezes the initial research protocol required by specification §9 and Phase 5. Hypotheses remain hypotheses until held-out evidence supports them.
 
 ## Research question
 
@@ -18,17 +25,17 @@ This document freezes the initial research protocol required by specification §
 
 ## Baselines (§9.3)
 
-Defined in `veriforge.experiment_engine.baseline_catalog()`. Status in Phase 5: **defined, not measured**.
+Defined in `veriforge.experiment_engine.baseline_catalog()`. Phase 10 measurement status is recorded in evaluation reports / `baseline_catalog_phase10`.
 
 | Id | Name | SMT | Production optimizer | Status |
 | --- | --- | --- | --- | --- |
-| `baseline.original_no_optimization` | Original expression without optimization | no | no | defined_not_measured |
-| `baseline.rule_based_without_smt` | Rule-based optimizer without SMT verification | no | yes | defined_not_measured |
-| `baseline.verification_enabled` | Verification-enabled optimizer | yes | yes | defined_not_measured |
-| `baseline.testing_only_validation` | Testing-only candidate validation (EVALUATION_ONLY harness) | yes | no | defined_not_measured |
+| `baseline.original_no_optimization` | Original expression without optimization | no | no | harness implemented (Phase 10) |
+| `baseline.rule_based_without_smt` | Rule-based optimizer without SMT verification | no | yes (eval harness) | harness implemented (Phase 10) |
+| `baseline.verification_enabled` | Verification-enabled optimizer | yes | yes | harness implemented (Phase 10) |
+| `baseline.testing_only_validation` | Testing-only candidate validation (EVALUATION_ONLY harness) | yes | no | harness implemented (Phase 10) |
 | `baseline.external_tool` | Existing relevant tool or method | — | — | **not_selected** |
 
-Differences between baselines must be documented when they are measured. Systems are not compared under incompatible semantics or unequal workloads without explaining the limitation.
+Differences between baselines must be documented when they are measured. Systems are not compared under incompatible semantics or unequal workloads without explaining the limitation. If a host cannot import Z3, baseline results are **unavailable**.
 
 ## Primary outcomes
 
@@ -72,14 +79,14 @@ Metrics are computed only from stored raw observations (`compute_metrics_from_ob
 
 Known-case unit tests validate the arithmetic of these calculations. Those fixture numbers are not research findings.
 
-## Explicit non-goals for Phase 5 (and Phase 6–7 research scope)
+## Explicit non-goals
 
-- No held-out evaluation run as a research conclusion
-- No Streamlit UI
-- No invented experimental results or scientific findings
-- Phase 6 engine-validation timings are not research findings
+- No invented experimental results, citations, or scientific findings
+- Phase 6 engine-validation timings on the development partition are not research findings
 - Phase 7 audit exports and integrity checks do not constitute research evaluation
+- Phase 10 does not start Phase 11 independent review
+- Baseline 5 remains not selected unless a fair external comparison is later implemented
 
 ## Reproduction note
 
-Exact bit-for-bit reproduction of solver timing may fail because of solver, platform, or timing nondeterminism. Phase 6 records that disclosure on every `BenchmarkConfiguration` and `BenchmarkReport`. Phase 7 replay uses the recorded configuration fingerprint and semantic settings; timings may still differ. Timing nondeterminism has not been measured as a quantitative bound.
+Exact bit-for-bit reproduction of solver timing may fail because of solver, platform, or timing nondeterminism. Phase 6 records that disclosure on every `BenchmarkConfiguration` and `BenchmarkReport`. Phase 7 replay uses the recorded configuration fingerprint and semantic settings; timings may still differ. Phase 10 held-out reports inherit the same nondeterminism disclosure. Timing nondeterminism has not been measured as a quantitative bound.

@@ -1,5 +1,20 @@
 # Changelog
 
+## Phase 10 — Research evaluation
+
+Date: 2026-10-09
+
+- Literature review with real sources only (`docs/LITERATURE_REVIEW.md`); no novelty claim; §16 bibliographic fields recorded (access date 2026-10-09).
+- Evidence ledger (`docs/EVIDENCE_LEDGER.md`) with claim statuses; hypotheses remain hypotheses until held-out evidence supports them.
+- Held-out evaluation harness: `veriforge/evaluation_engine.py`, protocol `veriforge-phase10-held-out-evaluation` v`1.0.0`, runner `scripts/run_held_out_evaluation.py`.
+- Implemented baselines 1–4 runnable against `datasets/held_out/` with recorded seeds/config; baseline 5 remains not_selected.
+- Reports separate solver latency from expression execution and include by-class sample sizes.
+- Phase 5 `create_experiment_run` still forbids held-out execution under protocol `0.5.0`; Phase 10 protocol versions may set `execute_held_out_evaluation=True`.
+- Docs: `PROJECT_STATUS.md`, `docs/RESEARCH_PLAN.md`, `docs/EXPERIMENT_PROTOCOL.md`, `docs/LIMITATIONS.md`, `docs/ARCHITECTURE.md`, `datasets/README.md`, `README.md`, `experiments/protocols/phase10-held-out-protocol.md`.
+- Tests: `tests/unit/test_evaluation_engine.py`.
+- Version `0.10.0`. Phases 1–9 preserved. Phase 11 not started.
+- On this Phase 10 host, PyPI egress blocked Z3/pytest install; held-out measurements labeled **unavailable** (no fabricated numbers). Egress allowlist for `pypi.org`, `files.pythonhosted.org`, and `pypi.python.org` requested again.
+
 ## Phase 9 — Security and resilience
 
 Date: 2026-10-09

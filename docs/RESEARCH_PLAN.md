@@ -1,10 +1,10 @@
 # Research plan
 
-This file pre-registers the research design from the controlling specification. Every hypothesis below is a hypothesis to investigate. None is a finding. No held-out evaluation has been run. Results are unavailable.
+This file pre-registers the research design from the controlling specification. Every hypothesis below is a hypothesis to investigate. None is a finding until held-out evidence supports it.
 
-No literature review was done. This file contains no citations and no novelty claim.
+Literature review: see `docs/LITERATURE_REVIEW.md` (real sources only; access date 2026-10-09). **No novelty claim.**
 
-Protocol freeze for Phase 5: details required by §9 are locked in `docs/EXPERIMENT_PROTOCOL.md` (protocol version `0.5.0`). This plan keeps hypotheses as hypotheses and records only protocol details the specification already requires.
+Protocol freeze: Phase 5 details remain in `docs/EXPERIMENT_PROTOCOL.md` (protocol version `0.5.0`). Phase 10 held-out execution uses protocol id `veriforge-phase10-held-out-evaluation` version `1.0.0` (`experiments/protocols/phase10-held-out-protocol.md`).
 
 ## Research question
 
@@ -12,13 +12,11 @@ Specified question, section 9.1:
 
 > Does SMT-based equivalence checking improve the detection and rejection of incorrect arithmetic rewrites, and what computational overhead does it introduce under a defined, restricted arithmetic model?
 
-The project vision in section 2 states the same evaluation target in these words: correctness, error-detection effectiveness, verification overhead, and execution-performance trade-offs of a conservative arithmetic optimizer supported by SMT-based equivalence checking.
-
-The question is not a conclusion. The experiments may show benefits, limitations, or mixed results. Those experiments have not been run on the held-out set.
+The question is not a conclusion. Experiments may show benefits, limitations, or mixed results.
 
 ## Hypotheses
 
-Specified in section 9.2. Status of each: not investigated. Results unavailable.
+Specified in section 9.2. Status is recorded after held-out runs in `experiments/reports/phase10-held-out-evaluation.json` and `docs/EVIDENCE_LEDGER.md`. Until those runs succeed on a host with Z3, status remains **unavailable** (not “confirmed”).
 
 1. Verification identifies incorrect candidates within the supported model when the encoding and solver are correct.
 2. Verification introduces measurable computational overhead.
@@ -28,80 +26,47 @@ These sentences are not advance reports of what VERIFORGE will find.
 
 ## Baselines
 
-Specified in section 9.3. Defined in code by `veriforge.experiment_engine.baseline_catalog()`. **None measured in Phase 5.**
+Specified in section 9.3. Defined in code by `veriforge.experiment_engine.baseline_catalog()`. Phase 10 harness: `veriforge.evaluation_engine`.
 
 1. Original expression without optimization (`baseline.original_no_optimization`).
-2. Rule-based optimizer without SMT verification (`baseline.rule_based_without_smt`).
+2. Rule-based optimizer without SMT verification (`baseline.rule_based_without_smt`) — evaluation harness only; production `optimize()` stays verification-guided.
 3. Verification-enabled optimizer (`baseline.verification_enabled`).
-4. Testing-only candidate validation (`baseline.testing_only_validation`) — EVALUATION_ONLY harness.
-5. An existing relevant tool or method (`baseline.external_tool`) — **not selected**.
-
-Differences between baselines must be documented when they are built. Systems are not to be compared under incompatible semantics or unequal workloads unless that limitation is explained.
-
-The two product configurations that feed baselines 2 and 3 remain: a verification-guided path (default, implemented) and an evaluation-only harness for incorrect candidates in `veriforge.fuzzer_suite` (implemented for detection tests; not a completed research measurement).
+4. Testing-only candidate validation (`baseline.testing_only_validation`) — EVALUATION_ONLY / SMT check of candidates; never production acceptance.
+5. An existing relevant tool or method (`baseline.external_tool`) — **not selected** (Alive/Alive2/CompCert not integrated under equal workload/semantics).
 
 ## Specified outcomes
-
-The specification does not use the heading "primary outcomes." The outcomes named by the question and by section 2 are:
 
 - Detection and rejection of incorrect arithmetic rewrites (error-detection effectiveness), under the defined restricted model.
 - Computational overhead of SMT-based equivalence checking.
 - Correctness of accepted rewrites under that model.
 - Execution-performance trade-offs of the conservative optimizer, measured separately from verification overhead.
 
-Results for every one of these are unavailable.
+Report by class/category with sample sizes. Separate solver latency from expression execution. Do not claim execution speedup from shorter expressions or faster solver returns alone (§10.2).
 
-Section 10 quantities are measured independently by `veriforge.benchmark_engine` (Phase 6). Development-partition runs validate the engine only and are **not** research conclusions:
+## Method constraints
 
-- Parsing time.
-- Optimization time.
-- Candidate-generation time.
-- AST-to-Z3 translation time.
-- Solver time.
-- End-to-end verification latency.
-- Original expression execution time.
-- Optimized expression execution time.
-- Timeout rate.
-- UNKNOWN rate.
-- Verification completion rate.
-- Rejection and counterexample rates.
-
-Specified reporting rules (applied by the Phase 6 report helpers to engine-validation data; not yet applied to held-out research data):
-
-- Report medians and variability.
-- Use confidence intervals and statistical tests only where their assumptions hold.
-- Report performance by class and transformation category, not only as one aggregate accuracy number.
-- Do not treat a large set of related generated expressions as that many independent observations.
-- Do not claim an execution speedup because an expression is shorter, the AST has fewer nodes, the solver returns faster, or the dashboard looks efficient.
-- Distinguish the speed of finding a proof from the speed of executing an optimized expression.
-- If a benchmark shows no improvement or shows a slowdown, report that.
-- A passing randomized test is not a mathematical proof of equivalence.
-- A solver result is a statement about the submitted formula, not proof that the implementation matches this plan.
-
-Metric *calculation* functions are unit-tested against known fixture observations in Phase 5. Fixture numbers are not findings.
-
-## Method constraints already fixed
-
-These constraints are part of the specification. They are recorded so later phases do not weaken them.
-
-- Freeze the question, hypotheses, methods, and outcomes before the final held-out evaluation. This file plus `docs/EXPERIMENT_PROTOCOL.md` are that pre-registration.
-- Keep development cases separate from held-out cases (`datasets/development/`, `datasets/held_out/`).
-- Prevent near-duplicates and variants of the same transformation from leaking across partitions (`near_duplicate_key` + `assert_no_cross_partition_leakage`).
-- For every dataset, record version, generation procedure, semantic model, random seed, case identifier, expected outcome where independently known, transformation category, complexity characteristics, and inclusion or exclusion reason.
-- An artificial mixture of 90% correct and 10% incorrect candidates may be one controlled configuration. It must not be presented as an estimate of real-world error prevalence. See `ARTIFICIAL_90_10_MIX` / development metadata `controlled_mix_label`.
-- Use fixed recorded seeds where applicable, repeated trials, warmups where appropriate, identical workloads for paired comparisons, a documented timeout policy, controlled configurations, a recorded software and hardware environment, and raw measurement storage.
-- The benchmark must not be tuned against the held-out evaluation set.
+- Freeze the question, hypotheses, methods, and outcomes before held-out scoring (this file + protocol docs).
+- Keep development cases separate from held-out cases.
+- Prevent near-duplicate leakage across partitions.
+- Record dataset provenance fields required by §9.4.
+- Artificial 90/10 mix is a controlled configuration only — not real-world prevalence.
+- Fixed recorded seeds, raw measurement storage, configuration fingerprints.
+- The benchmark/evaluation must not be tuned against the held-out set.
 - Every reported numerical claim needs traceable experimental evidence.
 - If exact bit-for-bit reproduction is not guaranteed, document that limitation.
-- Every experiment run has a unique `run_id` and a `configuration_fingerprint`; raw observations are stored on the filesystem and indexed in SQLite.
-- Phase 7 adds auditable optimization-run records (§13), export/replay, and integrity checks; raw records remain separate from derived summaries.
 
-Dataset version for the Phase 5 seed partitions: `0.5.0`. Random seed: `20261009`. Held-out evaluation: **not run**.
+Dataset version for seed partitions: `0.5.0`. Random seed: `20261009`.
 
-## What this phase does not contain
+## Phase 10 execution
 
-- No held-out protocol execution.
-- No baseline measurement campaign.
-- No sample size, rate, duration, or statistical *research* result.
-- No source has been reviewed. A novelty claim waits on the literature review required by section 16.
-- No Streamlit UI. Phase 6 benchmark engine exists for development-partition validation only; no held-out research evaluation. Phase 7 audit storage does not invent research findings.
+```bash
+python3 scripts/run_held_out_evaluation.py --seed 20261009
+```
+
+If dependencies cannot be installed (PyPI egress), label results **unavailable** and do not fabricate numbers. Evidence ledger: `docs/EVIDENCE_LEDGER.md`.
+
+## What this plan still does not contain
+
+- No confirmed novel scientific contribution.
+- No external-tool baseline measurement.
+- No claim that Definition of Done (section 20) is fully met (Phases 11–12 remain).

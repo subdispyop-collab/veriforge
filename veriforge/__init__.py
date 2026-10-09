@@ -49,6 +49,12 @@ from veriforge.exceptions import (
     VerificationEngineError,
     VeriforgeError,
 )
+from veriforge.evaluation_engine import (
+    EVALUATION_PROTOCOL_VERSION,
+    HeldOutEvaluationReport,
+    make_evaluation_configuration,
+    run_held_out_evaluation,
+)
 from veriforge.experiment_engine import (
     PROTOCOL_VERSION,
     artificial_90_10_configuration,
@@ -180,6 +186,7 @@ __all__ = [
     "Counterexample",
     "CounterexampleValidationStatus",
     "DEFAULT_MUTATION_SEED",
+    "EVALUATION_PROTOCOL_VERSION",
     "DatasetBundle",
     "DatasetCase",
     "DatasetMetadata",
@@ -190,6 +197,7 @@ __all__ = [
     "EvaluationError",
     "ExpectedOutcome",
     "ExperimentRun",
+    "HeldOutEvaluationReport",
     "ExperimentStore",
     "ExportFormat",
     "Expression",
@@ -269,6 +277,7 @@ __all__ = [
     "load_benchmark_configuration",
     "load_bundle",
     "make_benchmark_configuration",
+    "make_evaluation_configuration",
     "make_observation",
     "mutate_and_analyze",
     "mutation_categories",
@@ -282,6 +291,7 @@ __all__ = [
     "rerun_benchmark_from_saved_configuration",
     "rule_by_id",
     "run_benchmark",
+    "run_held_out_evaluation",
     "save_benchmark_configuration",
     "save_derived_summary",
     "summarize_measurements",

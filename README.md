@@ -2,9 +2,9 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 9 — Security and resilience (§15 controls, threat model).
+**Current phase:** Phase 10 — Research evaluation (literature review, held-out baselines, evidence ledger).
 
-Phases 10–12 are not implemented. **No held-out evaluation has been run as a research conclusion.** VERIFORGE does **not** claim resistance to every attack; see `docs/SECURITY.md`.
+Phases 11–12 are not implemented. Held-out measurements require `z3-solver`; on egress-blocked hosts they are labeled **unavailable** (never fabricated). VERIFORGE does **not** claim a novel formal method; see `docs/LITERATURE_REVIEW.md`. VERIFORGE does **not** claim resistance to every attack; see `docs/SECURITY.md`.
 
 ## Requirements
 
@@ -80,15 +80,22 @@ python3 scripts/run_benchmarks.py --case-id dev-hand-001 --trials 2 --warmup 1 \
 
 Development datasets validate the engine only. Timing nondeterminism is disclosed on every configuration and report.
 
-## Research protocol (Phase 5, still frozen)
+## Research protocol and Phase 10 evaluation
 
 - Preregistered plan: `docs/RESEARCH_PLAN.md` (hypotheses are not findings)
-- Frozen protocol: `docs/EXPERIMENT_PROTOCOL.md` (version `0.5.0`)
+- Frozen Phase 5 protocol: `docs/EXPERIMENT_PROTOCOL.md` (version `0.5.0`)
+- Phase 10 held-out protocol: `experiments/protocols/phase10-held-out-protocol.md` (version `1.0.0`)
+- Literature review: `docs/LITERATURE_REVIEW.md` (no novelty claim)
+- Evidence ledger: `docs/EVIDENCE_LEDGER.md`
 - Benchmark protocol id: `veriforge-phase6-benchmark-protocol` (version `0.6.0`)
 - Audit protocol id: `veriforge-phase7-audit-protocol` (version `0.7.0`)
 - Datasets: `datasets/development/`, `datasets/held_out/` — see `datasets/README.md`
 
-Creating a run does not execute held-out evaluation. An artificial 90/10 mix, if used, is a controlled configuration — not real-world prevalence.
+```bash
+python3 scripts/run_held_out_evaluation.py --seed 20261009
+```
+
+An artificial 90/10 mix, if used, is a controlled configuration — not real-world prevalence.
 
 ## Optimization (verification-guided)
 

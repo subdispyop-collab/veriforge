@@ -10,19 +10,19 @@ datasets/
   development/     # method development, protocol checks, controlled configs
     metadata.json
     cases.jsonl
-  held_out/        # reserved for final evaluation (not run in Phase 5)
+  held_out/        # final evaluation partition (Phase 10 harness)
     metadata.json
     cases.jsonl
 ```
 
 ## Partitions
 
-| Partition | Purpose | Evaluation in Phase 5 |
+| Partition | Purpose | Evaluation |
 | --- | --- | --- |
-| `development` | Protocol freezes, metric fixtures, controlled mixes, method work | Used for framework validation only |
-| `held_out` | Final evaluation set (later phase) | **Not evaluated** |
+| `development` | Protocol freezes, metric fixtures, controlled mixes, method work | Framework / engine validation only |
+| `held_out` | Final evaluation set | Phase 10 harness (`scripts/run_held_out_evaluation.py`) |
 
-The benchmark must not be tuned against the held-out set. Phase 5 loads and validates held-out metadata and leakage controls. Phase 6 may run the benchmark engine on the **development** partition for engine validation only; it does not run held-out evaluation as a research conclusion.
+The benchmark must not be tuned against the held-out set. Phase 5 loads and validates held-out metadata and leakage controls. Phase 6 may run the benchmark engine on the **development** partition for engine validation only. Phase 10 scores the held-out partition under protocol `veriforge-phase10-held-out-evaluation` v`1.0.0`. If Z3 cannot be imported, held-out results are labeled **unavailable**.
 
 ## Metadata fields (§9.4)
 
@@ -65,4 +65,4 @@ Current seed version: `0.5.0`. Seed constant: `20261009`.
 
 ## Results status
 
-No research evaluation results are stored here. Metric calculation tests use synthetic raw observations under the experiment store, not held-out outcomes.
+Dataset files store cases only. Held-out evaluation reports (when produced) live under `experiments/reports/`. Metric calculation unit tests may use synthetic raw observations; those fixture numbers are not research findings.

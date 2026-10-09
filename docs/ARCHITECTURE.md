@@ -1,6 +1,6 @@
 # Architecture
 
-Status: Phases 1–8 are implemented (semantic foundation through Streamlit interface). Later-phase components remain planned only.
+Status: Phases 1–10 are implemented (semantic foundation through research evaluation). Phases 11–12 remain planned only.
 
 ## Implemented
 
@@ -17,9 +17,11 @@ Status: Phases 1–8 are implemented (semantic foundation through Streamlit inte
 | Benchmarks | Separate §10 timings, repeated trials, warmups, timeout/environment records, raw saves, medians/variability, reproduction. | Implemented: `veriforge/benchmark_engine.py` |
 | Audit / storage deepening | Run history, §13 optimization-run records, JSON/CSV export with result links, secret redaction, replay from recorded configuration, integrity checks, raw vs derived separation. | Implemented: `veriforge/audit_engine.py`, `veriforge/storage/repositories.py`, `veriforge/storage/migrations/` |
 | Interface | Six Streamlit pages; logic outside presentation; unavailable states; no fabricated results. | Implemented: `veriforge/app.py`, `veriforge/ui/` |
-| Typed models / exceptions | Phase 1–8 records including audit and integrity types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
+| Security | Classified errors, secret-safe messages, controlled exports, threat model docs. | Implemented: `veriforge/security.py`, `docs/SECURITY.md` |
+| Research evaluation | Held-out baselines, literature review, evidence ledger. | Implemented: `veriforge/evaluation_engine.py`, `docs/LITERATURE_REVIEW.md`, `docs/EVIDENCE_LEDGER.md` |
+| Typed models / exceptions | Phase 1–10 records including audit and integrity types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
 
-Package layout present after Phase 8:
+Package layout present after Phase 10:
 
 ```
 veriforge/
@@ -39,6 +41,8 @@ veriforge/
     experiment_engine.py
     benchmark_engine.py
     audit_engine.py
+    evaluation_engine.py
+    security.py
     storage/
         __init__.py
         database.py
@@ -71,6 +75,7 @@ docs/
 scripts/
     seed_phase5_datasets.py
     run_benchmarks.py
+    run_held_out_evaluation.py
     run_ui.py
 pyproject.toml
 requirements.lock
