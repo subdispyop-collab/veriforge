@@ -11,7 +11,9 @@ Date: 2026-10-09
 - §10.2 guard: `assert_no_spurious_execution_speedup_claim` rejects claims that infer execution speedup from shorter expressions or faster solver returns alone.
 - Held-out final evaluation as a research conclusion is refused by `run_benchmark`.
 - Version `0.6.0`. Docs / `PROJECT_STATUS.md` / `README.md` updated. Phases 1–5 preserved. No Streamlit UI.
-- Tests added: `tests/unit/test_benchmark_engine.py`. Full suite execution on the Phase 6 host was blocked by PyPI egress; an explicit retry still failed (`SSL_ERROR_SYSCALL` to `pypi.org`; see `PROJECT_STATUS.md`). No invented pass/fail counts.
+- Tests added: `tests/unit/test_benchmark_engine.py`.
+- Fresh Phase 6 VM: `pip install` from PyPI still blocked (`SSL_ERROR_SYSCALL` to `pypi.org`).
+- Warm-host retest (Phase 5 VM with deps already present): **256 passed, 0 failed, 0 skipped** (`python3 -m pytest -v` on `cursor/phase-6-benchmarks-1735`). Phase 6 acceptance “tests run with real pass/fail” marked **met** on that evidence (see `PROJECT_STATUS.md`).
 
 ## Phase 5 — Experimental framework
 

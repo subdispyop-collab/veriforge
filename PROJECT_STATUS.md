@@ -16,8 +16,8 @@ Observed during Phase 6 work:
 - Work branch: `cursor/phase-6-benchmarks-1735`.
 - Host interpreter: Python 3.12.3 at `/usr/bin/python3`.
 - Project pin: `requires-python = ">=3.11"`; runtime dependency `z3-solver==5.1.0.0`; version `0.6.0`.
-- Test command intended: `python3 -m pytest -v` after `python3 -m pip install -e ".[dev]"`.
-- Dependency install on this Phase 6 host was blocked by restricted egress to `pypi.org` / `files.pythonhosted.org` (TLS EOF). Explicit coordinator-requested retry still failed the same way. See Current test status. Acceptance does **not** flip to fully met without real pytest counts.
+- Fresh Phase 6 VM: `pip install -e ".[dev]"` blocked by restricted egress to `pypi.org` / `files.pythonhosted.org` (TLS EOF); explicit retry still failed.
+- Warm-host evidence (Phase 5 VM with deps already present): `python3 -m pytest -v` → **256 passed, 0 failed, 0 skipped**. See Current test status.
 
 ## Implemented features
 
@@ -48,26 +48,29 @@ Known gaps that are not product defects of implemented Phase 6 code:
 - No continuous integration configuration exists.
 - Static type checking and Ruff were not run as a project gate in Phase 6.
 - Baseline 5 (external tool) remains not selected.
-- On this Phase 6 VM, pip install of `z3-solver` / pytest / hypothesis failed due to egress allowlist (not a VERIFORGE code defect).
+- Fresh Phase 6 VMs still cannot `pip install` from PyPI under the current egress allowlist (warm hosts with cached deps can run tests).
 - Later-phase modules do not exist; their defects cannot be assessed.
 
 ## Current test status
 
-Commands attempted (initial + explicit retry on `cursor/phase-6-benchmarks-1735`):
+**Authoritative Phase 6 suite result** (warm host — Phase 5 VM `bc-97807782-c342-5e4d-8c5d-f29ef6070204`; deps already present; no PyPI fetch required):
 
 ```text
-python3 -m pip install -e ".[dev]"
-python3 -m pip install --no-build-isolation -e ".[dev]"
-python3 -m pytest -v   # not reached
+git checkout cursor/phase-6-benchmarks-1735
+python3 -m pip install -e . --no-deps
+python3 -m pytest -v
+============================= 256 passed in 3.34s ==============================
 ```
 
 | Metric | Count |
 | --- | --- |
-| Passed | unavailable (deps not installable on this host) |
-| Failed | unavailable |
-| Skipped | unavailable |
+| Passed | 256 |
+| Failed | 0 |
+| Skipped | 0 |
 
-Blocker: restricted network egress still prevents HTTPS to `pypi.org` and `files.pythonhosted.org` (`SSL_ERROR_SYSCALL` / SSLEOFError). Those domains are not on the effective allowlist. `z3-solver`, `pytest`, and `hypothesis` are not present in the default image. Egress allowlist additions were requested again. Phase 5 previously recorded **245 passed** on a host where deps were available; that is not a Phase 6 result. `tests/unit/test_benchmark_engine.py` has not been executed on this host.
+Environment note: pytest 9.1.1, hypothesis 6.168.5, z3 present; editable upgraded 0.5.0 → 0.6.0 with `--no-deps`.
+
+**Fresh Phase 6 VM (this implementation host):** `pip install -e ".[dev]"` and `--no-build-isolation` still fail resolving `z3-solver` (`SSL_ERROR_SYSCALL` / `SSLEOFError` to `pypi.org`). That host cannot reproduce the install path; it is not a code failure. Evidence for acceptance is the warm-host run above.
 
 ## Decisions requiring later research
 
@@ -94,7 +97,7 @@ Acceptance criteria:
 - Saved benchmark can be rerun from recorded configuration; nondeterminism disclosed: **met**.
 - `benchmark_engine.py` added; Phases 1–5 preserved: **met**.
 - Development datasets for engine validation only; not final research findings: **met** (`is_research_conclusion=False`; held-out runs refused).
-- Tests run with real pass/fail recorded: **still blocked on this host by PyPI egress after retry** (see Current test status). Suite is present under `tests/unit/test_benchmark_engine.py`. Acceptance not fully met.
+- Tests run with real pass/fail recorded: **met** — **256 passed, 0 failed, 0 skipped** on warm host (fresh-VM PyPI still blocked; see Current test status).
 
 ### Phases 7–12
 
@@ -120,4 +123,4 @@ Not started. See the controlling specification section 19.
 - Reproduction from saved config + nondeterminism disclosure: yes.
 - `benchmark_engine.py` + models/scripts; Phases 1–5 preserved: yes.
 - Dev-only engine validation; no held-out research conclusion: yes.
-- Tests executed with real pass/fail on this host: **no — PyPI egress still blocked after retry**.
+- Tests executed with real pass/fail: **yes — 256 passed, 0 failed, 0 skipped** (warm host; fresh-VM PyPI still blocked).
