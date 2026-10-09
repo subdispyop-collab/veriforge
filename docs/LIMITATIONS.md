@@ -2,7 +2,7 @@
 
 ## Current limitations
 
-Phases 1–12 are implemented. Version **`1.0.0rc1`**. §20 Definition of Done is **not fully met** (clean install failed on the Phase 12 authoring host due to PyPI egress). The project is **not** labeled fully complete / `1.0.0`.
+Phases 1–12 are implemented. Version **`1.0.0`**. §20 Definition of Done is **met** after Phase 5 warm-host clean-venv attestation (`pip install -e ".[dev]"` + **359/0/0**). The Phase 12 authoring host still cannot reach PyPI (egress); that remains an environment limit for fresh VMs, not a procedure defect. Residual research limitations (small held-out n, TCB, baseline 5 not selected, H3 inconclusive) stay disclosed below.
 
 Consequences:
 

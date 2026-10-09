@@ -1,13 +1,14 @@
 # Changelog
 
-## Phase 12 — Release (`1.0.0rc1`)
+## Phase 12 — Release (`1.0.0`)
 
 Date: 2026-10-09
 
-- Release candidate **`1.0.0rc1`** (not `1.0.0`: §20 Definition of Done is not fully met on this authoring host).
-- §20 checklist: `docs/RELEASE_CHECKLIST.md` — each criterion checked against executed evidence; criterion **14** (clean install) **failed** here (`SSLEOFError` to `pypi.org`); criterion **8** uses warm-host pytest **359 passed / 0 failed / 0 skipped** on `cursor/phase-11-independent-review-0667` @ `6848fd4`.
-- §22 final research report: `docs/FINAL_RESEARCH_REPORT.md` — only actual results; unavailable labeled; **no novelty claim**; H3 remains unresolved.
-- Held-out reproduction command documented; Phase 12 local re-run wrote honest unavailable artifacts under `experiments/reports/phase12-release-attempt/` without overwriting the warm-host Phase 10 report (fingerprint `1b5a4a762b6485eca8668cc6e7dba93cd829246479cbeee00caf977c8fea5464`).
+- Initially published as **`1.0.0rc1`** because the Phase 12 authoring host could not clean-install (`SSLEOFError` to `pypi.org`).
+- Phase 5 warm host clean-venv re-attestation: `python3 -m venv /tmp/veriforge-rc` → `pip install -e ".[dev]"` → `pytest -v` → **359 passed / 0 failed / 0 skipped**. §20 criterion **14** **met**; version promoted to **`1.0.0`**.
+- §20 checklist: `docs/RELEASE_CHECKLIST.md` — DoD **met** with disclosed research limitations (small n, TCB R1/R2, baseline 5 not selected, H3 unresolved).
+- §22 final research report: `docs/FINAL_RESEARCH_REPORT.md` — only actual results; unavailable labeled; **no novelty claim**.
+- Held-out reproduction command documented; authoring-host unavailable attempt kept under `experiments/reports/phase12-release-attempt/` without overwriting the warm-host Phase 10 report (fingerprint `1b5a4a762b6485eca8668cc6e7dba93cd829246479cbeee00caf977c8fea5464`).
 - Static review: `scripts/phase11_static_review_checks.py` PASS; `ast.parse` OK.
 - Updated `PROJECT_STATUS.md`, `README.md`, `docs/LIMITATIONS.md`, `docs/ARCHITECTURE.md`, `docs/RESEARCH_PLAN.md`, `docs/EVIDENCE_LEDGER.md`.
 - Phases 1–11 preserved. No Phase 13.

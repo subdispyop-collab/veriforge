@@ -1,6 +1,6 @@
 # Architecture
 
-Status: Phases 1–12 are implemented. Version `1.0.0rc1` (release candidate). §20 DoD not fully met on egress-blocked hosts — see `docs/RELEASE_CHECKLIST.md`.
+Status: Phases 1–12 are implemented. Version `1.0.0`. §20 DoD met via Phase 5 warm-host clean-venv attestation — see `docs/RELEASE_CHECKLIST.md`.
 
 ## Implemented
 

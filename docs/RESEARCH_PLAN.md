@@ -69,5 +69,5 @@ If dependencies cannot be installed (PyPI egress), label results **unavailable**
 
 - No confirmed novel scientific contribution.
 - No external-tool baseline measurement.
-- No claim that Definition of Done (section 20) is fully met (`1.0.0rc1`; criterion 14 failed on Phase 12 authoring host). See `docs/RELEASE_CHECKLIST.md` and `docs/FINAL_RESEARCH_REPORT.md`.
+- Definition of Done (section 20) is met at `1.0.0` after Phase 5 warm-host clean-venv attestation of criterion 14. Residual research limitations remain disclosed. See `docs/RELEASE_CHECKLIST.md` and `docs/FINAL_RESEARCH_REPORT.md`.
 - Phase 11/12 do not upgrade H1/H2 beyond `supported_on_this_sample` or H3 beyond inconclusive/UNRESOLVED.

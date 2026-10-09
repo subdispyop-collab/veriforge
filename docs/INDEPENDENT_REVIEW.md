@@ -181,7 +181,7 @@ No invented local pytest counts.
 5. H1 “4/4” is baseline-duplicated case counts (S5) — easy to overread as four distinct bugs.
 6. No CI; Ruff/typecheck ungated.
 7. Package `__init__` imports Z3-dependent modules (egress-blocked friction).
-8. Definition of Done §20 not fully met (Phase 12 + remaining disclosures).
+8. Definition of Done §20 met at `1.0.0` after warm-host clean-venv attestation; residual research disclosures remain (small n, TCB, baseline 5, H3).
 
 ---
 

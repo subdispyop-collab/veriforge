@@ -2,7 +2,7 @@
 
 Controlling specification §17. Every important claim maps to evidence with an explicit status. Do not promote a claim without supporting evidence.
 
-Software version: Phase 10 measurement rows use `0.10.0`; Phase 11 review rows note `0.11.0` documentation; Phase 12 release candidate is `1.0.0rc1`.  
+Software version: Phase 10 measurement rows use `0.10.0`; Phase 11 review rows note `0.11.0` documentation; Phase 12 release is `1.0.0` (promoted after warm-host clean-venv attestation).  
 Dataset: `datasets/held_out/` version `0.5.0` unless noted.  
 Held-out report fingerprint: `1b5a4a762b6485eca8668cc6e7dba93cd829246479cbeee00caf977c8fea5464`.  
 Statuses used: `PROPOSED` · `IMPLEMENTED` · `TESTED` · `EXPERIMENTALLY_SUPPORTED` · `INDEPENDENTLY_REVIEWED` · `NOT_SUPPORTED` · `UNRESOLVED` · `UNAVAILABLE`
@@ -82,4 +82,4 @@ Phase 11/12 rule: **do not strengthen C2/P1/H1–H3/N\* beyond the warm-host Pha
 2. Commit/update `experiments/reports/phase10-held-out-evaluation.json` and `.md`.  
 3. Promote C2/P1/H1–H3 only to match the report’s actual wording; never invent counts.  
 4. Phase 11 review (`docs/INDEPENDENT_REVIEW.md`) records adversarial findings; do not use review to invent stronger experimental claims than the report supports.
-5. Phase 12 release docs must keep §20 criterion 14 honest until clean install is re-attested.
+5. Phase 12 §20 criterion 14 was re-attested on the Phase 5 warm host (clean venv + `pip install -e ".[dev]"` + 359/0/0). Keep authoring-host PyPI failures disclosed as environment limits.

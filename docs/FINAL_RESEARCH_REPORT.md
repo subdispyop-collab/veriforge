@@ -1,6 +1,6 @@
 # VERIFORGE — Final research report (§22)
 
-Software version: **`1.0.0rc1`**  
+Software version: **`1.0.0`**  
 Report date (UTC): 2026-10-09  
 Branch: `cursor/phase-12-release-b430`  
 Base: `cursor/phase-11-independent-review-0667` @ `6848fd4`  
@@ -221,4 +221,4 @@ Summary statuses (unchanged by Phase 12 strengthening):
 
 See `docs/RELEASE_CHECKLIST.md`.
 
-**Verdict:** Definition of Done is **not fully met** (criterion 14 fails on this host). Release candidate version **`1.0.0rc1`**. Do **not** label the project fully complete or ship as `1.0.0` until clean-install attestation succeeds on a representative host and remaining disclosed gaps are accepted or closed.
+**Verdict:** Definition of Done is **met**. Criterion 14 was re-attested on the Phase 5 warm host with a clean venv (`pip install -e ".[dev]"` → **359 passed / 0 failed / 0 skipped**). Release version **`1.0.0`**. Residual research limitations (small held-out n, TCB R1/R2, baseline 5 not selected, H3 unresolved, no novelty claim) remain disclosed and do not reopen the install criterion. The Phase 12 authoring host’s PyPI failure remains a disclosed environment limit for restricted networks.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "veriforge"
-version = "1.0.0rc1"
+version = "1.0.0"
 description = "Formal-verification-guided arithmetic expression research platform (Phase 12 release candidate)"
 readme = "README.md"
 requires-python = ">=3.11"

@@ -2,8 +2,8 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Version:** `1.0.0rc1` (release candidate).  
-**Phase:** 12 — Release (final). §20 Definition of Done is **not fully met** on egress-blocked hosts; see `docs/RELEASE_CHECKLIST.md`.  
+**Version:** `1.0.0`.  
+**Phase:** 12 — Release (final). §20 Definition of Done **met** via Phase 5 warm-host clean-venv attestation; see `docs/RELEASE_CHECKLIST.md`.  
 **Final report:** `docs/FINAL_RESEARCH_REPORT.md`.
 
 Held-out warm-host measurements are in `experiments/reports/phase10-held-out-evaluation.*`. On egress-blocked hosts a local re-run may be **unavailable** (never fabricate). VERIFORGE does **not** claim a novel formal method; see `docs/LITERATURE_REVIEW.md`. VERIFORGE does **not** claim resistance to every attack; see `docs/SECURITY.md`. Sample-limited H1/H2 support is **not** a general proof; see `docs/EVIDENCE_LEDGER.md`.
@@ -17,7 +17,10 @@ Held-out warm-host measurements are in `experiments/reports/phase10-held-out-eva
 ## Setup
 
 ```bash
-python3 -m pip install -e ".[dev]"
+python3 -m venv /tmp/veriforge-rc
+source /tmp/veriforge-rc/bin/activate
+python -m pip install -U pip
+python -m pip install -e ".[dev]"
 ```
 
 If site-packages already provide the pinned packages but PyPI is unreachable:
