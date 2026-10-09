@@ -1,0 +1,12 @@
+{
+  "case_count": 8,
+  "controlled_mix": false,
+  "controlled_mix_label": null,
+  "created_at_utc": "2026-10-09T00:00:00Z",
+  "dataset_version": "0.5.0",
+  "description": "Held-out partition reserved for final evaluation (Phase 10). Phase 5 must not run evaluation against this partition.",
+  "generation_procedure": "Hand-authored Phase 5 held-out seed cases via scripts/seed_phase5_datasets.py; keys checked against development to prevent near-duplicate leakage. Not evaluated in Phase 5.",
+  "partition": "held_out",
+  "random_seed": 20261009,
+  "semantic_model": "mode_a_and_mode_b_unsigned_as_per_docs/SEMANTICS.md"
+}

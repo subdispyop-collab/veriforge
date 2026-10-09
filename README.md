@@ -2,9 +2,9 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 4 — adversarial validation (property tests, isolated mutations, differential tests, reproducible seeds).
+**Current phase:** Phase 5 — experimental framework (frozen protocol, versioned datasets, experiment identifiers, raw persistence, metric validation).
 
-Phases 5–12 (benchmarks, experiment framework, Streamlit UI, and related modules) are not implemented.
+Phases 6–12 (benchmark engine, full audit/export, Streamlit UI, and related modules) are not implemented. **No held-out evaluation has been run.**
 
 ## Requirements
 
@@ -31,6 +31,33 @@ python3 -m pytest
 
 See `docs/SEMANTICS.md` for the full contract and `docs/FORMAL_MODEL.md` for the encoded equivalence query and TCB assumptions.
 
+## Research protocol (Phase 5)
+
+- Preregistered plan: `docs/RESEARCH_PLAN.md` (hypotheses are not findings)
+- Frozen protocol: `docs/EXPERIMENT_PROTOCOL.md` (version `0.5.0`)
+- Datasets: `datasets/development/`, `datasets/held_out/` — see `datasets/README.md`
+- Experiment APIs: `veriforge.experiment_engine`, `veriforge.dataset_engine`
+
+```python
+from veriforge import (
+    DatasetPartition,
+    create_experiment_run,
+    configuration_fingerprint,
+    baseline_catalog,
+    load_all_partitions,
+)
+
+bundles = load_all_partitions()  # asserts no cross-partition near-duplicate leakage
+run = create_experiment_run(
+    configuration={"note": "framework check only"},
+    dataset_partition=DatasetPartition.DEVELOPMENT,
+)
+print(run.run_id, run.configuration_fingerprint)
+print([b.baseline_id for b in baseline_catalog()])
+```
+
+Creating a run does not execute held-out evaluation. An artificial 90/10 mix, if used, is a controlled configuration — not real-world prevalence.
+
 ## Optimization (verification-guided)
 
 ```python
@@ -39,36 +66,13 @@ from veriforge import SemanticConfiguration, SemanticMode, optimize
 cfg = SemanticConfiguration(mode=SemanticMode.MODE_A)
 result = optimize("(x + 0) * 1", cfg)
 print(result.accepted.source)  # x
-for step in result.trace:
-    print(step.rule_id, step.decision, step.verification_result.status)
 ```
 
-Default policy is conservative: each candidate must receive `EQUIVALENT_WITHIN_MODEL` from the Phase 2 verifier before acceptance. `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, and error statuses are recorded as rejections and never silently accepted.
-
-Initial production rules: `x+0→x`, `x-0→x`, `x*1→x`, `x*0→0` (validated under Mode A and Mode B separately).
+Default policy is conservative: each candidate must receive `EQUIVALENT_WITHIN_MODEL` before acceptance.
 
 ## Adversarial validation (EVALUATION_ONLY harness)
 
-```python
-from veriforge import (
-    SemanticConfiguration,
-    SemanticMode,
-    mutate_and_analyze,
-    DEFAULT_MUTATION_SEED,
-)
-
-cfg = SemanticConfiguration(mode=SemanticMode.MODE_A)
-results = mutate_and_analyze("x + y", cfg, seed=DEFAULT_MUTATION_SEED)
-for item in results:
-    print(
-        item.mutation.mutation_id,
-        item.verification_result.status,
-        item.detected_as_non_equivalent,
-        item.accepted_into_production,  # always False
-    )
-```
-
-Artificial mutations live only in `veriforge.fuzzer_suite`. They are labeled, seeded, stored with `mutation_id` + `generation_method`, and never mixed into production rules. `optimize(..., policy=EVALUATION_ONLY)` remains rejected.
+Artificial mutations live only in `veriforge.fuzzer_suite`. They are labeled, seeded, and never mixed into production rules.
 
 ## Verification
 
@@ -80,7 +84,7 @@ result = verify_equivalence("x + 1", "x + 2", cfg)
 print(result.status)  # VerificationStatus.COUNTEREXAMPLE_FOUND
 ```
 
-Result states are explicit (`EQUIVALENT_WITHIN_MODEL`, `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, `UNSUPPORTED`, `INVALID_INPUT`, `TRANSLATION_ERROR`, `VERIFICATION_ERROR`) and are never collapsed to a Boolean. Confirmed counterexamples are independently checked by the reference evaluator.
+Result states are explicit and never collapsed to a Boolean.
 
 ## Safety
 

@@ -2,20 +2,25 @@
 
 ## Current limitations
 
-Phases 1–4 (semantic foundation, formal verification, conservative optimizer, adversarial validation) are implemented. Phases 5–12 are not started.
+Phases 1–5 (semantic foundation, formal verification, conservative optimizer, adversarial validation, experimental framework) are implemented. Phases 6–12 are not started.
 
 Consequences:
 
-- There is no benchmark engine, versioned research dataset store, experiment runner, audit store, or Streamlit interface.
+- There is no Phase 6 benchmark timing engine, no Streamlit interface, and no full Phase 7 audit export/replay beyond the Phase 5 SQLite + filesystem store.
+- Held-out evaluation has **not** been run. Dataset partitions exist; research results are unavailable.
+- Baselines are defined, not measured. No external comparison tool is selected.
+- Metric unit tests use synthetic fixture observations. Those numbers are not scientific findings.
 - The Phase 3 optimizer ships only four identity-preserving production rules. Aggressive rewrites are intentionally absent.
 - Artificial mutations exist only in `veriforge.fuzzer_suite` for detection testing. They are not estimates of real-world defect prevalence.
+- An artificial 90/10 correct/incorrect mix may appear as a controlled configuration only. It is not real-world prevalence.
 - Passing Hypothesis property tests and mutation campaigns is not a mathematical proof of equivalence.
 - No literature review has been done. No citation is recorded.
-- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1–4 implementation and test evidence.
+- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1–5 implementation and test evidence.
 - Definition of done (section 20) is not met. That is expected before release. The project is not complete.
 - Signed interpretation for Mode B is intentionally unused. If later operators need signedness, that is a new decision.
 - Division, remainder, bitwise ops, shifts, comparisons, Booleans, and casts remain unsupported and rejected.
 - TIMEOUT and UNKNOWN paths for live Z3 searches are classified correctly; unit tests drive those branches with controlled solver mocks because the initial arithmetic fragment usually decides quickly. The configurable timeout (default 5s) is still applied to every real `check`. The optimizer treats those statuses as rejection, never as acceptance.
+- Near-duplicate keys are based on whitespace-normalized sources plus category and semantic model. They do not prove semantic independence of all generated variants for statistical purposes.
 
 ## Trusted computing base (Phase 2)
 

@@ -1,0 +1,12 @@
+{
+  "case_count": 12,
+  "controlled_mix": true,
+  "controlled_mix_label": "controlled artificial mix \u2014 not an estimate of real-world prevalence",
+  "created_at_utc": "2026-10-09T00:00:00Z",
+  "dataset_version": "0.5.0",
+  "description": "Development partition for protocol/method work. Includes labeled members of an artificial 90/10 controlled mix configuration.",
+  "generation_procedure": "Hand-authored Phase 5 seed cases via scripts/seed_phase5_datasets.py; near-duplicate keys from normalized original/candidate + category + mode.",
+  "partition": "development",
+  "random_seed": 20261009,
+  "semantic_model": "mode_a_and_mode_b_unsigned_as_per_docs/SEMANTICS.md"
+}

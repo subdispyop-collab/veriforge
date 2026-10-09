@@ -1,5 +1,21 @@
 # Changelog
 
+## Phase 5 — Experimental framework
+
+Date: 2026-10-09
+
+- Froze the initial research protocol: `docs/RESEARCH_PLAN.md` (hypotheses remain hypotheses) and `docs/EXPERIMENT_PROTOCOL.md` (protocol `0.5.0`).
+- Added `veriforge/dataset_engine.py`: versioned partitions, §9.4 metadata, near-duplicate leakage controls, controlled-mix labeling.
+- Seed datasets under `datasets/development/` and `datasets/held_out/` (version `0.5.0`); `datasets/README.md`; generator `scripts/seed_phase5_datasets.py`.
+- Artificial 90/10 mix recorded as a controlled configuration (`ARTIFICIAL_90_10_MIX`), not real-world prevalence.
+- Added `veriforge/experiment_engine.py`: run identifiers, configuration fingerprints, baseline catalog (§9.3), metric calculations with results-by-class.
+- Added `veriforge/storage/`: SQLite experiment-run index + filesystem raw observation JSON under `experiments/raw/`.
+- Models: `DatasetMetadata`, `DatasetCase`, `ExperimentRun`, `RawObservation`, `MetricSummary`, baselines, controlled mix, and related enums.
+- Tests: `tests/unit/test_dataset_engine.py`, `tests/unit/test_experiment_engine.py` (including known-case metric fixtures).
+- **No held-out evaluation run.** No Streamlit UI. No Phase 6 benchmark engine.
+- Tests run: **245 passed, 0 failed, 0 skipped** (`python3 -m pytest -v`).
+- Phases 6–12 not started.
+
 ## Phase 4 — Adversarial validation
 
 Date: 2026-10-09
