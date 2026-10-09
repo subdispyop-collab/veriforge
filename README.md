@@ -2,9 +2,9 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 8 — Streamlit interface (six research pages).
+**Current phase:** Phase 9 — Security and resilience (§15 controls, threat model).
 
-Phases 9–12 are not implemented. **No held-out evaluation has been run as a research conclusion.**
+Phases 10–12 are not implemented. **No held-out evaluation has been run as a research conclusion.** VERIFORGE does **not** claim resistance to every attack; see `docs/SECURITY.md`.
 
 ## Requirements
 
@@ -58,9 +58,16 @@ python3 -m pytest
 
 See `docs/SEMANTICS.md` for the full contract and `docs/FORMAL_MODEL.md` for the encoded equivalence query and TCB assumptions.
 
+## Security (Phase 9)
+
+- Threat model, enforced controls, dependency review, and remaining limits: `docs/SECURITY.md`
+- Standing scientific/semantic limits: `docs/LIMITATIONS.md`
+- Helpers: `veriforge/security.py` (classified errors, secret-safe messages, controlled export paths)
+- User input and datasets are untrusted. Unsupported syntax fails closed. No `eval`/`exec` on user input.
+
 ## Audit and storage (Phase 7)
 
-Optimization runs persist the fields required by specification §13. Audit events export to JSON or CSV and link to the results they describe. Secrets and unnecessary personal data are redacted. Replay uses the recorded configuration. Raw records stay under `experiments/raw/`; derived summaries under `experiments/reports/`.
+Optimization runs persist the fields required by specification §13. Audit events export to JSON or CSV and link to the results they describe. Secrets and unnecessary personal data are redacted. Export paths are confined under `experiments/exports/`. Replay uses the recorded configuration. Raw records stay under `experiments/raw/`; derived summaries under `experiments/reports/`.
 
 ## Benchmark engine (Phase 6)
 

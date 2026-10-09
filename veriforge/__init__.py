@@ -1,4 +1,4 @@
-"""VERIFORGE: semantics, verification, optimizer, experiments, benchmarks, audit, UI."""
+"""VERIFORGE: semantics, verification, optimizer, experiments, benchmarks, audit, UI, security."""
 
 from veriforge.audit_engine import (
     AUDIT_PROTOCOL_VERSION,
@@ -137,6 +137,13 @@ from veriforge.optimizer_engine import (
 )
 from veriforge.parser_engine import parse_expression
 from veriforge.reference_evaluator import evaluate
+from veriforge.security import (
+    ErrorClass,
+    classify_error,
+    controlled_export_path,
+    dependency_review_snapshot,
+    user_facing_error,
+)
 from veriforge.storage import AuditRepository, ExperimentStore
 from veriforge.verifier_engine import (
     TimedVerificationResult,
@@ -179,6 +186,7 @@ __all__ = [
     "DatasetPartition",
     "DomainError",
     "EnvironmentRecord",
+    "ErrorClass",
     "EvaluationError",
     "ExpectedOutcome",
     "ExperimentRun",
@@ -241,14 +249,17 @@ __all__ = [
     "build_case",
     "build_optimization_run_record",
     "classify_check_result",
+    "classify_error",
     "collect_environment",
     "compute_metrics_from_observations",
     "compute_rate_summary",
     "configuration_fingerprint",
     "configuration_to_mapping",
+    "controlled_export_path",
     "create_experiment_run",
     "default_limits",
     "default_rules",
+    "dependency_review_snapshot",
     "evaluate",
     "export_audit_records",
     "find_applicable_matches",
@@ -276,6 +287,7 @@ __all__ = [
     "summarize_measurements",
     "translate_to_z3",
     "try_apply_rule",
+    "user_facing_error",
     "verify_equivalence",
     "verify_equivalence_timed",
     "verify_storage_integrity",

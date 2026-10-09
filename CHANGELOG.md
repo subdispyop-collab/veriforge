@@ -1,5 +1,17 @@
 # Changelog
 
+## Phase 9 — Security and resilience
+
+Date: 2026-10-09
+
+- Added `veriforge/security.py`: error classification (`ErrorClass` / `classify_error`), secret-safe `user_facing_error` / `sanitize_error_text`, controlled export path confinement (`controlled_export_path` / `resolve_under_root`), `dependency_review_snapshot` for locked pins.
+- Hardened audit export destinations to stay under `experiments/exports/`; derived summaries reject path-traversal names; optional `controlled_root` for benchmark config saves.
+- UI actions and audit/benchmark pages surface classified, secret-safe errors (including unexpected exceptions) without raw tracebacks.
+- Docs: `docs/SECURITY.md` (threat model, §15 controls, dependency review, remaining limits — does **not** claim resistance to every attack); updated `docs/LIMITATIONS.md`, `docs/ARCHITECTURE.md`.
+- Tests: `tests/unit/test_security.py`, `tests/adversarial/test_security_resilience.py`; audit export path test updated for confinement.
+- Version `0.9.0`. Phases 1–8 preserved. Phase 10 not started.
+- Full suite execution on this Phase 9 host was blocked by PyPI egress (`UNEXPECTED_EOF_WHILE_READING` / `SSLEOFError` to `pypi.org`). No invented pass/fail counts. Egress allowlist for `pypi.org`, `files.pythonhosted.org`, and `pypi.python.org` requested.
+
 ## Phase 8 — Streamlit interface
 
 Date: 2026-10-09

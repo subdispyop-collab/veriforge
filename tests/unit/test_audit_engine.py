@@ -155,7 +155,8 @@ def test_export_json_and_csv_link_to_results(
             format=ExportFormat.CSV,
             run_ids=[record.run_id],
             repository=repo,
-            destination=tmp_path / "custom_export.csv",
+            # §15: destination must resolve under experiments/exports/.
+            destination=repo.exports_dir / "custom_export.csv",
         )
         assert json_export.record_count >= 1
         assert record.run_id in json_export.run_ids

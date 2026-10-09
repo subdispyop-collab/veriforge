@@ -1,59 +1,59 @@
 # PROJECT_STATUS
 
 Status date: 2026-10-09  
-Current phase: Phase 8 (Streamlit interface) — implemented  
-Phases 9–12: not started
+Current phase: Phase 9 (security and resilience) — implemented  
+Phases 10–12: not started
 
 This file records what is in the git checkout and the plan required by the controlling specification. The controlling specification was read and was not modified.
 
 ## Current state
 
-Phase 8 is present on top of the preserved Phases 1–7: six Streamlit pages (Expression Workbench, Verification Explorer, Fuzzing and Mutation Lab, Benchmark Lab, Research Dashboard, Audit and Reproducibility). Application logic stays outside Streamlit presentation (`veriforge/ui/` helpers + `veriforge/app.py` entry). Active semantic mode, bit width where applicable, and assumptions are shown. UNKNOWN and timeout are never labeled equivalent. Charts show only completed-run measurements; missing features show unavailable states. **No held-out final evaluation as a research conclusion. Phase 9 not started.**
+Phase 9 is present on top of the preserved Phases 1–8: §15 controls enforced and tested (AST validation, resource limits, solver timeouts, safe/controlled file handling, input-size restrictions, no arbitrary code execution); errors classified with secret-safe user-facing messages; threat model and remaining limitations in `docs/SECURITY.md` and `docs/LIMITATIONS.md`; dependency review against locked pins. **Does not claim resistance to every attack. Phase 10 not started. No held-out evaluation as a research conclusion.**
 
-Observed during Phase 8 work:
+Observed during Phase 9 work:
 
-- Base branch: `cursor/phase-7-audit-storage-67ba`.
-- Work branch: `cursor/phase-8-streamlit-ui-6fd4`.
+- Base branch: `cursor/phase-8-streamlit-ui-6fd4`.
+- Work branch: `cursor/phase-9-security-resilience-6104`.
 - Host interpreter: Python 3.12.3 at `/usr/bin/python3`.
-- Project pin: `requires-python = ">=3.11"`; runtime deps `z3-solver==5.1.0.0`, `streamlit==1.41.1`, `plotly==5.24.1`, `pandas==2.2.3`; version `0.8.0`.
+- Project pin: `requires-python = ">=3.11"`; runtime deps unchanged (`z3-solver==5.1.0.0`, `streamlit==1.41.1`, `plotly==5.24.1`, `pandas==2.2.3`); version `0.9.0`.
 - Test command intended: `python3 -m pytest -v` after `python3 -m pip install -e ".[dev]"`.
-- On this Phase 8 host, PyPI egress remains blocked (`SSLEOFError` to `pypi.org`). Egress allowlist additions for `pypi.org`, `files.pythonhosted.org`, and `pypi.python.org` were requested. See Current test status.
+- On this Phase 9 host, PyPI egress remains blocked (`UNEXPECTED_EOF_WHILE_READING` / `SSLEOFError` to `pypi.org`). Egress allowlist additions for `pypi.org`, `files.pythonhosted.org`, and `pypi.python.org` were requested again. See Current test status.
 
 ## Implemented features
 
-Phase 1–7 (preserved): see prior `PROJECT_STATUS` history and `CHANGELOG.md`.
+Phase 1–8 (preserved): see prior `PROJECT_STATUS` history and `CHANGELOG.md`.
 
-Phase 6 warm-host evidence (recorded for continuity; not re-run on this Phase 8 VM):
+Phase 6 warm-host evidence (recorded for continuity; not re-run on this Phase 9 VM):
 
 - Agent `bc-97807782-c342-5e4d-8c5d-f29ef6070204` on a Phase 5 warm host.
 - Result: **256 passed, 0 failed, 0 skipped** in 3.34s (Phase 6 tip `e86f158`).
 
-Phase 8:
+Phase 9:
 
-- `veriforge/app.py` — Streamlit entry.
-- `veriforge/ui/` — `catalog.py`, `presentation.py` (honesty helpers, no Streamlit), `actions.py` (engine orchestration, no Streamlit), `components.py`, `visualizations.py`, `pages.py` (six pages).
-- `scripts/run_ui.py` — launch helper (default port **8513**).
-- Interface tests: `tests/unit/test_ui_presentation.py`, `tests/unit/test_ui_actions.py`.
-- Dependencies pinned in `pyproject.toml` / `requirements.lock` (streamlit/plotly/pandas pins intended; transitive resolution blocked by egress on this host).
-- Docs / status / changelog / README updated. Phases 1–7 preserved.
+- `veriforge/security.py` — `ErrorClass`, `classify_error`, `user_facing_error` / `sanitize_error_text`, `controlled_export_path` / `resolve_under_root`, `dependency_review_snapshot`.
+- Audit exports confined under `experiments/exports/`; derived summaries reject path traversal; UI actions use classified secret-safe errors.
+- Docs: `docs/SECURITY.md` (threat model, controls, dependency review, remaining limits); `docs/LIMITATIONS.md` / `docs/ARCHITECTURE.md` updated.
+- Tests: `tests/unit/test_security.py`, `tests/adversarial/test_security_resilience.py`; audit export test updated for controlled paths.
+- Version `0.9.0`. Phases 1–8 preserved.
 
 ## Unimplemented features
 
-Everything from Phase 9 onward, including:
+Everything from Phase 10 onward, including:
 
-- Full security review, threat model, literature review, and research evidence ledger.
-- Held-out evaluation execution (Phase 10).
-- A release checklist satisfied by executed checks for the whole product.
+- Literature review and held-out evaluation execution (Phase 10).
+- Independent review (Phase 11) and release checklist (Phase 12).
+- Research evidence ledger (section 17) as a completed product.
 
 ## Known defects
 
-Known gaps that are not product defects of implemented Phase 8 code:
+Known gaps that are not product defects of implemented Phase 9 code:
 
 - No continuous integration configuration exists.
-- Static type checking and Ruff were not run as a project gate in Phase 8.
+- Static type checking and Ruff were not run as a project gate in Phase 9.
 - Baseline 5 (external tool) remains not selected.
-- On this Phase 8 VM, `pytest` / `z3-solver` / `hypothesis` / `streamlit` / `plotly` / `pandas` are unavailable without PyPI egress (not a VERIFORGE code defect).
-- Streamlit/plotly/pandas transitive dependency pins were not re-resolved on this host.
+- On this Phase 9 VM, `pytest` / `z3-solver` / `hypothesis` / `streamlit` / `plotly` / `pandas` are unavailable without PyPI egress (not a VERIFORGE code defect).
+- Streamlit/plotly/pandas transitive dependency pins were not re-resolved on this host (same as Phase 8).
+- Secret redaction is pattern-based; novel formats may slip through (documented).
 - Later-phase modules do not exist; their defects cannot be assessed.
 
 ## Current test status
@@ -66,14 +66,14 @@ Known gaps that are not product defects of implemented Phase 8 code:
 | Failed | 0 |
 | Skipped | 0 |
 
-### Phase 8 on this host
+### Phase 9 on this host
 
 Commands attempted:
 
 ```text
-python3 -m pip install -e ".[dev]"   # blocked: SSLEOFError to pypi.org
-python3 -m pip install streamlit plotly pandas  # blocked: same
-python3 -m pip install -e . --no-deps  # used when possible for editable package only
+python3 -m pip install -e ".[dev]"   # blocked: SSL EOF / UNEXPECTED_EOF to pypi.org
+python3 -c "import urllib.request; urllib.request.urlopen('https://pypi.org/simple/pytest/')"
+# PYPI_BLOCKED
 ```
 
 | Metric | Count |
@@ -82,7 +82,7 @@ python3 -m pip install -e . --no-deps  # used when possible for editable package
 | Failed | unavailable |
 | Skipped | unavailable |
 
-Blocker: restricted network egress prevents HTTPS to `pypi.org` and `files.pythonhosted.org`. No pytest pass/fail counts were invented for Phase 8 on this host. Suites added: `tests/unit/test_ui_presentation.py`, `tests/unit/test_ui_actions.py`. Presentation helpers are independently smoke-checked without Streamlit where the import graph allows.
+Blocker: restricted network egress prevents HTTPS to `pypi.org` and `files.pythonhosted.org`. No pytest pass/fail counts were invented for Phase 9 on this host. Suites added: `tests/unit/test_security.py`, `tests/adversarial/test_security_resilience.py`. Security helpers that do not import z3 are smoke-checked where the import graph allows.
 
 ## Decisions requiring later research
 
@@ -92,26 +92,25 @@ Still open for later phases: external baseline tool; division/remainder/shift co
 
 ## Phase-by-phase implementation plan
 
-### Phases 0–7
+### Phases 0–8
 
-Status: satisfied for implementation (see `CHANGELOG.md`). Phase 6 warm-host tests **256 passed**. Phase 7 code acceptance met; Phase 7 pytest on fresh VM was egress-blocked (documented).
+Status: satisfied for implementation (see `CHANGELOG.md`). Phase 6 warm-host tests **256 passed**. Phase 7–8 code acceptance met; pytest on fresh VMs was egress-blocked (documented).
 
-### Phase 8 — Streamlit interface
+### Phase 9 — Security and resilience
 
-Objective: six research pages; logic outside Streamlit; honest labels; no fabricated charts.
+Objective: enforce and test §15 controls; classify errors without secret leakage; document threat model and remaining limitations; review locked dependencies.
 
 Acceptance criteria:
 
-- Application logic outside Streamlit presentation: **met** (`presentation.py` / `actions.py` + engines; Streamlit only in app/components/pages/visualizations).
-- Six pages exist: **met**.
-- Active semantic mode, width where applicable, assumptions visible: **met**.
-- UNKNOWN and timeout never labeled equivalent: **met** (presentation helpers + tests).
-- Pages show only measurements from completed runs; missing features show unavailable: **met**.
-- Interface tests for those behaviors: **authored**; **not executed via pytest on this host** (egress).
-- streamlit/plotly/pandas added with pins: **met** (direct pins; network install not verified here).
-- Phases 1–7 preserved; docs/status/changelog/README updated: **met**.
+- §15 controls in scope enforced and tested: **met** (code + authored tests; pytest execution on this host blocked by egress).
+- Errors classified; no secret leakage: **met** (`ErrorClass` / `user_facing_error`; audit redaction preserved).
+- Threat model + remaining limitations documented: **met** (`docs/SECURITY.md`, `docs/LIMITATIONS.md`).
+- Do not claim resistance to every attack: **met** (explicit in SECURITY.md / LIMITATIONS.md / this status).
+- Dependency review on locked versions; note if PyPI blocked: **met**.
+- Preserve Phases 1–8; update status/docs/changelog: **met**.
+- Run tests with real pass/fail on this host: **not met on this host** (PyPI egress).
 
-### Phases 9–12
+### Phases 10–12
 
 Not started. See the controlling specification section 19.
 
@@ -126,15 +125,14 @@ Not started. See the controlling specification section 19.
 7. Dependency compatibility for the Streamlit stack (pins recorded; clean install not verified on this host).
 8. Egress / environment builds must provide `z3-solver`, `pytest`, `hypothesis`, `streamlit`, `plotly`, and `pandas` for CI and agents.
 9. Streamlit pages must continue to call engines via `actions` / presentation helpers rather than invoking the solver ad hoc.
+10. Pattern-based secret redaction and path confinement cover the intended UI/audit surfaces, not every possible caller bypass.
 
-## Phase 8 acceptance checklist
+## Phase 9 acceptance checklist
 
-- Logic outside Streamlit: yes.
-- Six pages: yes.
-- Semantic mode / width / assumptions visible: yes.
-- UNKNOWN/timeout ≠ equivalent: yes (helpers + tests authored).
-- No fabricated charts; unavailable states: yes.
-- Interface tests authored: yes.
-- Dependencies pinned: yes (install blocked by egress).
-- Docs / status / changelog updated; Phases 1–7 preserved: yes.
+- AST validation / resource limits / timeouts / controlled exports / no eval-exec: yes (enforced; tests authored).
+- Errors classified; secret-safe messages: yes.
+- Threat model + limitations docs: yes.
+- No claim of total attack resistance: yes.
+- Dependency review from lock pins; egress blocker recorded: yes.
+- Docs / status / changelog updated; Phases 1–8 preserved: yes.
 - Tests executed with real pass/fail on this host: **no — PyPI egress blocked**.

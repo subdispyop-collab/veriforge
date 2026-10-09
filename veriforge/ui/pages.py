@@ -337,12 +337,17 @@ def render_benchmark_lab() -> None:
 
     try:
         case_ids = list(list_development_case_ids())
-    except Exception as exc:  # noqa: BLE001 — surface as unavailable
+    except Exception as exc:  # noqa: BLE001 — surface as unavailable, secret-safe
+        from veriforge.security import user_facing_error
+
         render_unavailable(
             feature_availability(
                 "benchmark_dataset_selection",
                 available=False,
-                reason_if_unavailable=f"Development dataset unavailable: {exc}",
+                reason_if_unavailable=(
+                    "Development dataset unavailable: "
+                    + user_facing_error(exc)
+                ),
             )
         )
         return
@@ -547,8 +552,10 @@ def render_audit_reproducibility() -> None:
     if st.button("Replay optimization", key="au_replay"):
         try:
             result = audit_replay(replay_id.strip())
-        except Exception as exc:  # noqa: BLE001
-            st.error(str(exc))
+        except Exception as exc:  # noqa: BLE001 — secret-safe classified message
+            from veriforge.security import user_facing_error
+
+            st.error(user_facing_error(exc))
         else:
             st.success(
                 f"Replay accepted expression: `{result.accepted.source}` "

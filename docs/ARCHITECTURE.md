@@ -149,11 +149,18 @@ Verification states remain distinct: `EQUIVALENT_WITHIN_MODEL`, `COUNTEREXAMPLE_
 4. Visualizations refuse empty series and show unavailable states instead of fabricated charts.
 5. Research Dashboard loads metrics only from completed stored runs.
 
+## Security boundary (Phase 9)
+
+| Boundary | Specified responsibility | Status |
+| --- | --- | --- |
+| Security helpers | Error classification, secret-safe messages, controlled export paths | Implemented: `veriforge/security.py` |
+| Threat model | Document adversary, assets, controls, remaining limits | Implemented: `docs/SECURITY.md` |
+| §15 enforcement | AST validation, limits, timeouts, safe files, no eval/exec | Enforced in parser/verifier/audit/UI; tested under `tests/unit/test_security.py` and `tests/adversarial/test_security_resilience.py` |
+
 ## Planned boundaries (not implemented)
 
 | Boundary | Specified responsibility | Status |
 | --- | --- | --- |
-| Security / threat model | Phase 9 resilience and security review. | Not implemented |
 | Research evaluation | Phase 10 held-out evaluation and literature review. | Not implemented |
 
 Typed records still pending as dedicated later-phase products: `FuzzCase`, `ResearchClaim`. Phase 7 added `AuditEvent` and `OptimizationRunRecord`. Phase 6 added benchmark timing types. Phase 5 added dataset/experiment/metric types.
@@ -176,4 +183,4 @@ Out of scope until a later phase shows a need: distributed infrastructure, cloud
 - Fixture metric tests must not be mistaken for research findings.
 - Audit exports must keep linking `result_ref` / `result_link` to raw records; derived charts must not be mixed into `raw/`.
 
-Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`. The Phase 5 protocol is specified in `docs/EXPERIMENT_PROTOCOL.md`. Phase 6 benchmarking is implemented in `veriforge/benchmark_engine.py`. Phase 7 audit is implemented in `veriforge/audit_engine.py`. Phase 8 UI is implemented in `veriforge/app.py` and `veriforge/ui/`.
+Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`. The Phase 5 protocol is specified in `docs/EXPERIMENT_PROTOCOL.md`. Phase 6 benchmarking is implemented in `veriforge/benchmark_engine.py`. Phase 7 audit is implemented in `veriforge/audit_engine.py`. Phase 8 UI is implemented in `veriforge/app.py` and `veriforge/ui/`. Phase 9 security is implemented in `veriforge/security.py` and documented in `docs/SECURITY.md`.

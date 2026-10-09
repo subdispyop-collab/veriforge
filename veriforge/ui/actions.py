@@ -30,6 +30,7 @@ from veriforge.experiment_engine import (
     baseline_catalog,
     compute_metrics_for_stored_run,
 )
+from veriforge.security import user_facing_error
 from veriforge.fuzzer_suite import (
     DEFAULT_MUTATION_SEED,
     mutate_and_analyze,
@@ -124,7 +125,15 @@ def parse_for_workbench(
             source=source,
             rendered=None,
             variables=(),
-            error=str(exc),
+            error=user_facing_error(exc),
+        )
+    except Exception as exc:  # noqa: BLE001 — classify unexpected for UI
+        return ParseOutcome(
+            ok=False,
+            source=source,
+            rendered=None,
+            variables=(),
+            error=user_facing_error(exc),
         )
     return ParseOutcome(
         ok=True,
@@ -146,7 +155,13 @@ def run_workbench(
     try:
         result = optimize(source, config)
     except VeriforgeError as exc:
-        return WorkbenchResult(parse=parse, optimization=None, error=str(exc))
+        return WorkbenchResult(
+            parse=parse, optimization=None, error=user_facing_error(exc)
+        )
+    except Exception as exc:  # noqa: BLE001 — classify unexpected for UI
+        return WorkbenchResult(
+            parse=parse, optimization=None, error=user_facing_error(exc)
+        )
     return WorkbenchResult(parse=parse, optimization=result, error=None)
 
 
@@ -160,7 +175,9 @@ def run_verification_explorer(
     try:
         timed = verify_equivalence_timed(original, candidate, config)
     except VeriforgeError as exc:
-        return ExplorerResult(timed=None, error=str(exc))
+        return ExplorerResult(timed=None, error=user_facing_error(exc))
+    except Exception as exc:  # noqa: BLE001 — classify unexpected for UI
+        return ExplorerResult(timed=None, error=user_facing_error(exc))
     return ExplorerResult(timed=timed, error=None)
 
 
@@ -203,7 +220,14 @@ def run_fuzz_lab(
             analyses=(),
             seed=seed,
             categories=categories,
-            error=str(exc),
+            error=user_facing_error(exc),
+        )
+    except Exception as exc:  # noqa: BLE001 — classify unexpected for UI
+        return FuzzLabResult(
+            analyses=(),
+            seed=seed,
+            categories=categories,
+            error=user_facing_error(exc),
         )
     return FuzzLabResult(
         analyses=analyses,
@@ -312,7 +336,15 @@ def run_benchmark_lab(
             measurements=(),
             report=None,
             config_path=None,
-            error=str(exc),
+            error=user_facing_error(exc),
+        )
+    except Exception as exc:  # noqa: BLE001 — classify unexpected for UI
+        return BenchmarkLabResult(
+            run_id=None,
+            measurements=(),
+            report=None,
+            config_path=None,
+            error=user_facing_error(exc),
         )
 
 

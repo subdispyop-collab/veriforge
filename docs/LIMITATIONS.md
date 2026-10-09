@@ -2,11 +2,12 @@
 
 ## Current limitations
 
-Phases 1–8 (semantic foundation through Streamlit interface) are implemented. Phases 9–12 are not started.
+Phases 1–9 (semantic foundation through security and resilience) are implemented. Phases 10–12 are not started.
 
 Consequences:
 
 - The Streamlit interface (Phase 8) presents engines honestly: UNKNOWN/timeout are never labeled equivalent; charts require completed-run measurements; missing capabilities show unavailable states. It does not invent research findings.
+- Phase 9 documents the threat model and §15 controls in `docs/SECURITY.md`. **VERIFORGE does not claim resistance to every attack.**
 - Held-out evaluation has **not** been run as a research conclusion. Dataset partitions exist; research results are unavailable. Phase 6 may use the development partition only for engine validation. The Research Dashboard and Benchmark Lab pages disclose this.
 - Baselines are defined, not measured. No external comparison tool is selected.
 - Metric unit tests and benchmark-engine validation runs use development/fixture data. Those numbers are not scientific findings.
@@ -16,12 +17,15 @@ Consequences:
 - An artificial 90/10 correct/incorrect mix may appear as a controlled configuration only. It is not real-world prevalence.
 - Passing Hypothesis property tests and mutation campaigns is not a mathematical proof of equivalence.
 - No literature review has been done. No citation is recorded.
-- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1–5 implementation and test evidence.
+- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1–9 implementation and test evidence.
 - Definition of done (section 20) is not met. That is expected before release. The project is not complete.
 - Signed interpretation for Mode B is intentionally unused. If later operators need signedness, that is a new decision.
 - Division, remainder, bitwise ops, shifts, comparisons, Booleans, and casts remain unsupported and rejected.
 - TIMEOUT and UNKNOWN paths for live Z3 searches are classified correctly; unit tests drive those branches with controlled solver mocks because the initial arithmetic fragment usually decides quickly. The configurable timeout (default 5s) is still applied to every real `check`. The optimizer treats those statuses as rejection, never as acceptance.
 - Near-duplicate keys are based on whitespace-normalized sources plus category and semantic model. They do not prove semantic independence of all generated variants for statistical purposes.
+- Secret redaction is pattern-based; novel secret formats may slip through (see `docs/SECURITY.md`).
+- Path confinement applies to VERIFORGE export/derived APIs; bypassing those APIs is out of scope for the control.
+- Dependency reinstall may be blocked by PyPI egress on some agent hosts; pins are reviewed from lock files, not always from a fresh install attestation.
 
 ## Trusted computing base (Phase 2)
 
@@ -47,7 +51,7 @@ These limits remain in force after implementation. They are not waived by a work
 - Unsupported syntax fails closed. It is not silently rewritten.
 - Mathematical integers and fixed-width bit-vectors are never silently conflated.
 - The benchmark must not be tuned against the held-out evaluation set.
-- Do not claim resistance to every attack. The threat model and the remaining limitations have to be written when security work is done. They are not written as a completed review here.
+- Do not claim resistance to every attack. The threat model and remaining limitations are in `docs/SECURITY.md` and this file.
 - If bit-for-bit reproduction is not guaranteed because of solver, platform, or timing nondeterminism, that limitation has to be documented. Phase 6 discloses timing nondeterminism on every benchmark configuration/report. Phase 7 replay restores the recorded semantic configuration and rule fingerprint; wall-clock timings and near-timeout UNKNOWN/TIMEOUT outcomes may still differ and are not claimed bit-identical.
 - If a later experiment is not run, its results stay labeled unavailable. If a hypothesis is unsupported, the report says so.
 - If online research is unavailable when the literature review is attempted, the limitation and a review plan replace a pretended completed review.

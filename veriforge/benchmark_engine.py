@@ -971,10 +971,20 @@ def load_benchmark_configuration(path: Path | str) -> BenchmarkConfiguration:
 def save_benchmark_configuration(
     config: BenchmarkConfiguration,
     path: Path | str,
+    *,
+    controlled_root: Path | str | None = None,
 ) -> Path:
-    """Save a benchmark configuration for later reproduction."""
+    """Save a benchmark configuration for later reproduction.
+
+    When ``controlled_root`` is set, the target path must resolve under that
+    root (§15 controlled export / config write paths).
+    """
 
     target = Path(path)
+    if controlled_root is not None:
+        from veriforge.security import resolve_under_root
+
+        target = resolve_under_root(Path(controlled_root), target)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(
         json.dumps(configuration_to_mapping(config), indent=2, sort_keys=True) + "\n",

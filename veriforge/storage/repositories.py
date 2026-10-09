@@ -257,14 +257,19 @@ class AuditRepository:
     ) -> Path:
         """Persist a derived summary under reports/, never under raw/."""
 
+        from veriforge.security import is_safe_relative_name, resolve_under_root
+
+        # §15: run_id and filename must be single safe segments (no traversal).
+        if not is_safe_relative_name(run_id):
+            raise ValueError(f"unsafe derived summary run_id: {run_id!r}")
         run_dir = self.derived_dir / run_id
         run_dir.mkdir(parents=True, exist_ok=True)
         name = filename or "summary.json"
-        if "/" in name or name.startswith("."):
+        if not is_safe_relative_name(name):
             raise ValueError(f"unsafe derived summary filename: {name!r}")
-        path = run_dir / name
+        path = resolve_under_root(self.derived_dir, run_dir / name)
         # Guard: refuse writing into the raw tree.
-        if self.raw_dir.resolve() in path.resolve().parents:
+        if self.raw_dir.resolve() in path.parents or path == self.raw_dir.resolve():
             raise ValueError("refusing to write derived summary under raw/")
         path.write_text(
             json.dumps(dict(summary), indent=2, sort_keys=True) + "\n",

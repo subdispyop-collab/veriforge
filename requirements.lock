@@ -1,12 +1,14 @@
-# Locked pins for VERIFORGE Phase 8 (Python 3.11+/3.12).
+# Locked pins for VERIFORGE Phase 9 (Python 3.11+/3.12).
 # Install: python3 -m pip install -e ".[dev]"
 # Runtime: z3-solver, streamlit, plotly, pandas (and their transitive deps).
 # Dev: pytest, hypothesis.
 #
-# Phase 8 host note: when this lock was updated, HTTPS to pypi.org was blocked
-# (SSLEOFError). Direct pins below are the intended versions; transitive pins
-# for streamlit/plotly/pandas were NOT re-resolved on that host. Prior
-# hypothesis/pytest/z3 pins retain Phase 5/7 observed versions.
+# Phase 9 dependency review uses these selected pins (see docs/SECURITY.md).
+# Host note: when this lock was last refreshed for Streamlit pins, HTTPS to
+# pypi.org was blocked (SSLEOFError). Direct pins below are the intended
+# versions; transitive pins for streamlit/plotly/pandas were NOT re-resolved
+# on that host. Prior hypothesis/pytest/z3 pins retain Phase 5/7 observed
+# versions. Phase 9 reinstall may still be blocked by the same egress policy.
 hypothesis==6.168.5
 iniconfig==2.3.1
 packaging==24.0

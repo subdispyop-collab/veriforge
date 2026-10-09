@@ -638,13 +638,20 @@ def export_audit_records(
         unique_runs = tuple(dict.fromkeys(linked_run_ids))
         unique_fps = tuple(dict.fromkeys(fingerprints))
 
+        from veriforge.security import controlled_export_path
+
+        # §15: controlled export paths — writes stay under experiments/exports/.
         if destination is None:
-            dest_dir = repo.exports_dir
-            dest_dir.mkdir(parents=True, exist_ok=True)
             suffix = "json" if format is ExportFormat.JSON else "csv"
-            destination = dest_dir / f"audit_export_{export_id}.{suffix}"
+            destination = controlled_export_path(
+                exports_root=repo.exports_dir,
+                filename=f"audit_export_{export_id}.{suffix}",
+            )
         else:
-            destination = Path(destination)
+            destination = controlled_export_path(
+                exports_root=repo.exports_dir,
+                destination=destination,
+            )
             destination.parent.mkdir(parents=True, exist_ok=True)
 
         if format is ExportFormat.JSON:
