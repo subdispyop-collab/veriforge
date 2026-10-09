@@ -2,14 +2,14 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 7 — audit and storage (run history, fingerprints, export/replay, integrity).
+**Current phase:** Phase 8 — Streamlit interface (six research pages).
 
-Phases 8–12 (Streamlit UI and related modules) are not implemented. **No held-out evaluation has been run as a research conclusion.**
+Phases 9–12 are not implemented. **No held-out evaluation has been run as a research conclusion.**
 
 ## Requirements
 
-- Python 3.11 or newer (developed and tested on 3.12)
-- `z3-solver==5.1.0.0` (pinned in `pyproject.toml` / `requirements.lock`)
+- Python 3.11 or newer (developed on 3.12)
+- Runtime: `z3-solver==5.1.0.0`, `streamlit==1.41.1`, `plotly==5.24.1`, `pandas==2.2.3` (pinned in `pyproject.toml` / `requirements.lock`)
 - Dev: `pytest`, `hypothesis` (see `requirements.lock`)
 
 ## Setup
@@ -18,11 +18,32 @@ Phases 8–12 (Streamlit UI and related modules) are not implemented. **No held-
 python3 -m pip install -e ".[dev]"
 ```
 
-If site-packages already provide `pytest`, `z3`, and `hypothesis` but PyPI is unreachable:
+If site-packages already provide the pinned packages but PyPI is unreachable:
 
 ```bash
 python3 -m pip install -e . --no-deps
 ```
+
+## Run the Streamlit interface
+
+```bash
+python3 scripts/run_ui.py --port 8513
+# equivalent:
+# streamlit run veriforge/app.py --server.port 8513 --server.address 127.0.0.1
+```
+
+Default bind is `127.0.0.1:8513` (uncommon port; Streamlit’s default 8501 is also acceptable if documented). Requires `streamlit` (and optionally `plotly`/`pandas` for charts).
+
+Pages:
+
+1. Expression Workbench
+2. Verification Explorer
+3. Fuzzing and Mutation Lab
+4. Benchmark Lab
+5. Research Dashboard
+6. Audit and Reproducibility
+
+Application logic stays in engine modules and `veriforge/ui/actions.py` / `presentation.py`. Streamlit is presentation only. UNKNOWN and timeout are never labeled equivalent. Charts show only completed-run measurements.
 
 ## Run tests
 
@@ -40,32 +61,6 @@ See `docs/SEMANTICS.md` for the full contract and `docs/FORMAL_MODEL.md` for the
 ## Audit and storage (Phase 7)
 
 Optimization runs persist the fields required by specification §13. Audit events export to JSON or CSV and link to the results they describe. Secrets and unnecessary personal data are redacted. Replay uses the recorded configuration. Raw records stay under `experiments/raw/`; derived summaries under `experiments/reports/`.
-
-```python
-from veriforge import (
-    SemanticConfiguration,
-    SemanticMode,
-    optimize,
-    record_optimization_run,
-    export_audit_records,
-    replay_optimization_from_record,
-    verify_storage_integrity,
-    ExportFormat,
-)
-from veriforge.storage import AuditRepository
-
-cfg = SemanticConfiguration(mode=SemanticMode.MODE_A)
-result = optimize("(x + 0) * 1", cfg)
-
-with AuditRepository(root="/tmp/veriforge-audit") as repo:
-    record, event = record_optimization_run(result, repository=repo)
-    export_audit_records(
-        format=ExportFormat.JSON, run_ids=[record.run_id], repository=repo
-    )
-    replay_optimization_from_record(record, repository=repo)
-    report = verify_storage_integrity(repository=repo)
-    assert report.passed
-```
 
 ## Benchmark engine (Phase 6)
 

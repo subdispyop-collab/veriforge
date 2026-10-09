@@ -1,5 +1,18 @@
 # Changelog
 
+## Phase 8 — Streamlit interface
+
+Date: 2026-10-09
+
+- Added Streamlit research UI: `veriforge/app.py` entry; `veriforge/ui/` with `catalog.py`, `presentation.py` (no Streamlit), `actions.py` (engine orchestration, no Streamlit), `components.py`, `visualizations.py`, `pages.py`.
+- Six pages per §14: Expression Workbench; Verification Explorer; Fuzzing and Mutation Lab; Benchmark Lab; Research Dashboard; Audit and Reproducibility.
+- Honesty rules encoded in presentation helpers: UNKNOWN/timeout never labeled equivalent; charts require completed-run measurements; unavailable features show explicit unavailable states; synthetic mutations labeled as artificial.
+- Launch helper: `scripts/run_ui.py` (default port 8513).
+- Dependencies: `streamlit==1.41.1`, `plotly==5.24.1`, `pandas==2.2.3` pinned in `pyproject.toml` / `requirements.lock` (transitive resolution not refreshed on this host due to PyPI egress).
+- Tests: `tests/unit/test_ui_presentation.py`, `tests/unit/test_ui_actions.py`.
+- Version `0.8.0`. Docs / `PROJECT_STATUS.md` / `README.md` updated. Phases 1–7 preserved. Phase 9 not started.
+- Full suite execution on this Phase 8 host was blocked by PyPI egress (`SSLEOFError` to `pypi.org`). No invented pass/fail counts.
+
 ## Phase 7 — Audit and storage
 
 Date: 2026-10-09

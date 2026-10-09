@@ -1,4 +1,4 @@
-"""VERIFORGE: semantics, verification, optimizer, experiments, benchmarks, audit."""
+"""VERIFORGE: semantics, verification, optimizer, experiments, benchmarks, audit, UI."""
 
 from veriforge.audit_engine import (
     AUDIT_PROTOCOL_VERSION,

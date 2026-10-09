@@ -1,6 +1,6 @@
 # Architecture
 
-Status: Phases 1–7 are implemented (semantic foundation through audit/storage). Later-phase components remain planned only.
+Status: Phases 1–8 are implemented (semantic foundation through Streamlit interface). Later-phase components remain planned only.
 
 ## Implemented
 
@@ -16,13 +16,15 @@ Status: Phases 1–7 are implemented (semantic foundation through audit/storage)
 | Experiments | Run identifiers, configuration fingerprints, baseline catalog, raw observation persistence, metric calculations from stored observations. | Implemented: `veriforge/experiment_engine.py`, `veriforge/storage/` |
 | Benchmarks | Separate §10 timings, repeated trials, warmups, timeout/environment records, raw saves, medians/variability, reproduction. | Implemented: `veriforge/benchmark_engine.py` |
 | Audit / storage deepening | Run history, §13 optimization-run records, JSON/CSV export with result links, secret redaction, replay from recorded configuration, integrity checks, raw vs derived separation. | Implemented: `veriforge/audit_engine.py`, `veriforge/storage/repositories.py`, `veriforge/storage/migrations/` |
-| Typed models / exceptions | Phase 1–7 records including audit and integrity types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
+| Interface | Six Streamlit pages; logic outside presentation; unavailable states; no fabricated results. | Implemented: `veriforge/app.py`, `veriforge/ui/` |
+| Typed models / exceptions | Phase 1–8 records including audit and integrity types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
 
-Package layout present after Phase 7:
+Package layout present after Phase 8:
 
 ```
 veriforge/
     __init__.py
+    app.py
     version.py
     config.py
     models.py
@@ -42,6 +44,14 @@ veriforge/
         database.py
         repositories.py
         migrations/
+    ui/
+        __init__.py
+        catalog.py
+        presentation.py
+        actions.py
+        components.py
+        visualizations.py
+        pages.py
 datasets/
     README.md
     development/
@@ -61,11 +71,10 @@ docs/
 scripts/
     seed_phase5_datasets.py
     run_benchmarks.py
+    run_ui.py
 pyproject.toml
 requirements.lock
 ```
-
-Empty placeholders for unimplemented later phases (Streamlit UI) were not created.
 
 ## Verifier data flow
 
@@ -132,13 +141,20 @@ Verification states remain distinct: `EQUIVALENT_WITHIN_MODEL`, `COUNTEREXAMPLE_
 6. Replay calls `optimize` using the recorded `semantic_configuration` (not ambient defaults).
 7. Write derived summaries only under `experiments/reports/`; integrity checks refuse raw/derived collision and fingerprint tampering.
 
-## Planned boundaries (not implemented)
+## Interface data flow (Phase 8)
 
-Logic and presentation stay separate. Streamlit is the specified interface. It calls application functions. It does not own parsing, optimization, or verification.
+1. `veriforge/app.py` selects one of six pages from `veriforge.ui.catalog.PAGE_NAMES`.
+2. Pages call `veriforge.ui.actions` (orchestration) and `veriforge.ui.presentation` (labels / availability).
+3. Actions call existing engines (parser, optimizer, verifier, fuzzer, benchmark, audit). Streamlit widgets do not own solver or storage logic.
+4. Visualizations refuse empty series and show unavailable states instead of fabricated charts.
+5. Research Dashboard loads metrics only from completed stored runs.
+
+## Planned boundaries (not implemented)
 
 | Boundary | Specified responsibility | Status |
 | --- | --- | --- |
-| Interface | Six pages: expression workbench, verification explorer, fuzzing and mutation lab, benchmark lab, research dashboard, audit and reproducibility. Unavailable features show an unavailable state. No fabricated results. | Not implemented |
+| Security / threat model | Phase 9 resilience and security review. | Not implemented |
+| Research evaluation | Phase 10 held-out evaluation and literature review. | Not implemented |
 
 Typed records still pending as dedicated later-phase products: `FuzzCase`, `ResearchClaim`. Phase 7 added `AuditEvent` and `OptimizationRunRecord`. Phase 6 added benchmark timing types. Phase 5 added dataset/experiment/metric types.
 
@@ -160,4 +176,4 @@ Out of scope until a later phase shows a need: distributed infrastructure, cloud
 - Fixture metric tests must not be mistaken for research findings.
 - Audit exports must keep linking `result_ref` / `result_link` to raw records; derived charts must not be mixed into `raw/`.
 
-Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`. The Phase 5 protocol is specified in `docs/EXPERIMENT_PROTOCOL.md`. Phase 6 benchmarking is implemented in `veriforge/benchmark_engine.py`. Phase 7 audit is implemented in `veriforge/audit_engine.py`.
+Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`. The Phase 5 protocol is specified in `docs/EXPERIMENT_PROTOCOL.md`. Phase 6 benchmarking is implemented in `veriforge/benchmark_engine.py`. Phase 7 audit is implemented in `veriforge/audit_engine.py`. Phase 8 UI is implemented in `veriforge/app.py` and `veriforge/ui/`.

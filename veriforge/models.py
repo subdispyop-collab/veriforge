@@ -1,4 +1,4 @@
-"""Typed models used by Phases 1–7: parsing through audit/storage."""
+"""Typed models used by Phases 1–8: parsing through audit/storage and UI."""
 
 from __future__ import annotations
 

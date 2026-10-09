@@ -2,12 +2,12 @@
 
 ## Current limitations
 
-Phases 1–7 (semantic foundation through audit/storage) are implemented. Phases 8–12 are not started.
+Phases 1–8 (semantic foundation through Streamlit interface) are implemented. Phases 9–12 are not started.
 
 Consequences:
 
-- There is no Streamlit interface (Phase 8). Phase 7 adds audit export/replay, §13 optimization-run records, integrity checks, and raw vs derived separation on top of the Phase 5 SQLite + filesystem store.
-- Held-out evaluation has **not** been run as a research conclusion. Dataset partitions exist; research results are unavailable. Phase 6 may use the development partition only for engine validation.
+- The Streamlit interface (Phase 8) presents engines honestly: UNKNOWN/timeout are never labeled equivalent; charts require completed-run measurements; missing capabilities show unavailable states. It does not invent research findings.
+- Held-out evaluation has **not** been run as a research conclusion. Dataset partitions exist; research results are unavailable. Phase 6 may use the development partition only for engine validation. The Research Dashboard and Benchmark Lab pages disclose this.
 - Baselines are defined, not measured. No external comparison tool is selected.
 - Metric unit tests and benchmark-engine validation runs use development/fixture data. Those numbers are not scientific findings.
 - Timing and solver wall-clock measurements are subject to platform and Z3 nondeterminism; exact bit-for-bit reproduction of durations is not guaranteed (disclosed on every `BenchmarkConfiguration` / `BenchmarkReport`).
