@@ -1,9 +1,12 @@
-# Locked pins observed on the Phase 2 host (Python 3.12.3).
+# Locked pins observed on the Phase 4 host (Python 3.12.3).
 # Install the project with: python3 -m pip install -e ".[dev]"
-# Runtime dependency: z3-solver (pinned). pytest is the Phase 2 test runner.
+# Runtime dependency: z3-solver (pinned).
+# Dev dependencies: pytest (runner), hypothesis (property-based tests).
+hypothesis==6.168.5
 iniconfig==2.3.1
 packaging==24.0
 pluggy==1.6.0
 Pygments==2.21.0
 pytest==9.1.1
+sortedcontainers==2.4.0
 z3-solver==5.1.0.0

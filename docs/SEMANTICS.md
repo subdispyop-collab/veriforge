@@ -175,7 +175,21 @@ Initial identity-preserving rules (each validated separately under Mode A and Mo
 | `identity.mul_one` | `x * 1 → x` |
 | `identity.mul_zero` | `x * 0 → 0` |
 
-`CorrectnessPolicy.EVALUATION_ONLY` is reserved for the Phase 4 controlled mutation harness. It is not a production acceptance path.
+`CorrectnessPolicy.EVALUATION_ONLY` marks analysis in the isolated Phase 4 module `veriforge.fuzzer_suite`. It is not a production acceptance path: `optimize()` rejects it, and the harness never sets `accepted_into_production`.
+
+## Artificial mutations (Phase 4)
+
+Deliberately incorrect candidates are generated only by `veriforge.fuzzer_suite`. They are:
+
+- Explicitly labeled (`MutationRecord.artificial` is always True).
+- Identified by category ids under the `mutation.*` prefix (disjoint from production `identity.*` rule ids).
+- Stored with `mutation_id` and `generation_method`.
+- Reproducible via fixed seeds (`DEFAULT_MUTATION_SEED` and per-call `seed`).
+- Checked with the Phase 2 verifier; they never bypass the verification gate and never enter production rule acceptance.
+
+Supported mutation categories: `literal_plus_one`, `add_to_sub`, `mul_to_add`, `swap_sub_operands`, `drop_right_of_add`, `zero_to_one`.
+
+Passing randomized or mutation tests is not a mathematical proof of equivalence.
 
 ## Implementation mapping
 
@@ -188,5 +202,6 @@ Initial identity-preserving rules (each validated separately under Mode A and Mo
 | Reference evaluation | `veriforge.reference_evaluator.evaluate` |
 | IR → Z3 translation and equivalence check | `veriforge.verifier_engine` |
 | Conservative optimizer and transformation traces | `veriforge.optimizer_engine` |
-| Verification / optimization result records | `veriforge.models` |
+| Isolated artificial mutations / EVALUATION_ONLY harness | `veriforge.fuzzer_suite` |
+| Verification / optimization / mutation result records | `veriforge.models` |
 | Classified errors | `veriforge.exceptions` |

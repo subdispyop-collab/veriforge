@@ -2,14 +2,15 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 3 — conservative optimizer (identity-preserving rules, transformation traces, verification-guided acceptance).
+**Current phase:** Phase 4 — adversarial validation (property tests, isolated mutations, differential tests, reproducible seeds).
 
-Phases 4–12 (mutation module, benchmarks, Streamlit UI, and related modules) are not implemented.
+Phases 5–12 (benchmarks, experiment framework, Streamlit UI, and related modules) are not implemented.
 
 ## Requirements
 
 - Python 3.11 or newer (developed and tested on 3.12)
 - `z3-solver==5.1.0.0` (pinned in `pyproject.toml` / `requirements.lock`)
+- Dev: `pytest`, `hypothesis` (see `requirements.lock`)
 
 ## Setup
 
@@ -42,9 +43,32 @@ for step in result.trace:
     print(step.rule_id, step.decision, step.verification_result.status)
 ```
 
-Default policy is conservative: each candidate must receive `EQUIVALENT_WITHIN_MODEL` from the Phase 2 verifier before acceptance. `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, and error statuses are recorded as rejections and never silently accepted. The Phase 4 evaluation-only mutation path is not implemented.
+Default policy is conservative: each candidate must receive `EQUIVALENT_WITHIN_MODEL` from the Phase 2 verifier before acceptance. `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, and error statuses are recorded as rejections and never silently accepted.
 
-Initial rules: `x+0→x`, `x-0→x`, `x*1→x`, `x*0→0` (validated under Mode A and Mode B separately).
+Initial production rules: `x+0→x`, `x-0→x`, `x*1→x`, `x*0→0` (validated under Mode A and Mode B separately).
+
+## Adversarial validation (EVALUATION_ONLY harness)
+
+```python
+from veriforge import (
+    SemanticConfiguration,
+    SemanticMode,
+    mutate_and_analyze,
+    DEFAULT_MUTATION_SEED,
+)
+
+cfg = SemanticConfiguration(mode=SemanticMode.MODE_A)
+results = mutate_and_analyze("x + y", cfg, seed=DEFAULT_MUTATION_SEED)
+for item in results:
+    print(
+        item.mutation.mutation_id,
+        item.verification_result.status,
+        item.detected_as_non_equivalent,
+        item.accepted_into_production,  # always False
+    )
+```
+
+Artificial mutations live only in `veriforge.fuzzer_suite`. They are labeled, seeded, stored with `mutation_id` + `generation_method`, and never mixed into production rules. `optimize(..., policy=EVALUATION_ONLY)` remains rejected.
 
 ## Verification
 

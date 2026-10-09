@@ -11,6 +11,7 @@ from veriforge import (
     SemanticMode,
     Variable,
     evaluate,
+    mutate_and_analyze,
     optimize,
     parse_expression,
 )
@@ -35,3 +36,8 @@ def test_parse_and_evaluate_without_eval_exec(monkeypatch: pytest.MonkeyPatch) -
     result = optimize("(x + 0) * 1", cfg)
     assert isinstance(result.accepted.root, Variable)
     assert result.accepted.root.name == "x"
+
+    # Phase 4 mutation harness must also avoid eval/exec on user input.
+    analyses = mutate_and_analyze("x + y", cfg, seed=1, max_mutations=3)
+    assert analyses
+    assert all(a.accepted_into_production is False for a in analyses)

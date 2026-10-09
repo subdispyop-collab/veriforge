@@ -1,4 +1,4 @@
-"""Typed models used by Phases 1–3: parsing, verification, and optimization."""
+"""Typed models used by Phases 1–4: parsing, verification, optimization, mutations."""
 
 from __future__ import annotations
 
@@ -56,13 +56,28 @@ class CorrectnessPolicy(Enum):
     accepted only when the Phase 2 verifier reports
     ``EQUIVALENT_WITHIN_MODEL``.
 
-    ``EVALUATION_ONLY`` is reserved for the Phase 4 controlled harness that
-    may analyze deliberately incorrect candidates. It is not a production
-    acceptance path and must never silently accept candidates.
+    ``EVALUATION_ONLY`` marks analysis of deliberately incorrect candidates
+    in the isolated Phase 4 mutation harness (``veriforge.fuzzer_suite``).
+    It is not a production acceptance path: ``optimize()`` rejects it, and
+    the harness never accepts candidates into the production optimizer.
     """
 
     VERIFICATION_GUIDED = "verification_guided"
     EVALUATION_ONLY = "evaluation_only"
+
+
+class MutationCategory(Enum):
+    """Artificial mutation categories used only by the Phase 4 fuzzer suite.
+
+    These identifiers are never production optimization rule ids.
+    """
+
+    LITERAL_PLUS_ONE = "mutation.literal_plus_one"
+    ADD_TO_SUB = "mutation.add_to_sub"
+    MUL_TO_ADD = "mutation.mul_to_add"
+    SWAP_SUB_OPERANDS = "mutation.swap_sub_operands"
+    DROP_RIGHT_OF_ADD = "mutation.drop_right_of_add"
+    ZERO_TO_ONE = "mutation.zero_to_one"
 
 
 class VerificationPolicy(Enum):
@@ -226,3 +241,59 @@ class OptimizationResult:
         return tuple(
             step for step in self.trace if step.decision is CandidateDecision.REJECTED
         )
+
+
+@dataclass(frozen=True, slots=True)
+class MutationRecord:
+    """One artificially incorrect candidate for detection testing (§7.2).
+
+    Always marked ``artificial=True``. Never mixed into production rules.
+    Reproducible via ``seed`` and ``generation_method``.
+    """
+
+    mutation_id: str
+    category: MutationCategory
+    generation_method: str
+    seed: int
+    original_source: str
+    mutated_source: str
+    site_path: tuple[str, ...]
+    artificial: bool = True
+
+    def __post_init__(self) -> None:
+        if not self.artificial:
+            raise ValueError(
+                "MutationRecord.artificial must be True; synthetic mutations "
+                "must remain explicitly labeled"
+            )
+        if not self.mutation_id:
+            raise ValueError("mutation_id must be non-empty")
+        if not self.generation_method:
+            raise ValueError("generation_method must be non-empty")
+
+
+@dataclass(frozen=True, slots=True)
+class MutationAnalysisResult:
+    """EVALUATION_ONLY analysis of one artificial mutation.
+
+    ``accepted_into_production`` is always False. The harness may observe
+    verifier outcomes for deliberately incorrect candidates but must not
+    feed them into the production optimizer acceptance path.
+    """
+
+    mutation: MutationRecord
+    config: SemanticConfiguration
+    policy: CorrectnessPolicy
+    verification_result: VerificationResult
+    detected_as_non_equivalent: bool
+    accepted_into_production: bool = False
+
+    def __post_init__(self) -> None:
+        if self.policy is not CorrectnessPolicy.EVALUATION_ONLY:
+            raise ValueError(
+                "MutationAnalysisResult.policy must be EVALUATION_ONLY"
+            )
+        if self.accepted_into_production:
+            raise ValueError(
+                "MutationAnalysisResult must never accept into production"
+            )

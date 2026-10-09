@@ -1,6 +1,6 @@
 # Architecture
 
-Status: Phases 1–3 are implemented (semantic foundation, formal verification, conservative optimizer). Later-phase components remain planned only.
+Status: Phases 1–4 are implemented (semantic foundation, formal verification, conservative optimizer, adversarial validation). Later-phase components remain planned only.
 
 ## Implemented
 
@@ -11,9 +11,10 @@ Status: Phases 1–3 are implemented (semantic foundation, formal verification, 
 | Reference evaluator | Evaluate a supported expression under the selected mode without using Z3. | Implemented: `veriforge/reference_evaluator.py` |
 | Verifier | Translate original and candidate into the Z3 sort for the active mode. Ask whether an input exists that makes them differ. Classify the solver outcome. Independently validate counterexamples. Do not treat the solver result as proof that the application is correct. | Implemented: `veriforge/verifier_engine.py` |
 | Optimizer | Apply a small set of identifiable, conservative rules. Record preconditions and a full trace. Accept a candidate on the default path only after the required equivalence check. | Implemented: `veriforge/optimizer_engine.py` |
-| Typed models / exceptions | Phase 1–3 records including `VerificationResult`, `OptimizationRule`, `TransformationStep`, `OptimizationResult`, and classified errors. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
+| Mutation facility | Generate incorrect candidates for detection tests. Keep them labeled, seeded, and off the production rule set. They must not bypass verification. | Implemented: `veriforge/fuzzer_suite.py` |
+| Typed models / exceptions | Phase 1–4 records including `VerificationResult`, `OptimizationRule`, `TransformationStep`, `OptimizationResult`, `MutationRecord`, `MutationAnalysisResult`, and classified errors. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
 
-Package layout present after Phase 3:
+Package layout present after Phase 4:
 
 ```
 veriforge/
@@ -26,8 +27,11 @@ veriforge/
     reference_evaluator.py
     verifier_engine.py
     optimizer_engine.py
+    fuzzer_suite.py
 tests/
     unit/
+    properties/
+    adversarial/
     regression/
 docs/
 pyproject.toml
@@ -55,7 +59,21 @@ Empty placeholders for later phases were not created.
 6. Record rejections (including `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, and error statuses) with reasons; never accept them silently.
 7. Return the accepted expression and the complete `TransformationStep` trace.
 
-`CorrectnessPolicy.EVALUATION_ONLY` is present in the model for API clarity and is rejected by `optimize()` until the Phase 4 mutation harness exists. Production rules and artificial mutations must not share an ungated acceptance function.
+## Mutation / EVALUATION_ONLY data flow (Phase 4)
+
+1. Enumerate artificial mutation sites on a parsed IR under selected `MutationCategory` values.
+2. Build `MutationRecord` values with `mutation_id`, `generation_method`, `seed`, and `artificial=True`.
+3. Analyze each record with `verify_equivalence` under `CorrectnessPolicy.EVALUATION_ONLY`.
+4. Record detection (`detected_as_non_equivalent`) from the verifier status.
+5. Never set `accepted_into_production`. Never register mutation categories as production rules.
+6. Production `optimize()` continues to reject `EVALUATION_ONLY` so the harness cannot share an ungated acceptor.
+
+Two experimental configurations stay distinct:
+
+- Verification-guided mode. Candidates pass the required equivalence checks before acceptance. This is the default application mode (implemented).
+- Evaluation-only mode. Deliberately incorrect candidates may be analyzed in the controlled harness. They are never silently accepted into the production path (implemented in `fuzzer_suite`; rejected by `optimize()`).
+
+Verification states remain distinct: `EQUIVALENT_WITHIN_MODEL`, `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, `UNSUPPORTED`, `INVALID_INPUT`, `TRANSLATION_ERROR`, and `VERIFICATION_ERROR`. A Boolean success flag is not an acceptable substitute.
 
 ## Planned boundaries (not implemented)
 
@@ -63,20 +81,12 @@ Logic and presentation stay separate. Streamlit is the specified interface. It c
 
 | Boundary | Specified responsibility | Status |
 | --- | --- | --- |
-| Mutation facility | Generate incorrect candidates for detection tests. Keep them labeled, seeded, and off the production rule set. They must not bypass verification. | Not implemented (Phase 4) |
 | Benchmarks | Store correctness outcomes separately from timing. Solver time and expression execution time are different measurements. | Not implemented |
 | Datasets and experiments | Versioned cases, separate development and held-out partitions, run identifiers, configuration fingerprints, raw observations. | Not implemented |
 | Audit and storage | Persist the run record required by section 13. Initial store for metadata: SQLite. Large raw artifacts stored separately. Export JSON or CSV. No secrets. | Not implemented |
 | Interface | Six pages: expression workbench, verification explorer, fuzzing and mutation lab, benchmark lab, research dashboard, audit and reproducibility. Unavailable features show an unavailable state. No fabricated results. | Not implemented |
 
-Typed records named by the specification that remain unimplemented as code: `FuzzCase`, `MutationRecord`, `BenchmarkConfiguration`, `BenchmarkMeasurement`, `ExperimentRun`, `AuditEvent`, `DatasetMetadata`, `ResearchClaim`. Implemented through Phase 3: `ExpressionInput`, `SemanticConfiguration`, `VerificationResult`, `Counterexample`, `OptimizationRule`, `TransformationStep`, `OptimizationResult`, and the expression IR.
-
-Two experimental configurations are specified and must stay distinct:
-
-- Verification-guided mode. Candidates pass the required equivalence checks before acceptance. This is the default application mode (implemented).
-- Evaluation-only mode. Deliberately incorrect candidates may be analyzed in a controlled harness. They are never silently accepted into the production path (Phase 4; `optimize()` rejects this policy today).
-
-Verification states remain distinct: `EQUIVALENT_WITHIN_MODEL`, `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, `UNSUPPORTED`, `INVALID_INPUT`, `TRANSLATION_ERROR`, and `VERIFICATION_ERROR`. A Boolean success flag is not an acceptable substitute.
+Typed records named by the specification that remain unimplemented as code: `FuzzCase`, `BenchmarkConfiguration`, `BenchmarkMeasurement`, `ExperimentRun`, `AuditEvent`, `DatasetMetadata`, `ResearchClaim`. Implemented through Phase 4: `ExpressionInput`, `SemanticConfiguration`, `VerificationResult`, `Counterexample`, `OptimizationRule`, `TransformationStep`, `OptimizationResult`, `MutationRecord`, `MutationAnalysisResult`, and the expression IR.
 
 Trusted computing base assumptions for verification are written in `docs/FORMAL_MODEL.md` and summarized in `docs/LIMITATIONS.md`.
 
@@ -87,10 +97,11 @@ Out of scope until a later phase shows a need: distributed infrastructure, cloud
 - The verifier, the optimizer, and the reference evaluator can drift apart if they do not share one semantic configuration object and one grammar. Phase 2 reuses the Phase 1 configuration, grammar, and reference evaluator.
 - Mode B can be implemented as unbounded Python integers by mistake. Phase 1's reference evaluator applies modular wrap; Phase 2 uses Z3 bit-vector sorts of the configured width.
 - `UNKNOWN` and timeout can be collapsed into "not SAT" and then displayed as equivalent. The result type makes that collapse a type error, not a presentation choice.
-- The mutation path and the production rule path can share an acceptance function. Isolation has to be structural, not a naming convention. Phase 3 keeps production acceptance gated; Phase 4 must not reuse an ungated acceptor.
+- The mutation path and the production rule path can share an acceptance function. Isolation is structural: mutations live in `fuzzer_suite`, production acceptance stays in `optimize()` under verification guidance only.
 - Benchmark code can mix solver latency with expression execution time if both are written into one duration field.
 - Generated cases can leak between development and held-out partitions if dataset construction and experiment execution share a writable directory without a partition check.
 - Streamlit code can start calling the solver directly. Then limits, classification, and audit records will differ between the API and the UI.
 - Exact replay may fail because of solver or platform nondeterminism. The reproduction path has to record that limitation instead of promising bit-for-bit output.
+- Passing Hypothesis or mutation suites is not a proof of equivalence (documented limitation).
 
 Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`.

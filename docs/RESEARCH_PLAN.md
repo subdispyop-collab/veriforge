@@ -36,7 +36,7 @@ Specified in section 9.3. None of these configurations is implemented or measure
 
 Differences between baselines must be documented when they are built. Systems are not to be compared under incompatible semantics or unequal workloads unless that limitation is explained. Baseline 5 has no selected tool. No comparison of that kind is claimed.
 
-The two product configurations that feed baselines 2 and 3 are already specified: a verification-guided path, which is the default, and an evaluation-only harness for incorrect candidates, which must not silently accept them into production.
+The two product configurations that feed baselines 2 and 3 are already specified: a verification-guided path, which is the default (implemented), and an evaluation-only harness for incorrect candidates in `veriforge.fuzzer_suite`, which must not silently accept them into production (implemented for detection tests; not a completed research measurement).
 
 ## Specified outcomes
 

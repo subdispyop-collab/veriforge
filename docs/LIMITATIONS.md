@@ -2,15 +2,16 @@
 
 ## Current limitations
 
-Phases 1–3 (semantic foundation, formal verification, conservative optimizer) are implemented. Phases 4–12 are not started.
+Phases 1–4 (semantic foundation, formal verification, conservative optimizer, adversarial validation) are implemented. Phases 5–12 are not started.
 
 Consequences:
 
-- There is no mutation facility, property-based adversarial suite, benchmark engine, dataset store, experiment runner, audit store, or Streamlit interface.
+- There is no benchmark engine, versioned research dataset store, experiment runner, audit store, or Streamlit interface.
 - The Phase 3 optimizer ships only four identity-preserving production rules. Aggressive rewrites are intentionally absent.
-- `CorrectnessPolicy.EVALUATION_ONLY` is modeled but rejected by `optimize()` until Phase 4 provides an isolated mutation harness.
+- Artificial mutations exist only in `veriforge.fuzzer_suite` for detection testing. They are not estimates of real-world defect prevalence.
+- Passing Hypothesis property tests and mutation campaigns is not a mathematical proof of equivalence.
 - No literature review has been done. No citation is recorded.
-- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1–3 implementation and test evidence.
+- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1–4 implementation and test evidence.
 - Definition of done (section 20) is not met. That is expected before release. The project is not complete.
 - Signed interpretation for Mode B is intentionally unused. If later operators need signedness, that is a new decision.
 - Division, remainder, bitwise ops, shifts, comparisons, Booleans, and casts remain unsupported and rejected.

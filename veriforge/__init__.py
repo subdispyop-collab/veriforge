@@ -1,4 +1,4 @@
-"""VERIFORGE: semantic foundation, formal verification, and conservative optimizer."""
+"""VERIFORGE: semantics, verification, optimizer, and adversarial validation."""
 
 from veriforge.config import ResourceLimits, SemanticConfiguration, default_limits
 from veriforge.exceptions import (
@@ -15,6 +15,16 @@ from veriforge.exceptions import (
     VerificationEngineError,
     VeriforgeError,
 )
+from veriforge.fuzzer_suite import (
+    DEFAULT_MUTATION_SEED,
+    analyze_mutation,
+    analyze_mutations,
+    assert_mutation_isolation,
+    generate_mutations,
+    mutate_and_analyze,
+    mutation_categories,
+    rebuild_mutated,
+)
 from veriforge.models import (
     BinaryOp,
     BinaryOperator,
@@ -25,6 +35,9 @@ from veriforge.models import (
     Expression,
     ExpressionInput,
     IntLiteral,
+    MutationAnalysisResult,
+    MutationCategory,
+    MutationRecord,
     OptimizationResult,
     OptimizationRule,
     SemanticMode,
@@ -62,6 +75,7 @@ __all__ = [
     "CorrectnessPolicy",
     "Counterexample",
     "CounterexampleValidationStatus",
+    "DEFAULT_MUTATION_SEED",
     "DomainError",
     "EvaluationError",
     "Expression",
@@ -69,6 +83,9 @@ __all__ = [
     "IntLiteral",
     "InvalidLiteralError",
     "MissingVariableError",
+    "MutationAnalysisResult",
+    "MutationCategory",
+    "MutationRecord",
     "OptimizationResult",
     "OptimizationRule",
     "OptimizerError",
@@ -93,17 +110,24 @@ __all__ = [
     "VerificationResult",
     "VerificationStatus",
     "VeriforgeError",
+    "analyze_mutation",
+    "analyze_mutations",
+    "assert_mutation_isolation",
     "classify_check_result",
     "default_limits",
     "default_rules",
     "evaluate",
     "find_applicable_matches",
+    "generate_mutations",
+    "mutate_and_analyze",
+    "mutation_categories",
     "optimize",
     "parse_expression",
+    "rebuild_mutated",
     "rule_by_id",
     "translate_to_z3",
     "try_apply_rule",
     "verify_equivalence",
 ]
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"

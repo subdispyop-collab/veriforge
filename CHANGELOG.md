@@ -1,5 +1,20 @@
 # Changelog
 
+## Phase 4 — Adversarial validation
+
+Date: 2026-10-09
+
+- Added isolated mutation module `veriforge/fuzzer_suite.py` (§7.2): labeled artificial mutations, fixed seeds (`DEFAULT_MUTATION_SEED`), `mutation_id` + `generation_method`, never mixed into production rules, never bypasses verification.
+- EVALUATION_ONLY harness (`analyze_mutation` / `mutate_and_analyze`) may inspect deliberately incorrect candidates; `accepted_into_production` is always False. Production `optimize()` still rejects `EVALUATION_ONLY`.
+- Models: `MutationCategory`, `MutationRecord`, `MutationAnalysisResult`.
+- Hypothesis property tests under `tests/properties/` (parser, semantics, verifier, optimizer).
+- Differential tests against the reference evaluator (`tests/properties/test_differential.py`).
+- Adversarial / isolation / regression suites: `tests/adversarial/`, `tests/regression/test_mutation_gate.py`, `tests/unit/test_fuzzer_suite.py`.
+- Dev dependency: `hypothesis` (pinned in `requirements.lock`).
+- Updated `docs/SEMANTICS.md`, `docs/ARCHITECTURE.md`, `docs/FORMAL_MODEL.md`, `docs/LIMITATIONS.md`, `README.md`, and `PROJECT_STATUS.md`.
+- Tests run: **230 passed, 0 failed, 0 skipped** (`python3 -m pytest -v`).
+- Phases 5–12 not started. No Streamlit UI, benchmarks, experiment framework, or research datasets beyond Phase 4 test needs.
+
 ## Phase 3 — Conservative optimizer
 
 Date: 2026-10-09

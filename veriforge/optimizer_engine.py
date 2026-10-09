@@ -17,9 +17,10 @@ verifier reports ``EQUIVALENT_WITHIN_MODEL``. Outcomes
 ``COUNTEREXAMPLE_FOUND``, ``UNKNOWN``, ``TIMEOUT``, and error statuses never
 cause silent acceptance.
 
-``CorrectnessPolicy.EVALUATION_ONLY`` is reserved for the Phase 4 mutation
-harness and is rejected here so deliberately incorrect candidates cannot
-enter the production path.
+``CorrectnessPolicy.EVALUATION_ONLY`` is handled only by the isolated
+Phase 4 module ``veriforge.fuzzer_suite``. This production ``optimize()``
+path rejects that policy so deliberately incorrect candidates cannot
+enter production acceptance.
 """
 
 from __future__ import annotations
@@ -215,9 +216,10 @@ def optimize(
 
     if policy is CorrectnessPolicy.EVALUATION_ONLY:
         raise OptimizerError(
-            "EVALUATION_ONLY is reserved for the Phase 4 mutation harness "
-            "and is not a production acceptance path; use "
-            "VERIFICATION_GUIDED (the default)"
+            "EVALUATION_ONLY is reserved for veriforge.fuzzer_suite "
+            "(analyze_mutation / mutate_and_analyze) and is not a "
+            "production acceptance path; use VERIFICATION_GUIDED "
+            "(the default)"
         )
     if policy is not CorrectnessPolicy.VERIFICATION_GUIDED:
         raise OptimizerError(f"unsupported correctness policy: {policy!r}")
