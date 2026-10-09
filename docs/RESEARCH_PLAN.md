@@ -1,0 +1,100 @@
+# Research plan
+
+This file pre-registers the research design from the controlling specification. Every hypothesis below is a hypothesis to investigate. None is a finding. No experiment has been run. Results are unavailable.
+
+No literature review was done. This file contains no citations and no novelty claim.
+
+## Research question
+
+Specified question, section 9.1:
+
+> Does SMT-based equivalence checking improve the detection and rejection of incorrect arithmetic rewrites, and what computational overhead does it introduce under a defined, restricted arithmetic model?
+
+The project vision in section 2 states the same evaluation target in these words: correctness, error-detection effectiveness, verification overhead, and execution-performance trade-offs of a conservative arithmetic optimizer supported by SMT-based equivalence checking.
+
+The question is not a conclusion. The experiments may show benefits, limitations, or mixed results. Those experiments have not been run.
+
+## Hypotheses
+
+Specified in section 9.2. Status of each: not investigated. Results unavailable.
+
+1. Verification identifies incorrect candidates within the supported model when the encoding and solver are correct.
+2. Verification introduces measurable computational overhead.
+3. The overhead and success rates vary by expression complexity and transformation category.
+
+These sentences are not advance reports of what VERIFORGE will find.
+
+## Baselines
+
+Specified in section 9.3. None of these configurations is implemented or measured.
+
+1. Original expression without optimization.
+2. Rule-based optimizer without SMT verification.
+3. Verification-enabled optimizer.
+4. Testing-only candidate validation, where appropriate.
+5. An existing relevant tool or method, if a meaningful comparison can be implemented fairly.
+
+Differences between baselines must be documented when they are built. Systems are not to be compared under incompatible semantics or unequal workloads unless that limitation is explained. Baseline 5 has no selected tool. No comparison of that kind is claimed.
+
+The two product configurations that feed baselines 2 and 3 are already specified: a verification-guided path, which is the default, and an evaluation-only harness for incorrect candidates, which must not silently accept them into production.
+
+## Specified outcomes
+
+The specification does not use the heading "primary outcomes." The outcomes named by the question and by section 2 are:
+
+- Detection and rejection of incorrect arithmetic rewrites (error-detection effectiveness), under the defined restricted model.
+- Computational overhead of SMT-based equivalence checking.
+- Correctness of accepted rewrites under that model.
+- Execution-performance trade-offs of the conservative optimizer, measured separately from verification overhead.
+
+Results for every one of these are unavailable.
+
+Section 10 requires the following quantities to be measured independently when a benchmark exists. They are not measurements from this repository:
+
+- Parsing time.
+- Optimization time.
+- Candidate-generation time.
+- AST-to-Z3 translation time.
+- Solver time.
+- End-to-end verification latency.
+- Original expression execution time.
+- Optimized expression execution time.
+- Timeout rate.
+- UNKNOWN rate.
+- Verification completion rate.
+- Rejection and counterexample rates.
+
+Specified reporting rules, not yet applied to any data:
+
+- Report medians and variability.
+- Use confidence intervals and statistical tests only where their assumptions hold.
+- Report performance by class and transformation category, not only as one aggregate accuracy number.
+- Do not treat a large set of related generated expressions as that many independent observations.
+- Do not claim an execution speedup because an expression is shorter, the AST has fewer nodes, the solver returns faster, or the dashboard looks efficient.
+- Distinguish the speed of finding a proof from the speed of executing an optimized expression.
+- If a benchmark shows no improvement or shows a slowdown, report that.
+- A passing randomized test is not a mathematical proof of equivalence.
+- A solver result is a statement about the submitted formula, not proof that the implementation matches this plan.
+
+## Method constraints already fixed
+
+These constraints are part of the specification. They are recorded so later phases do not weaken them. They are not descriptions of datasets that exist.
+
+- Freeze the question, hypotheses, methods, and outcomes before the final held-out evaluation. This file is that pre-registration for the text above.
+- Keep development cases separate from held-out cases.
+- Prevent near-duplicates and variants of the same transformation from leaking across partitions.
+- For every dataset, record version, generation procedure, semantic model, random seed, case identifier, expected outcome where independently known, transformation category, complexity characteristics, and inclusion or exclusion reason.
+- An artificial mixture of 90% correct and 10% incorrect candidates may be one controlled configuration. It must not be presented as an estimate of real-world error prevalence.
+- Use fixed recorded seeds where applicable, repeated trials, warmups where appropriate, identical workloads for paired comparisons, a documented timeout policy, controlled configurations, a recorded software and hardware environment, and raw measurement storage.
+- The benchmark must not be tuned against the held-out evaluation set.
+- Every reported numerical claim needs traceable experimental evidence.
+- If exact bit-for-bit reproduction is not guaranteed, document that limitation.
+
+Dataset versions, seeds, sample sizes, and observations do not exist yet.
+
+## What this phase does not contain
+
+- No protocol has been executed.
+- No baseline has been run.
+- No sample size, rate, duration, or statistical result is available.
+- No source has been reviewed. A novelty claim waits on the literature review required by section 16.
