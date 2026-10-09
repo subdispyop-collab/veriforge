@@ -2,12 +2,12 @@
 
 Controlling specification §17. Every important claim maps to evidence with an explicit status. Do not promote a claim without supporting evidence.
 
-Software version: Phase 10 measurement rows use `0.10.0`; Phase 11 review rows note `0.11.0` documentation.  
+Software version: Phase 10 measurement rows use `0.10.0`; Phase 11 review rows note `0.11.0` documentation; Phase 12 release candidate is `1.0.0rc1`.  
 Dataset: `datasets/held_out/` version `0.5.0` unless noted.  
 Held-out report fingerprint: `1b5a4a762b6485eca8668cc6e7dba93cd829246479cbeee00caf977c8fea5464`.  
 Statuses used: `PROPOSED` · `IMPLEMENTED` · `TESTED` · `EXPERIMENTALLY_SUPPORTED` · `INDEPENDENTLY_REVIEWED` · `NOT_SUPPORTED` · `UNRESOLVED` · `UNAVAILABLE`
 
-Phase 11 rule: **do not strengthen C2/P1/H1–H3/N\* beyond the warm-host Phase 10 ledger**. Design rows may become `INDEPENDENTLY_REVIEWED` after adversarial review. See `docs/INDEPENDENT_REVIEW.md`.
+Phase 11/12 rule: **do not strengthen C2/P1/H1–H3/N\* beyond the warm-host Phase 10 ledger**. Design rows may become `INDEPENDENTLY_REVIEWED` after adversarial review. Phase 12 does not invent measurements. See `docs/INDEPENDENT_REVIEW.md`, `docs/RELEASE_CHECKLIST.md`, `docs/FINAL_RESEARCH_REPORT.md`.
 
 ---
 
@@ -68,9 +68,18 @@ Phase 11 rule: **do not strengthen C2/P1/H1–H3/N\* beyond the warm-host Phase 
 | R3 | Held-out n=8 supports population-level inference | performance / correctness | held-out metadata + report limitations | NOT_SUPPORTED | Seed partition only |
 | R4 | Warm-host pytest pass counts prove implementation correctness or novelty | correctness / novelty | Phase 10 warm-host 359 passed | NOT_SUPPORTED | Suite evidence ≠ proof / novelty |
 
+## Phase 12 release attestation
+
+| ID | Claim | Type | Supporting evidence | Status | Limitations |
+| --- | --- | --- | --- | --- | --- |
+| Rel1 | Required unit/property/regression suite passes on warm host @ `6848fd4` | correctness / release | Warm-host pytest **359 passed / 0 failed / 0 skipped** | TESTED | Authoring-host pytest unavailable without PyPI egress |
+| Rel2 | Clean installation works on Phase 12 authoring host | release | `pip install -e ".[dev]"` SSL EOF to pypi.org | UNAVAILABLE / failed | Egress allowlist required; do not claim `1.0.0` DoD complete |
+| Rel3 | Held-out evaluation reproducible via documented command | release | Command in README / RELEASE_CHECKLIST; prior warm-host run; Phase 12 local attempt unavailable | TESTED (prior) / UNAVAILABLE (this host) | Fresh SMT re-run needs Z3 |
+
 ## How to update
 
 1. Run `python3 scripts/run_held_out_evaluation.py` on a host with `z3-solver` installed.  
 2. Commit/update `experiments/reports/phase10-held-out-evaluation.json` and `.md`.  
 3. Promote C2/P1/H1–H3 only to match the report’s actual wording; never invent counts.  
 4. Phase 11 review (`docs/INDEPENDENT_REVIEW.md`) records adversarial findings; do not use review to invent stronger experimental claims than the report supports.
+5. Phase 12 release docs must keep §20 criterion 14 honest until clean install is re-attested.

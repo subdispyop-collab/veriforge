@@ -1,0 +1,36 @@
+{
+  "attempt_id": "4a10b58f-f4fe-49b2-aa7f-37d00fa261d0",
+  "baseline_runs": [],
+  "configuration_fingerprint": "9fd1c973fc17023fa44e783f25b5928cc56d89a2a6e30ffe6331fb374df401ce",
+  "created_at_utc": "2026-10-09T20:15:29Z",
+  "dataset_version": "0.5.0",
+  "dependency_available": false,
+  "dependency_blocker": "z3 import failed: No module named 'z3'",
+  "hypothesis_status": {
+    "H1_verification_detects_incorrect": "unavailable \u2014 no held-out SMT runs",
+    "H2_verification_introduces_overhead": "unavailable \u2014 no held-out SMT runs",
+    "H3_varies_by_complexity_and_category": "unavailable \u2014 no held-out SMT runs"
+  },
+  "is_research_conclusion_attempt": true,
+  "latency_separation": {
+    "by_baseline": []
+  },
+  "limitations": [
+    "Runtime dependency blocker on this host: z3 import failed: No module named 'z3'",
+    "Held-out sample size is small (seed partition); do not treat rates as population estimates.",
+    "Exact bit-for-bit reproduction of solver timings is not guaranteed.",
+    "Baseline external_tool remains not_selected.",
+    "No measurements were fabricated."
+  ],
+  "novelty_claim": "No novelty claim. Literature review situates VERIFORGE among established translation-validation / equivalence-checking methods; confirmed novel research findings are not established.",
+  "protocol_id": "veriforge-phase10-held-out-evaluation",
+  "protocol_version": "1.0.0",
+  "random_seed": 20261009,
+  "software_version": "0.10.0",
+  "unavailable_baselines": [
+    "baseline.original_no_optimization: dependency blocker \u2014 z3 import failed: No module named 'z3'",
+    "baseline.rule_based_without_smt: dependency blocker \u2014 z3 import failed: No module named 'z3'",
+    "baseline.verification_enabled: dependency blocker \u2014 z3 import failed: No module named 'z3'",
+    "baseline.testing_only_validation: dependency blocker \u2014 z3 import failed: No module named 'z3'"
+  ]
+}

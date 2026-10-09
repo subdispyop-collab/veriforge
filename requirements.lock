@@ -1,4 +1,4 @@
-# Locked pins for VERIFORGE Phase 10 (Python 3.11+/3.12).
+# Locked pins for VERIFORGE Phase 12 RC (Python 3.11+/3.12).
 # Install: python3 -m pip install -e ".[dev]"
 # Runtime: z3-solver, streamlit, plotly, pandas (and their transitive deps).
 # Dev: pytest, hypothesis.
@@ -6,8 +6,9 @@
 # Dependency review uses these selected pins (see docs/SECURITY.md).
 # Host note: HTTPS to pypi.org has been blocked (SSLEOFError) on several
 # agent VMs. Direct pins below are the intended versions; transitive pins
-# for streamlit/plotly/pandas were NOT always re-resolved. Phase 10 held-out
-# evaluation requires z3-solver; if install fails, measurements are unavailable.
+# for streamlit/plotly/pandas were NOT always re-resolved. Phase 12 clean
+# install on the authoring host failed for this reason; held-out evaluation
+# requires z3-solver; if install fails, measurements are unavailable.
 hypothesis==6.168.5
 iniconfig==2.3.1
 packaging==24.0

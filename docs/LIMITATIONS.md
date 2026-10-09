@@ -2,14 +2,15 @@
 
 ## Current limitations
 
-Phases 1–11 (through independent review) are implemented at the code/docs level. Phase 12 is not started.
+Phases 1–12 are implemented. Version **`1.0.0rc1`**. §20 Definition of Done is **not fully met** (clean install failed on the Phase 12 authoring host due to PyPI egress). The project is **not** labeled fully complete / `1.0.0`.
 
 Consequences:
 
 - The Streamlit interface (Phase 8) presents engines honestly: UNKNOWN/timeout are never labeled equivalent; charts require completed-run measurements; missing capabilities show unavailable states. It does not invent research findings.
 - Phase 9 documents the threat model and §15 controls in `docs/SECURITY.md`. **VERIFORGE does not claim resistance to every attack.**
 - Phase 10 literature review (`docs/LITERATURE_REVIEW.md`) uses real sources and makes **no novelty claim**.
-- Phase 11 independent review (`docs/INDEPENDENT_REVIEW.md`) does **not** certify release readiness and does **not** strengthen C2/P1/H\* beyond sample-limited ledger statuses.
+- Phase 11 independent review (`docs/INDEPENDENT_REVIEW.md`) does **not** strengthen C2/P1/H\* beyond sample-limited ledger statuses.
+- Phase 12 release checklist / final report: `docs/RELEASE_CHECKLIST.md`, `docs/FINAL_RESEARCH_REPORT.md`.
 - Held-out evaluation harness exists (`veriforge/evaluation_engine.py`). Actual Phase 10 held-out numbers are in `experiments/reports/phase10-held-out-evaluation.md` (warm host, seed `20261009`, n=8). On hosts without installable `z3-solver`, measurements remain **unavailable** and must be labeled as such. Do not invent rates or timings. Small-n sample statuses are not population estimates.
 - Baselines 1–4 are implemented in the harness; baseline 5 (external tool) remains not selected.
 - Metric unit tests and benchmark-engine validation runs may use development/fixture data. Those numbers are not scientific findings unless a held-out report says otherwise with traceable raw observations.
@@ -19,7 +20,7 @@ Consequences:
 - An artificial 90/10 correct/incorrect mix may appear as a controlled configuration only. It is not real-world prevalence.
 - Passing Hypothesis property tests and mutation campaigns is not a mathematical proof of equivalence.
 - The held-out seed partition is small (8 cases). Even successful runs are not population estimates; related generated variants must not be treated as independent observations.
-- Definition of done (section 20) is not fully met. Independent review (Phase 11) is done; release (Phase 12) remains. The project is not complete.
+- Warm-host suite evidence for release: **359 passed / 0 failed / 0 skipped** at `6848fd4`. Local pytest on egress-blocked hosts remains unavailable.
 - Residual TCB risk: correlated encoder/evaluator error can yield false EQUIVALENT_WITHIN_MODEL; see `docs/FORMAL_MODEL.md` and ledger R1/R2.
 - Signed interpretation for Mode B is intentionally unused. If later operators need signedness, that is a new decision.
 - Division, remainder, bitwise ops, shifts, comparisons, Booleans, and casts remain unsupported and rejected.

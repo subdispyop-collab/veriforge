@@ -1,6 +1,6 @@
 # Architecture
 
-Status: Phases 1–11 are implemented (through independent review). Phase 12 remains planned only.
+Status: Phases 1–12 are implemented. Version `1.0.0rc1` (release candidate). §20 DoD not fully met on egress-blocked hosts — see `docs/RELEASE_CHECKLIST.md`.
 
 ## Implemented
 
@@ -20,9 +20,10 @@ Status: Phases 1–11 are implemented (through independent review). Phase 12 rem
 | Security | Classified errors, secret-safe messages, controlled exports, threat model docs. | Implemented: `veriforge/security.py`, `docs/SECURITY.md` |
 | Research evaluation | Held-out baselines, literature review, evidence ledger. | Implemented: `veriforge/evaluation_engine.py`, `docs/LITERATURE_REVIEW.md`, `docs/EVIDENCE_LEDGER.md` |
 | Independent review | Adversarial review of semantics, TCB, counterexamples, design, claims. | Implemented: `docs/INDEPENDENT_REVIEW.md`; TCB in `docs/FORMAL_MODEL.md` / `docs/SECURITY.md` |
+| Release | §20 checklist + §22 final research report from actual behavior. | Implemented: `docs/RELEASE_CHECKLIST.md`, `docs/FINAL_RESEARCH_REPORT.md` |
 | Typed models / exceptions | Phase 1–10 records including audit and integrity types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
 
-Package layout present after Phase 11:
+Package layout present after Phase 12:
 
 ```
 veriforge/

@@ -1,0 +1,21 @@
+{
+  "baseline_ids": [
+    "baseline.original_no_optimization",
+    "baseline.rule_based_without_smt",
+    "baseline.verification_enabled",
+    "baseline.testing_only_validation"
+  ],
+  "dataset_partition": "held_out",
+  "dataset_version": "0.5.0",
+  "dependency_blocker": "z3 import failed: No module named 'z3'",
+  "execute_held_out_evaluation": true,
+  "execution_iterations": 50,
+  "host_platform_summary": "Linux-6.12.94+-x86_64-with-glibc2.39",
+  "notes": "scripts/run_held_out_evaluation.py \u2014 unavailable path (dependencies could not be imported)",
+  "protocol_id": "veriforge-phase10-held-out-evaluation",
+  "protocol_version": "1.0.0",
+  "random_seed": 20261009,
+  "software_version": "0.10.0",
+  "solver_timeout_seconds": 5.0,
+  "trials_per_case": 1
+}

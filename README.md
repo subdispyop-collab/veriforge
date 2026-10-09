@@ -2,9 +2,11 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 11 — Independent review (`docs/INDEPENDENT_REVIEW.md`).
+**Version:** `1.0.0rc1` (release candidate).  
+**Phase:** 12 — Release (final). §20 Definition of Done is **not fully met** on egress-blocked hosts; see `docs/RELEASE_CHECKLIST.md`.  
+**Final report:** `docs/FINAL_RESEARCH_REPORT.md`.
 
-Phase 12 is not implemented. Held-out warm-host measurements are in `experiments/reports/`; on egress-blocked hosts a local re-run may be **unavailable** (never fabricate). VERIFORGE does **not** claim a novel formal method; see `docs/LITERATURE_REVIEW.md`. VERIFORGE does **not** claim resistance to every attack; see `docs/SECURITY.md`. Sample-limited H1/H2 support is **not** a general proof; see `docs/EVIDENCE_LEDGER.md`.
+Held-out warm-host measurements are in `experiments/reports/phase10-held-out-evaluation.*`. On egress-blocked hosts a local re-run may be **unavailable** (never fabricate). VERIFORGE does **not** claim a novel formal method; see `docs/LITERATURE_REVIEW.md`. VERIFORGE does **not** claim resistance to every attack; see `docs/SECURITY.md`. Sample-limited H1/H2 support is **not** a general proof; see `docs/EVIDENCE_LEDGER.md`.
 
 ## Requirements
 
@@ -50,6 +52,17 @@ Application logic stays in engine modules and `veriforge/ui/actions.py` / `prese
 ```bash
 python3 -m pytest
 ```
+
+Warm-host evidence used for release (§20 criterion 8): **359 passed, 0 failed, 0 skipped** on commit `6848fd4`. Authoring hosts without PyPI egress cannot re-run the suite until dependencies install.
+
+## Reproduce the saved held-out experiment
+
+```bash
+python3 scripts/run_held_out_evaluation.py --seed 20261009 --timeout 5.0 \
+  --execution-iterations 50 --trials 1
+```
+
+Prior successful warm-host fingerprint: `1b5a4a762b6485eca8668cc6e7dba93cd829246479cbeee00caf977c8fea5464`. Release docs: `docs/RELEASE_CHECKLIST.md`, `docs/FINAL_RESEARCH_REPORT.md`.
 
 ## Semantic modes
 
