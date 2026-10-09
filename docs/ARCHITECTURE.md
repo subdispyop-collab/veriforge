@@ -1,6 +1,6 @@
 # Architecture
 
-Status: Phases 1–6 are implemented (semantic foundation through benchmark engine). Later-phase components remain planned only.
+Status: Phases 1–7 are implemented (semantic foundation through audit/storage). Later-phase components remain planned only.
 
 ## Implemented
 
@@ -15,9 +15,10 @@ Status: Phases 1–6 are implemented (semantic foundation through benchmark engi
 | Datasets | Versioned development / held-out cases, §9.4 metadata, near-duplicate leakage controls, controlled-mix labeling. | Implemented: `veriforge/dataset_engine.py`, `datasets/` |
 | Experiments | Run identifiers, configuration fingerprints, baseline catalog, raw observation persistence, metric calculations from stored observations. | Implemented: `veriforge/experiment_engine.py`, `veriforge/storage/` |
 | Benchmarks | Separate §10 timings, repeated trials, warmups, timeout/environment records, raw saves, medians/variability, reproduction. | Implemented: `veriforge/benchmark_engine.py` |
-| Typed models / exceptions | Phase 1–6 records including dataset, experiment, metric, and benchmark types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
+| Audit / storage deepening | Run history, §13 optimization-run records, JSON/CSV export with result links, secret redaction, replay from recorded configuration, integrity checks, raw vs derived separation. | Implemented: `veriforge/audit_engine.py`, `veriforge/storage/repositories.py`, `veriforge/storage/migrations/` |
+| Typed models / exceptions | Phase 1–7 records including audit and integrity types. | Implemented: `veriforge/models.py`, `veriforge/exceptions.py` |
 
-Package layout present after Phase 6:
+Package layout present after Phase 7:
 
 ```
 veriforge/
@@ -35,9 +36,12 @@ veriforge/
     dataset_engine.py
     experiment_engine.py
     benchmark_engine.py
+    audit_engine.py
     storage/
         __init__.py
         database.py
+        repositories.py
+        migrations/
 datasets/
     README.md
     development/
@@ -47,6 +51,7 @@ experiments/
     configurations/
     raw/
     reports/
+    exports/
 tests/
     unit/
     properties/
@@ -60,7 +65,7 @@ pyproject.toml
 requirements.lock
 ```
 
-Empty placeholders for unimplemented later phases (Streamlit UI) were not created. Phase 6 adds `veriforge/benchmark_engine.py`.
+Empty placeholders for unimplemented later phases (Streamlit UI) were not created.
 
 ## Verifier data flow
 
@@ -117,17 +122,25 @@ Verification states remain distinct: `EQUIVALENT_WITHIN_MODEL`, `COUNTEREXAMPLE_
 
 `verify_equivalence_timed` exposes translation vs solver wall times for the verifier path.
 
+## Audit / storage data flow (Phase 7)
+
+1. Build an `OptimizationRunRecord` from an `OptimizationResult` with all §13 fields and a configuration fingerprint.
+2. Redact secrets and unnecessary personal data before any persistence.
+3. Store the raw JSON under `experiments/raw/optimization_runs/<run_id>/`; index in SQLite via `AuditRepository`.
+4. Emit an `AuditEvent` whose `result_ref` links to that raw file.
+5. Export audit events and linked run payloads to JSON or CSV (`result_link` column/field).
+6. Replay calls `optimize` using the recorded `semantic_configuration` (not ambient defaults).
+7. Write derived summaries only under `experiments/reports/`; integrity checks refuse raw/derived collision and fingerprint tampering.
+
 ## Planned boundaries (not implemented)
 
 Logic and presentation stay separate. Streamlit is the specified interface. It calls application functions. It does not own parsing, optimization, or verification.
 
 | Boundary | Specified responsibility | Status |
 | --- | --- | --- |
-| Benchmarks | Store correctness outcomes separately from timing. Solver time and expression execution time are different measurements. | Implemented (Phase 6) |
-| Audit deepening | Export/replay and richer integrity checks beyond Phase 5 persistence. | Partial (Phase 5 store); full Phase 7 pending |
 | Interface | Six pages: expression workbench, verification explorer, fuzzing and mutation lab, benchmark lab, research dashboard, audit and reproducibility. Unavailable features show an unavailable state. No fabricated results. | Not implemented |
 
-Typed records still pending as dedicated later-phase products: `FuzzCase`, `AuditEvent`, `ResearchClaim`. Phase 6 added `BenchmarkConfiguration`, `BenchmarkMeasurement`, `BenchmarkReport`, and related timing/rate types. Phase 5 added `DatasetMetadata` / `DatasetCase`, `ExperimentRun`, `RawObservation`, and metric summary types.
+Typed records still pending as dedicated later-phase products: `FuzzCase`, `ResearchClaim`. Phase 7 added `AuditEvent` and `OptimizationRunRecord`. Phase 6 added benchmark timing types. Phase 5 added dataset/experiment/metric types.
 
 Trusted computing base assumptions for verification are written in `docs/FORMAL_MODEL.md` and summarized in `docs/LIMITATIONS.md`.
 
@@ -142,8 +155,9 @@ Out of scope until a later phase shows a need: distributed infrastructure, cloud
 - Benchmark code can mix solver latency with expression execution time if both are written into one duration field. Phase 6 stores them as separate fields and rejects §10.2 spurious speedup claims in helpers.
 - Generated cases can leak between development and held-out partitions; Phase 5 adds key checks, which must stay enforced.
 - Streamlit code can start calling the solver directly. Then limits, classification, and audit records will differ between the API and the UI.
-- Exact replay may fail because of solver or platform nondeterminism.
+- Exact replay may fail because of solver or platform nondeterminism (disclosed; audit replay restores configuration, not bit-identical timings).
 - Passing Hypothesis or mutation suites is not a proof of equivalence (documented limitation).
 - Fixture metric tests must not be mistaken for research findings.
+- Audit exports must keep linking `result_ref` / `result_link` to raw records; derived charts must not be mixed into `raw/`.
 
-Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`. The Phase 5 protocol is specified in `docs/EXPERIMENT_PROTOCOL.md`. Phase 6 benchmarking is implemented in `veriforge/benchmark_engine.py`.
+Expression meaning is specified in `docs/SEMANTICS.md`. The Phase 2 encoding is specified in `docs/FORMAL_MODEL.md`. The Phase 5 protocol is specified in `docs/EXPERIMENT_PROTOCOL.md`. Phase 6 benchmarking is implemented in `veriforge/benchmark_engine.py`. Phase 7 audit is implemented in `veriforge/audit_engine.py`.

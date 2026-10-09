@@ -1,4 +1,4 @@
-"""Typed models used by Phases 1–6: parsing through benchmarking."""
+"""Typed models used by Phases 1–7: parsing through audit/storage."""
 
 from __future__ import annotations
 
@@ -355,6 +355,8 @@ class ObservationKind(Enum):
     PARSE_OUTCOME = "parse_outcome"
     METRIC_FIXTURE = "metric_fixture"
     BENCHMARK_TIMING = "benchmark_timing"
+    OPTIMIZATION_RUN = "optimization_run"
+    AUDIT_EVENT = "audit_event"
 
 
 @dataclass(frozen=True, slots=True)
@@ -728,3 +730,132 @@ class BenchmarkReport:
     )
     computed_from: str = "benchmark_measurements"
     is_research_conclusion: bool = False
+
+
+# ---------------------------------------------------------------------------
+# Phase 7 — audit and storage
+# ---------------------------------------------------------------------------
+
+
+class AuditEventKind(Enum):
+    """Kinds of auditable events retained for reproducibility (§12 / §13)."""
+
+    OPTIMIZATION_RUN_RECORDED = "optimization_run_recorded"
+    EXPERIMENT_RUN_RECORDED = "experiment_run_recorded"
+    OBSERVATION_RECORDED = "observation_recorded"
+    EXPORT_CREATED = "export_created"
+    REPLAY_EXECUTED = "replay_executed"
+    INTEGRITY_CHECK = "integrity_check"
+    ERROR_RECORDED = "error_recorded"
+
+
+class ExportFormat(Enum):
+    """Supported audit export formats (§12)."""
+
+    JSON = "json"
+    CSV = "csv"
+
+
+class IntegrityStatus(Enum):
+    """Outcome of a storage integrity check."""
+
+    PASSED = "passed"
+    FAILED = "failed"
+
+
+@dataclass(frozen=True, slots=True)
+class AuditEvent:
+    """One audit event that can be exported and linked to a result (§12)."""
+
+    event_id: str
+    event_kind: AuditEventKind
+    created_at_utc: str
+    run_id: str | None
+    configuration_fingerprint: str | None
+    result_ref: str | None
+    software_version: str
+    detail: Mapping[str, Any]
+    message: str | None = None
+
+    def __post_init__(self) -> None:
+        if not self.event_id:
+            raise ValueError("event_id must be non-empty")
+
+
+@dataclass(frozen=True, slots=True)
+class OptimizationRunRecord:
+    """Persisted optimization run with fields required by §13.
+
+    Raw records of this type are stored under the filesystem raw tree.
+    Derived charts and summaries must not be written into the same path.
+    """
+
+    run_id: str
+    created_at_utc: str
+    software_version: str
+    configuration_fingerprint: str
+    original_input: str
+    normalized_representation: str
+    semantic_mode: SemanticMode
+    bit_width: int | None
+    semantic_configuration: Mapping[str, Any]
+    applicable_rule_ids: tuple[str, ...]
+    accepted_transformations: tuple[Mapping[str, Any], ...]
+    rejected_transformations: tuple[Mapping[str, Any], ...]
+    verification_query_artifacts: tuple[Mapping[str, Any], ...]
+    solver_statuses: tuple[str, ...]
+    counterexample_records: tuple[Mapping[str, Any], ...]
+    timing_measurements: Mapping[str, float | None]
+    error_information: str | None
+    configuration: Mapping[str, Any]
+    correctness_policy: str
+    accepted_source: str
+    content_sha256: str
+
+    def __post_init__(self) -> None:
+        if not self.run_id:
+            raise ValueError("run_id must be non-empty")
+        if not self.configuration_fingerprint:
+            raise ValueError("configuration_fingerprint must be non-empty")
+        if not self.content_sha256:
+            raise ValueError("content_sha256 must be non-empty")
+
+
+@dataclass(frozen=True, slots=True)
+class IntegrityIssue:
+    """One integrity problem found during storage verification."""
+
+    code: str
+    path_or_id: str
+    detail: str
+
+
+@dataclass(frozen=True, slots=True)
+class IntegrityReport:
+    """Result of verifying raw records, fingerprints, and path separation."""
+
+    status: IntegrityStatus
+    checked_at_utc: str
+    runs_checked: int
+    observations_checked: int
+    audit_events_checked: int
+    issues: tuple[IntegrityIssue, ...]
+    raw_root: str
+    derived_root: str
+
+    @property
+    def passed(self) -> bool:
+        return self.status is IntegrityStatus.PASSED
+
+
+@dataclass(frozen=True, slots=True)
+class AuditExportResult:
+    """Metadata for an audit export that links records to results."""
+
+    export_id: str
+    format: ExportFormat
+    created_at_utc: str
+    filesystem_path: str
+    run_ids: tuple[str, ...]
+    record_count: int
+    configuration_fingerprints: tuple[str, ...]

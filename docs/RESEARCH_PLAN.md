@@ -94,6 +94,7 @@ These constraints are part of the specification. They are recorded so later phas
 - Every reported numerical claim needs traceable experimental evidence.
 - If exact bit-for-bit reproduction is not guaranteed, document that limitation.
 - Every experiment run has a unique `run_id` and a `configuration_fingerprint`; raw observations are stored on the filesystem and indexed in SQLite.
+- Phase 7 adds auditable optimization-run records (§13), export/replay, and integrity checks; raw records remain separate from derived summaries.
 
 Dataset version for the Phase 5 seed partitions: `0.5.0`. Random seed: `20261009`. Held-out evaluation: **not run**.
 
@@ -103,4 +104,4 @@ Dataset version for the Phase 5 seed partitions: `0.5.0`. Random seed: `20261009
 - No baseline measurement campaign.
 - No sample size, rate, duration, or statistical *research* result.
 - No source has been reviewed. A novelty claim waits on the literature review required by section 16.
-- No Streamlit UI. Phase 6 benchmark engine exists for development-partition validation only; no held-out research evaluation.
+- No Streamlit UI. Phase 6 benchmark engine exists for development-partition validation only; no held-out research evaluation. Phase 7 audit storage does not invent research findings.

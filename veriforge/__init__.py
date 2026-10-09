@@ -1,5 +1,16 @@
-"""VERIFORGE: semantics, verification, optimizer, adversarial validation, experiments, benchmarks."""
+"""VERIFORGE: semantics, verification, optimizer, experiments, benchmarks, audit."""
 
+from veriforge.audit_engine import (
+    AUDIT_PROTOCOL_VERSION,
+    build_optimization_run_record,
+    export_audit_records,
+    list_run_history,
+    record_optimization_run,
+    redact_secrets,
+    replay_optimization_from_record,
+    save_derived_summary,
+    verify_storage_integrity,
+)
 from veriforge.benchmark_engine import (
     BENCHMARK_PROTOCOL_VERSION,
     assert_no_spurious_execution_speedup_claim,
@@ -23,6 +34,7 @@ from veriforge.dataset_engine import (
     near_duplicate_key,
 )
 from veriforge.exceptions import (
+    AuditError,
     BenchmarkError,
     DomainError,
     EvaluationError,
@@ -58,6 +70,9 @@ from veriforge.fuzzer_suite import (
 )
 from veriforge.models import (
     ARTIFICIAL_90_10_MIX,
+    AuditEvent,
+    AuditEventKind,
+    AuditExportResult,
     BaselineDefinition,
     BaselineId,
     BenchmarkConfiguration,
@@ -80,8 +95,12 @@ from veriforge.models import (
     EnvironmentRecord,
     ExpectedOutcome,
     ExperimentRun,
+    ExportFormat,
     Expression,
     ExpressionInput,
+    IntegrityIssue,
+    IntegrityReport,
+    IntegrityStatus,
     IntLiteral,
     MetricSummary,
     MutationAnalysisResult,
@@ -90,6 +109,7 @@ from veriforge.models import (
     ObservationKind,
     OptimizationResult,
     OptimizationRule,
+    OptimizationRunRecord,
     RawObservation,
     SemanticMode,
     TimeoutPolicy,
@@ -117,6 +137,7 @@ from veriforge.optimizer_engine import (
 )
 from veriforge.parser_engine import parse_expression
 from veriforge.reference_evaluator import evaluate
+from veriforge.storage import AuditRepository, ExperimentStore
 from veriforge.verifier_engine import (
     TimedVerificationResult,
     classify_check_result,
@@ -128,6 +149,12 @@ from veriforge.version import __version__
 
 __all__ = [
     "ARTIFICIAL_90_10_MIX",
+    "AUDIT_PROTOCOL_VERSION",
+    "AuditError",
+    "AuditEvent",
+    "AuditEventKind",
+    "AuditExportResult",
+    "AuditRepository",
     "BENCHMARK_PROTOCOL_VERSION",
     "BaselineDefinition",
     "BaselineId",
@@ -155,8 +182,13 @@ __all__ = [
     "EvaluationError",
     "ExpectedOutcome",
     "ExperimentRun",
+    "ExperimentStore",
+    "ExportFormat",
     "Expression",
     "ExpressionInput",
+    "IntegrityIssue",
+    "IntegrityReport",
+    "IntegrityStatus",
     "IntLiteral",
     "InvalidLiteralError",
     "MetricSummary",
@@ -167,6 +199,7 @@ __all__ = [
     "ObservationKind",
     "OptimizationResult",
     "OptimizationRule",
+    "OptimizationRunRecord",
     "OptimizerError",
     "PROTOCOL_VERSION",
     "ParseError",
@@ -206,6 +239,7 @@ __all__ = [
     "assert_no_spurious_execution_speedup_claim",
     "baseline_catalog",
     "build_case",
+    "build_optimization_run_record",
     "classify_check_result",
     "collect_environment",
     "compute_metrics_from_observations",
@@ -216,8 +250,10 @@ __all__ = [
     "default_limits",
     "default_rules",
     "evaluate",
+    "export_audit_records",
     "find_applicable_matches",
     "generate_mutations",
+    "list_run_history",
     "load_all_partitions",
     "load_benchmark_configuration",
     "load_bundle",
@@ -229,13 +265,18 @@ __all__ = [
     "optimize",
     "parse_expression",
     "rebuild_mutated",
+    "record_optimization_run",
+    "redact_secrets",
+    "replay_optimization_from_record",
     "rerun_benchmark_from_saved_configuration",
     "rule_by_id",
     "run_benchmark",
     "save_benchmark_configuration",
+    "save_derived_summary",
     "summarize_measurements",
     "translate_to_z3",
     "try_apply_rule",
     "verify_equivalence",
     "verify_equivalence_timed",
+    "verify_storage_integrity",
 ]

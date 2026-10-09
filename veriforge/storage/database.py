@@ -1,6 +1,8 @@
 """SQLite store for experiment run metadata; raw payloads stay on the filesystem.
 
-Phase 5 uses a simple schema. Full audit export/replay deepens in Phase 7.
+Phase 5 introduced the base schema. Phase 7 deepens audit export/replay via
+``veriforge.storage.repositories.AuditRepository`` and migrations in
+``veriforge.storage.migrations``.
 """
 
 from __future__ import annotations
@@ -73,6 +75,8 @@ CREATE INDEX IF NOT EXISTS idx_observation_run ON observation_index(run_id);
 def init_schema(connection: sqlite3.Connection) -> None:
     connection.executescript(SCHEMA_SQL)
     connection.commit()
+    # Phase 7 tables are applied by AuditRepository; keep ExperimentStore
+    # usable alone for Phase 5/6 callers.
 
 
 def _run_to_row(run: ExperimentRun) -> tuple[Any, ...]:

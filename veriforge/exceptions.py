@@ -51,3 +51,7 @@ class OptimizerError(VeriforgeError):
 
 class BenchmarkError(VeriforgeError):
     """Benchmark configuration, measurement, or reproduction failure."""
+
+
+class AuditError(VeriforgeError):
+    """Audit recording, export, replay, or integrity failure."""

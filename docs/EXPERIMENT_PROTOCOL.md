@@ -59,7 +59,7 @@ Every experiment run records:
 - Raw observations on the filesystem (`experiments/raw/<run_id>/`)
 - Run metadata index in SQLite (`experiments/experiment_runs.sqlite3`)
 
-Phase 5 validates this machinery. Full audit export/replay deepens in Phase 7. Phase 6 adds `veriforge.benchmark_engine` (protocol id `veriforge-phase6-benchmark-protocol`, version `0.6.0`) for separate timing of parse, optimize, candidate generation, translate, solve, execute, with warmups, seeds, timeout policy, environment records, medians/variability, and reproduction from saved configuration. Benchmark engine runs on the development partition are **not** held-out research conclusions.
+Phase 5 validates this machinery. Phase 7 deepens audit export/replay (`veriforge.audit_engine`, protocol id `veriforge-phase7-audit-protocol`, version `0.7.0`): §13 optimization-run fields, JSON/CSV export with result links, secret redaction, integrity checks, and raw (`experiments/raw/`) vs derived (`experiments/reports/`) separation. Phase 6 adds `veriforge.benchmark_engine` (protocol id `veriforge-phase6-benchmark-protocol`, version `0.6.0`) for separate timing of parse, optimize, candidate generation, translate, solve, execute, with warmups, seeds, timeout policy, environment records, medians/variability, and reproduction from saved configuration. Benchmark engine runs on the development partition are **not** held-out research conclusions.
 
 ## Metric calculations
 
@@ -72,13 +72,14 @@ Metrics are computed only from stored raw observations (`compute_metrics_from_ob
 
 Known-case unit tests validate the arithmetic of these calculations. Those fixture numbers are not research findings.
 
-## Explicit non-goals for Phase 5 (and Phase 6 research scope)
+## Explicit non-goals for Phase 5 (and Phase 6–7 research scope)
 
 - No held-out evaluation run as a research conclusion
 - No Streamlit UI
 - No invented experimental results or scientific findings
 - Phase 6 engine-validation timings are not research findings
+- Phase 7 audit exports and integrity checks do not constitute research evaluation
 
 ## Reproduction note
 
-Exact bit-for-bit reproduction of solver timing may fail because of solver, platform, or timing nondeterminism. Phase 6 records that disclosure on every `BenchmarkConfiguration` and `BenchmarkReport`. Timing nondeterminism has not been measured as a quantitative bound.
+Exact bit-for-bit reproduction of solver timing may fail because of solver, platform, or timing nondeterminism. Phase 6 records that disclosure on every `BenchmarkConfiguration` and `BenchmarkReport`. Phase 7 replay uses the recorded configuration fingerprint and semantic settings; timings may still differ. Timing nondeterminism has not been measured as a quantitative bound.

@@ -15,7 +15,9 @@ venv/
 # Runtime experiment artifacts (seed datasets under datasets/ are committed)
 experiments/experiment_runs.sqlite3
 experiments/raw/**
+experiments/exports/**
 !experiments/raw/.gitkeep
 !experiments/protocols/.gitkeep
 !experiments/configurations/.gitkeep
 !experiments/reports/.gitkeep
+!experiments/exports/.gitkeep

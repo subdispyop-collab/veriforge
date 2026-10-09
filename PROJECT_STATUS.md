@@ -1,41 +1,45 @@
 # PROJECT_STATUS
 
 Status date: 2026-10-09  
-Current phase: Phase 6 (benchmark engine) — implemented  
-Phases 7–12: not started
+Current phase: Phase 7 (audit and storage) — implemented  
+Phases 8–12: not started
 
 This file records what is in the git checkout and the plan required by the controlling specification. The controlling specification was read and was not modified.
 
 ## Current state
 
-Phase 6 is present on top of the preserved Phases 1–5: a benchmark engine that measures parsing, optimization, candidate generation, AST-to-Z3 translation, solver time, end-to-end verification, and original vs optimized execution as **separate** fields; repeated trials with warmup and timeout policy; environment recording; raw observation persistence; medians and variability in reports; reproduction from a saved configuration with nondeterminism disclosure. Development datasets are used for **engine validation only**. **No held-out final evaluation was run as a research conclusion.** No Streamlit UI. No inventing of scientific benchmark conclusions.
+Phase 7 is present on top of the preserved Phases 1–6: run history; configuration fingerprints; audit export to JSON/CSV with result links; optimization-run records storing §13 fields; secret/personal-data redaction; replay from recorded configuration; storage integrity checks; raw records kept separate from derived summaries (`experiments/raw/` vs `experiments/reports/`). SQLite + filesystem via `veriforge/audit_engine.py` and `veriforge/storage/`. **No Streamlit UI. Phase 8 not started. No held-out final evaluation as a research conclusion.**
 
-Observed during Phase 6 work:
+Observed during Phase 7 work:
 
-- Base branch: `cursor/phase-5-experiments-0204`.
-- Work branch: `cursor/phase-6-benchmarks-1735`.
+- Base branch: `cursor/phase-6-benchmarks-1735`.
+- Work branch: `cursor/phase-7-audit-storage-67ba`.
 - Host interpreter: Python 3.12.3 at `/usr/bin/python3`.
-- Project pin: `requires-python = ">=3.11"`; runtime dependency `z3-solver==5.1.0.0`; version `0.6.0`.
+- Project pin: `requires-python = ">=3.11"`; runtime dependency `z3-solver==5.1.0.0`; version `0.7.0`.
 - Test command intended: `python3 -m pytest -v` after `python3 -m pip install -e ".[dev]"`.
-- Dependency install on this Phase 6 host was blocked by restricted egress to `pypi.org` / `files.pythonhosted.org` (TLS EOF). Explicit coordinator-requested retry still failed the same way. See Current test status. Acceptance does **not** flip to fully met without real pytest counts.
+- On this Phase 7 host, PyPI egress remains blocked (`SSLEOFError` to `pypi.org`). `pip install -e . --no-deps` succeeds for the editable package, but `pytest` / `z3` / `hypothesis` are not present in site-packages. Egress allowlist additions for `pypi.org` and `files.pythonhosted.org` were requested. See Current test status.
 
 ## Implemented features
 
-Phase 1–5 (preserved): see prior `PROJECT_STATUS` history and `CHANGELOG.md`.
+Phase 1–6 (preserved): see prior `PROJECT_STATUS` history and `CHANGELOG.md`.
 
-Phase 6:
+Phase 6 warm-host evidence (recorded for continuity; not re-run on this Phase 7 VM):
 
-- `veriforge/benchmark_engine.py`: separated §10 timings; warmups; repeated trials; timeout policy; environment record; raw saves; medians/variability; reproduction from saved configuration; §10.2 speedup-claim guard.
-- `verify_equivalence_timed` in `veriforge/verifier_engine.py` exposing translation vs solver times separately.
-- Models: `BenchmarkConfiguration`, `BenchmarkMeasurement`, `BenchmarkReport`, `TimingStatistic`, `BenchmarkRateSummary`, `EnvironmentRecord`, `WarmupPolicy`, `TimeoutPolicy`; `ObservationKind.BENCHMARK_TIMING`.
-- Script: `scripts/run_benchmarks.py` (development partition engine validation only).
-- Docs / status / changelog updated. Phases 1–5 preserved.
+- Agent `bc-97807782-c342-5e4d-8c5d-f29ef6070204` on a Phase 5 warm host.
+- `python3 -m pip install -e . --no-deps` then `python3 -m pytest -v` on `cursor/phase-6-benchmarks-1735` tip `e86f158`.
+- Result: **256 passed, 0 failed, 0 skipped** in 3.34s.
+
+Phase 7:
+
+- `veriforge/audit_engine.py`: §13 optimization-run records; configuration fingerprints; JSON/CSV export with `result_link`; secret redaction; replay from recorded configuration; integrity verification; derived-summary helper (writes under `reports/`, never `raw/`).
+- `veriforge/storage/repositories.py` + `veriforge/storage/migrations/`: `AuditRepository`, Phase 7 SQLite tables (`optimization_runs`, `audit_events`, `schema_migrations`).
+- Models: `AuditEvent`, `AuditEventKind`, `OptimizationRunRecord`, `ExportFormat`, `IntegrityReport`, `IntegrityIssue`, `IntegrityStatus`, `AuditExportResult`; `ObservationKind.OPTIMIZATION_RUN` / `AUDIT_EVENT`.
+- Docs / status / changelog updated. Phases 1–6 preserved.
 
 ## Unimplemented features
 
-Everything from Phase 7 onward, including:
+Everything from Phase 8 onward, including:
 
-- Full audit export/replay deepening (Phase 7).
 - The six specified Streamlit pages (Phase 8).
 - Full security review, threat model, literature review, and research evidence ledger.
 - Held-out evaluation execution (Phase 10).
@@ -43,22 +47,34 @@ Everything from Phase 7 onward, including:
 
 ## Known defects
 
-Known gaps that are not product defects of implemented Phase 6 code:
+Known gaps that are not product defects of implemented Phase 7 code:
 
 - No continuous integration configuration exists.
-- Static type checking and Ruff were not run as a project gate in Phase 6.
+- Static type checking and Ruff were not run as a project gate in Phase 7.
 - Baseline 5 (external tool) remains not selected.
-- On this Phase 6 VM, pip install of `z3-solver` / pytest / hypothesis failed due to egress allowlist (not a VERIFORGE code defect).
+- On this Phase 7 VM, `pytest` / `z3-solver` / `hypothesis` are unavailable without PyPI egress (not a VERIFORGE code defect).
 - Later-phase modules do not exist; their defects cannot be assessed.
 
 ## Current test status
 
-Commands attempted (initial + explicit retry on `cursor/phase-6-benchmarks-1735`):
+### Phase 6 warm-host suite (historical evidence for prior phase)
+
+| Metric | Count |
+| --- | --- |
+| Passed | 256 |
+| Failed | 0 |
+| Skipped | 0 |
+
+Command: `python3 -m pytest -v` on warm host after `pip install -e . --no-deps` (branch `cursor/phase-6-benchmarks-1735`).
+
+### Phase 7 on this host
+
+Commands attempted:
 
 ```text
-python3 -m pip install -e ".[dev]"
-python3 -m pip install --no-build-isolation -e ".[dev]"
-python3 -m pytest -v   # not reached
+python3 -m pip install -e ".[dev]"   # blocked: SSLEOFError to pypi.org
+python3 -m pip install -e . --no-deps  # succeeded (editable 0.7.0)
+python3 -c "import pytest,z3,hypothesis"  # ModuleNotFoundError: pytest
 ```
 
 | Metric | Count |
@@ -67,7 +83,7 @@ python3 -m pytest -v   # not reached
 | Failed | unavailable |
 | Skipped | unavailable |
 
-Blocker: restricted network egress still prevents HTTPS to `pypi.org` and `files.pythonhosted.org` (`SSL_ERROR_SYSCALL` / SSLEOFError). Those domains are not on the effective allowlist. `z3-solver`, `pytest`, and `hypothesis` are not present in the default image. Egress allowlist additions were requested again. Phase 5 previously recorded **245 passed** on a host where deps were available; that is not a Phase 6 result. `tests/unit/test_benchmark_engine.py` has not been executed on this host.
+Blocker: restricted network egress prevents HTTPS to `pypi.org` and `files.pythonhosted.org`. Those domains are not on the effective allowlist. No pytest pass/fail counts were invented for Phase 7 on this host. Suite added: `tests/unit/test_audit_engine.py`.
 
 ## Decisions requiring later research
 
@@ -77,26 +93,26 @@ Still open for later phases: external baseline tool; Streamlit/pandas/Plotly sta
 
 ## Phase-by-phase implementation plan
 
-### Phases 0–5
+### Phases 0–6
 
-Status: satisfied (see `CHANGELOG.md`).
+Status: satisfied for implementation (see `CHANGELOG.md`). Phase 6 code acceptance met; Phase 6 warm-host tests **256 passed**. Phase 6 fresh-VM pytest was egress-blocked (documented).
 
-### Phase 6 — Benchmark engine
+### Phase 7 — Audit and storage
 
-Objective: measure solver and expression execution performance separately; repeated trials and timeout handling; save raw observations; test benchmark reproduction.
+Objective: run history; configuration fingerprints; exports and replay; data integrity tests.
 
 Acceptance criteria:
 
-- Store §10 measurements separately (parsing, optimization, candidate generation, translation, solver, end-to-end verification, original vs optimized execution): **met** (models + engine).
-- Timeout / UNKNOWN / completion / rejection / counterexample rates from those records: **met** (`compute_rate_summary`).
-- Trials, seeds, warmup policy, timeout policy, and environment recorded: **met** (`BenchmarkConfiguration` / `EnvironmentRecord`).
-- Reports use medians and variability; never claim execution speedup from shorter expression or faster solver alone: **met** (`TimingStatistic`, `speedup_claim_policy`, `assert_no_spurious_execution_speedup_claim`).
-- Saved benchmark can be rerun from recorded configuration; nondeterminism disclosed: **met**.
-- `benchmark_engine.py` added; Phases 1–5 preserved: **met**.
-- Development datasets for engine validation only; not final research findings: **met** (`is_research_conclusion=False`; held-out runs refused).
-- Tests run with real pass/fail recorded: **still blocked on this host by PyPI egress after retry** (see Current test status). Suite is present under `tests/unit/test_benchmark_engine.py`. Acceptance not fully met.
+- Each optimization run stores §13 fields: **met** (`OptimizationRunRecord` / `build_optimization_run_record`).
+- Each experiment has unique run id and configuration fingerprint: **met** (Phase 5 + Phase 7 run history).
+- Audit records export to JSON or CSV and link to results: **met** (`export_audit_records` + `result_link` / `result_ref`).
+- Secrets and unnecessary personal data are not stored: **met** (`redact_secrets` / integrity checks).
+- Replay uses the recorded configuration; integrity tests exist: **met** (`replay_optimization_from_record`, `verify_storage_integrity`, unit tests).
+- Raw records stay separate from derived charts/summaries: **met** (`raw/` vs `reports/`).
+- `audit_engine.py` + `storage/` extended; Phases 1–6 preserved: **met**.
+- Tests run with real pass/fail on this host: **not met on this host** (PyPI egress).
 
-### Phases 7–12
+### Phases 8–12
 
 Not started. See the controlling specification section 19.
 
@@ -107,17 +123,17 @@ Not started. See the controlling specification section 19.
 3. UNKNOWN/timeout never treated as equivalence.
 4. Mutation isolation.
 5. Dependence of observations.
-6. Reproducibility limits (timing nondeterminism disclosed in Phase 6).
+6. Reproducibility limits (timing nondeterminism disclosed in Phase 6; audit replay uses recorded configuration but timings may still differ).
 7. Dependency compatibility for Streamlit stack (later).
 8. Egress / environment builds must provide `z3-solver` for CI and agents.
 
-## Phase 6 acceptance checklist
+## Phase 7 acceptance checklist
 
-- Separated §10 timings: yes.
-- Rates from records: yes.
-- Trials/seeds/warmup/timeout/environment recorded: yes.
-- Medians + variability; no spurious execution-speedup claims: yes.
-- Reproduction from saved config + nondeterminism disclosure: yes.
-- `benchmark_engine.py` + models/scripts; Phases 1–5 preserved: yes.
-- Dev-only engine validation; no held-out research conclusion: yes.
-- Tests executed with real pass/fail on this host: **no — PyPI egress still blocked after retry**.
+- §13 optimization-run fields stored: yes.
+- Unique run id + configuration fingerprint: yes.
+- JSON/CSV export linked to results: yes.
+- Secrets / unnecessary personal data not stored: yes.
+- Replay from recorded configuration + integrity tests authored: yes.
+- Raw separate from derived: yes.
+- `audit_engine.py` + `storage/`; Phases 1–6 preserved: yes.
+- Tests executed with real pass/fail on this host: **no — PyPI egress blocked**.

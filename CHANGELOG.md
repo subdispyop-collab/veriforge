@@ -1,5 +1,17 @@
 # Changelog
 
+## Phase 7 — Audit and storage
+
+Date: 2026-10-09
+
+- Added `veriforge/audit_engine.py`: §13 optimization-run records (original input, normalized representation, semantic configuration, applicable rules, accepted/rejected transformations, verification query artifacts, solver status, counterexamples, timings, errors, run id, software/configuration versions); configuration fingerprints; run history; JSON/CSV audit export with `result_link`; secret and unnecessary personal-data redaction; replay from recorded configuration; storage integrity checks; derived summaries written under `experiments/reports/` only.
+- Extended `veriforge/storage/`: `repositories.py` (`AuditRepository`), `migrations/phase7.py` (SQLite `optimization_runs`, `audit_events`, `schema_migrations`).
+- Models: `AuditEvent`, `AuditEventKind`, `OptimizationRunRecord`, `ExportFormat`, `IntegrityReport`, `IntegrityIssue`, `IntegrityStatus`, `AuditExportResult`; `ObservationKind.OPTIMIZATION_RUN` / `AUDIT_EVENT`; `AuditError`.
+- Tests: `tests/unit/test_audit_engine.py` (integrity, export, redaction, replay, raw/derived separation).
+- Version `0.7.0`. Docs / `PROJECT_STATUS.md` / `README.md` updated. Phases 1–6 preserved. No Streamlit UI. Phase 8 not started.
+- Phase 6 warm-host evidence recorded in `PROJECT_STATUS.md`: **256 passed, 0 failed, 0 skipped**.
+- Full suite execution on this Phase 7 host was blocked by PyPI egress (`SSLEOFError` to `pypi.org`); `pip install -e . --no-deps` installed the package but `pytest`/`z3`/`hypothesis` are absent. No invented pass/fail counts.
+
 ## Phase 6 — Benchmark engine
 
 Date: 2026-10-09

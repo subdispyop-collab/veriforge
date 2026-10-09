@@ -2,11 +2,11 @@
 
 ## Current limitations
 
-Phases 1–6 (semantic foundation through benchmark engine) are implemented. Phases 7–12 are not started.
+Phases 1–7 (semantic foundation through audit/storage) are implemented. Phases 8–12 are not started.
 
 Consequences:
 
-- There is no Streamlit interface, and no full Phase 7 audit export/replay beyond the Phase 5 SQLite + filesystem store (Phase 6 adds benchmark configuration snapshots beside raw runs).
+- There is no Streamlit interface (Phase 8). Phase 7 adds audit export/replay, §13 optimization-run records, integrity checks, and raw vs derived separation on top of the Phase 5 SQLite + filesystem store.
 - Held-out evaluation has **not** been run as a research conclusion. Dataset partitions exist; research results are unavailable. Phase 6 may use the development partition only for engine validation.
 - Baselines are defined, not measured. No external comparison tool is selected.
 - Metric unit tests and benchmark-engine validation runs use development/fixture data. Those numbers are not scientific findings.
@@ -48,6 +48,6 @@ These limits remain in force after implementation. They are not waived by a work
 - Mathematical integers and fixed-width bit-vectors are never silently conflated.
 - The benchmark must not be tuned against the held-out evaluation set.
 - Do not claim resistance to every attack. The threat model and the remaining limitations have to be written when security work is done. They are not written as a completed review here.
-- If bit-for-bit reproduction is not guaranteed because of solver, platform, or timing nondeterminism, that limitation has to be documented. It is already expected as a possibility. It has not been measured.
+- If bit-for-bit reproduction is not guaranteed because of solver, platform, or timing nondeterminism, that limitation has to be documented. Phase 6 discloses timing nondeterminism on every benchmark configuration/report. Phase 7 replay restores the recorded semantic configuration and rule fingerprint; wall-clock timings and near-timeout UNKNOWN/TIMEOUT outcomes may still differ and are not claimed bit-identical.
 - If a later experiment is not run, its results stay labeled unavailable. If a hypothesis is unsupported, the report says so.
 - If online research is unavailable when the literature review is attempted, the limitation and a review plan replace a pretended completed review.

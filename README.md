@@ -2,9 +2,9 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 6 — benchmark engine (separated §10 timings, repeated trials, raw saves, reproduction).
+**Current phase:** Phase 7 — audit and storage (run history, fingerprints, export/replay, integrity).
 
-Phases 7–12 (full audit/export, Streamlit UI, and related modules) are not implemented. **No held-out evaluation has been run as a research conclusion.**
+Phases 8–12 (Streamlit UI and related modules) are not implemented. **No held-out evaluation has been run as a research conclusion.**
 
 ## Requirements
 
@@ -16,6 +16,12 @@ Phases 7–12 (full audit/export, Streamlit UI, and related modules) are not imp
 
 ```bash
 python3 -m pip install -e ".[dev]"
+```
+
+If site-packages already provide `pytest`, `z3`, and `hypothesis` but PyPI is unreachable:
+
+```bash
+python3 -m pip install -e . --no-deps
 ```
 
 ## Run tests
@@ -31,6 +37,36 @@ python3 -m pytest
 
 See `docs/SEMANTICS.md` for the full contract and `docs/FORMAL_MODEL.md` for the encoded equivalence query and TCB assumptions.
 
+## Audit and storage (Phase 7)
+
+Optimization runs persist the fields required by specification §13. Audit events export to JSON or CSV and link to the results they describe. Secrets and unnecessary personal data are redacted. Replay uses the recorded configuration. Raw records stay under `experiments/raw/`; derived summaries under `experiments/reports/`.
+
+```python
+from veriforge import (
+    SemanticConfiguration,
+    SemanticMode,
+    optimize,
+    record_optimization_run,
+    export_audit_records,
+    replay_optimization_from_record,
+    verify_storage_integrity,
+    ExportFormat,
+)
+from veriforge.storage import AuditRepository
+
+cfg = SemanticConfiguration(mode=SemanticMode.MODE_A)
+result = optimize("(x + 0) * 1", cfg)
+
+with AuditRepository(root="/tmp/veriforge-audit") as repo:
+    record, event = record_optimization_run(result, repository=repo)
+    export_audit_records(
+        format=ExportFormat.JSON, run_ids=[record.run_id], repository=repo
+    )
+    replay_optimization_from_record(record, repository=repo)
+    report = verify_storage_integrity(repository=repo)
+    assert report.passed
+```
+
 ## Benchmark engine (Phase 6)
 
 Measures section-10 quantities **separately** (solver latency is not expression execution time). Reports use medians and variability. Never claims execution speedup from a shorter expression or a faster solver alone.
@@ -40,22 +76,6 @@ python3 scripts/run_benchmarks.py --case-id dev-hand-001 --trials 2 --warmup 1 \
   --save-config /tmp/veriforge-bench-config.json --json-summary /tmp/veriforge-bench-summary.json
 ```
 
-```python
-from veriforge import make_benchmark_configuration, run_benchmark
-from veriforge.benchmark_engine import load_development_cases_for_engine_validation
-from veriforge.models import DatasetPartition
-
-cases = load_development_cases_for_engine_validation()
-cfg = make_benchmark_configuration(
-    trials_per_case=2,
-    warmup_trials=1,
-    dataset_partition=DatasetPartition.DEVELOPMENT,
-    case_ids=["dev-hand-001"],
-)
-run_id, measurements, report = run_benchmark(cfg, cases, persist=False)
-assert report.is_research_conclusion is False
-```
-
 Development datasets validate the engine only. Timing nondeterminism is disclosed on every configuration and report.
 
 ## Research protocol (Phase 5, still frozen)
@@ -63,6 +83,7 @@ Development datasets validate the engine only. Timing nondeterminism is disclose
 - Preregistered plan: `docs/RESEARCH_PLAN.md` (hypotheses are not findings)
 - Frozen protocol: `docs/EXPERIMENT_PROTOCOL.md` (version `0.5.0`)
 - Benchmark protocol id: `veriforge-phase6-benchmark-protocol` (version `0.6.0`)
+- Audit protocol id: `veriforge-phase7-audit-protocol` (version `0.7.0`)
 - Datasets: `datasets/development/`, `datasets/held_out/` — see `datasets/README.md`
 
 Creating a run does not execute held-out evaluation. An artificial 90/10 mix, if used, is a controlled configuration — not real-world prevalence.
