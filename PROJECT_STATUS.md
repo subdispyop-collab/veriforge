@@ -1,14 +1,14 @@
 # PROJECT_STATUS
 
 Status date: 2026-10-09  
-Current phase: Phase 10 (research evaluation) — implemented (measurements may be unavailable)  
+Current phase: Phase 10 (research evaluation) — implemented; held-out measurements available from warm-host re-run  
 Phases 11–12: not started
 
 This file records what is in the git checkout and the plan required by the controlling specification. The controlling specification was read and was not modified.
 
 ## Current state
 
-Phase 10 is present on top of preserved Phases 1–9: literature review with real sources (`docs/LITERATURE_REVIEW.md`); evidence ledger (`docs/EVIDENCE_LEDGER.md`); frozen held-out protocol `veriforge-phase10-held-out-evaluation` v`1.0.0`; evaluation harness `veriforge/evaluation_engine.py` + `scripts/run_held_out_evaluation.py` for implemented baselines 1–4; baseline 5 remains not_selected; hypotheses stay labeled until held-out evidence supports them. **Phase 11 not started.**
+Phase 10 is present on top of preserved Phases 1–9: literature review with real sources (`docs/LITERATURE_REVIEW.md`); evidence ledger (`docs/EVIDENCE_LEDGER.md`); frozen held-out protocol `veriforge-phase10-held-out-evaluation` v`1.0.0`; evaluation harness `veriforge/evaluation_engine.py` + `scripts/run_held_out_evaluation.py` for implemented baselines 1–4; baseline 5 remains not_selected. Held-out numerical results were produced on the Phase 5 warm host (Z3 available) and committed under `experiments/reports/`. Hypotheses remain labeled per the report (`supported_on_this_sample` / `inconclusive_on_this_sample`); no novelty claim. **Phase 11 not started.**
 
 Observed during Phase 10 work:
 
@@ -16,7 +16,8 @@ Observed during Phase 10 work:
 - Work branch: `cursor/phase-10-research-evaluation-ab19`.
 - Host interpreter: Python 3.12.3 at `/usr/bin/python3`.
 - Project pin: `requires-python = ">=3.11"`; version `0.10.0`.
-- On this Phase 10 host, PyPI egress remains blocked (`SSLEOFError` / `UNEXPECTED_EOF_WHILE_READING` to `pypi.org`). `z3` / `pytest` / `hypothesis` are not importable. Held-out baseline **measurements are unavailable** on this host; the evaluation script records that blocker without fabricating numbers. Egress allowlist additions for `pypi.org`, `files.pythonhosted.org`, and `pypi.python.org` were requested again.
+- Original Phase 10 authoring VM could not import `z3` (PyPI egress). Measurements were first labeled unavailable there.
+- Phase 5 warm host re-run (2026-10-09): `python3 -m pytest -v` → **359 passed, 0 failed, 0 skipped**; `python3 scripts/run_held_out_evaluation.py --seed 20261009` → `dependency_available=true`, four baselines completed; config fingerprint `1b5a4a762b6485eca8668cc6e7dba93cd829246479cbeee00caf977c8fea5464`.
 
 ## Implemented features
 
@@ -36,44 +37,34 @@ Phase 10:
 
 - Independent review (Phase 11) and release checklist (Phase 12).
 - Baseline 5 (external tool) still not selected.
-- Held-out numerical research results on this host (dependency blocker).
+- Independent expansion of the held-out seed partition (without near-duplicate leakage).
 
 ## Known defects
 
 - No continuous integration configuration exists.
 - Static type checking and Ruff were not run as a project gate in Phase 10.
-- On this Phase 10 VM, `pytest` / `z3-solver` / `hypothesis` / `streamlit` / `plotly` / `pandas` are unavailable without PyPI egress (not a VERIFORGE code defect).
-- Streamlit/plotly/pandas transitive dependency pins were not re-resolved on this host.
+- Fresh Phase 10 VMs may still lack PyPI egress (not a VERIFORGE code defect); warm-host evidence covers the suite and held-out run.
 - Secret redaction is pattern-based; novel formats may slip through (documented).
-- Held-out seed partition is small (n=8 cases); even successful runs are not population estimates.
+- Held-out seed partition is small (n=8 cases); rates are not population estimates.
 
 ## Current test status
 
-### Prior warm-host suite evidence (historical; not re-run here)
-
-| Phase | Evidence | Passed | Failed | Skipped |
-| --- | --- | --- | --- | --- |
-| Phase 6 tip | warm host | 256 | 0 | 0 |
-| Phase 9 notes | warm host (coordinator notes) | 350 | 0 | 0 |
-
-### Phase 10 on this host
-
-Commands attempted:
+### Phase 10 suite — Phase 5 warm host (2026-10-09)
 
 ```text
-python3 -m pip install -e ".[dev]"   # blocked: SSL EOF to pypi.org
-python3 -m pip download z3-solver==5.1.0.0
-python3 scripts/run_held_out_evaluation.py
+python3 -m pip install -e . --no-deps
+python3 -m pytest -v
+python3 scripts/run_held_out_evaluation.py --seed 20261009 --timeout 5.0 --execution-iterations 50 --trials 1
 ```
 
 | Metric | Count |
 | --- | --- |
-| Passed | unavailable (deps not installable) |
-| Failed | unavailable |
-| Skipped | unavailable |
-| Held-out baseline measurements | **unavailable** (z3 missing) |
+| Passed | 359 |
+| Failed | 0 |
+| Skipped | 0 |
+| Held-out baseline measurements | **available** (`dependency_available=true`; reports under `experiments/reports/`) |
 
-No invented pass/fail counts or benchmark numbers.
+No invented pass/fail counts or benchmark numbers. Prior warm-host history: Phase 6 = 256; Phase 9 = 350.
 
 ## Immediate next milestone
 

@@ -23,14 +23,14 @@ Statuses used: `PROPOSED` · `IMPLEMENTED` · `TESTED` · `EXPERIMENTALLY_SUPPOR
 | ID | Claim | Type | Supporting evidence | Artifact | Version | Dataset / config | Status | Limitations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | C1 | Identity rules preserve Mode A/B semantics when verifier returns equivalent | correctness | unit/property tests; verifier | `tests/unit/test_optimizer.py`, `tests/unit/test_verifier.py` | prior phases | development / fixtures | TESTED | Not a proof of encoder correctness |
-| C2 | H1: Verification identifies incorrect candidates within the supported model when encoding/solver are correct | correctness | held-out SMT baselines | `experiments/reports/phase10-held-out-evaluation.json` | 0.10.0 | held_out / phase10 config | UNAVAILABLE or see report | Remains a hypothesis until held-out SMT runs exist on a host with Z3 |
+| C2 | H1: Verification identifies incorrect candidates within the supported model when encoding/solver are correct | correctness | held-out SMT baselines (Phase 5 warm host, 2026-10-09): 4/4 incorrect held-out cases detected under verification-enabled path | `experiments/reports/phase10-held-out-evaluation.json` fingerprint `1b5a4a76…` | 0.10.0 | held_out n=8 / seed `20261009` | EXPERIMENTALLY_SUPPORTED | **Sample only** — report status `supported_on_this_sample`; not a general proof; seed partition is small |
 | C3 | Artificial mutations are isolated from production rules | correctness | fuzzer isolation tests | `veriforge/fuzzer_suite.py` | ≥0.4.0 | n/a | TESTED | Mutations ≠ real defect prevalence |
 
 ## Performance claims
 
 | ID | Claim | Type | Supporting evidence | Artifact | Version | Dataset / config | Status | Limitations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| P1 | H2: Verification introduces measurable computational overhead | performance | solver_seconds on held-out SMT baselines | `experiments/reports/phase10-held-out-evaluation.json` | 0.10.0 | held_out | UNAVAILABLE or see report | Timer resolution / host effects; not bit-reproducible |
+| P1 | H2: Verification introduces measurable computational overhead | performance | held-out SMT baselines: positive `solver_seconds` observed (n=14 solver samples across verification-enabled + testing-only) | `experiments/reports/phase10-held-out-evaluation.json` | 0.10.0 | held_out | EXPERIMENTALLY_SUPPORTED | Report status `supported_on_this_sample`; magnitude is host-specific; not bit-reproducible |
 | P2 | Solver latency and expression execution are reported separately | performance / design | evaluation + benchmark engines | `veriforge/evaluation_engine.py`, `veriforge/benchmark_engine.py` | ≥0.6.0 / 0.10.0 | held_out / development | IMPLEMENTED | Separation is instrumentation, not a speedup claim |
 | P3 | Optimization improves execution speed | performance | — | — | — | — | NOT_SUPPORTED | Forbidden without direct execution measurements showing improvement; shorter AST/solver time insufficient (§10.2) |
 
@@ -46,15 +46,15 @@ Statuses used: `PROPOSED` · `IMPLEMENTED` · `TESTED` · `EXPERIMENTALLY_SUPPOR
 | ID | Claim | Type | Supporting evidence | Artifact | Version | Dataset / config | Status | Limitations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | N1 | VERIFORGE invents a new formal verification technique | novelty | literature review | `docs/LITERATURE_REVIEW.md` | 0.10.0 | n/a | NOT_SUPPORTED | Assembles established methods; no novelty claim |
-| N2 | Confirmed novel empirical scientific finding from held-out evaluation | novelty | held-out report | `experiments/reports/phase10-held-out-evaluation.json` | 0.10.0 | held_out | UNAVAILABLE or UNRESOLVED | Small n; dependency blockers; hypotheses stay labeled |
+| N2 | Confirmed novel empirical scientific finding from held-out evaluation | novelty | held-out report + literature review | `experiments/reports/phase10-held-out-evaluation.json`, `docs/LITERATURE_REVIEW.md` | 0.10.0 | held_out | NOT_SUPPORTED | Report novelty claim: none; small n; situates among established methods |
 
 ## Hypothesis rows (preregistered; not findings)
 
 | ID | Hypothesis | Evidence pointer | Status |
 | --- | --- | --- | --- |
-| H1 | Verification identifies incorrect candidates within the supported model when encoding and solver are correct | Phase 10 report `hypothesis_status.H1_*` | see report (default UNAVAILABLE without Z3) |
-| H2 | Verification introduces measurable computational overhead | Phase 10 report `hypothesis_status.H2_*` | see report |
-| H3 | Overhead and success rates vary by expression complexity and transformation category | Phase 10 report `hypothesis_status.H3_*` | see report |
+| H1 | Verification identifies incorrect candidates within the supported model when encoding and solver are correct | Phase 10 report `hypothesis_status.H1_*` | `supported_on_this_sample` (4/4 incorrect cases; n small; not a general proof) |
+| H2 | Verification introduces measurable computational overhead | Phase 10 report `hypothesis_status.H2_*` | `supported_on_this_sample` (positive solver_seconds, n=14; host-specific) |
+| H3 | Overhead and success rates vary by expression complexity and transformation category | Phase 10 report `hypothesis_status.H3_*` | `inconclusive_on_this_sample` (categories present; n too small) → ledger status UNRESOLVED |
 
 ## How to update
 

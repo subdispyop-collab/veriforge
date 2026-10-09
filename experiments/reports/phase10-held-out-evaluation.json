@@ -1,36 +1,528 @@
 {
-  "attempt_id": "20845636-0117-45f9-9314-79b8f06c88cd",
-  "baseline_runs": [],
-  "configuration_fingerprint": "9fd1c973fc17023fa44e783f25b5928cc56d89a2a6e30ffe6331fb374df401ce",
-  "created_at_utc": "2026-10-09T20:02:16Z",
+  "baseline_runs": [
+    {
+      "baseline_id": "baseline.original_no_optimization",
+      "by_class": [
+        {
+          "class_key": "artificial_mutation",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": 0.0,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 1,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "boundary_value",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "identity_preserving",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 3,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "incorrect_rewrite",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": 0.0,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 1,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "nested_expression",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "unsupported_or_malformed",
+          "counterexample_count": 0,
+          "detected_count": 1,
+          "detection_rate": 1.0,
+          "equivalent_count": 0,
+          "other_count": 1,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        }
+      ],
+      "configuration_fingerprint": "eeac9192272bbe2c1fd3040284525a2dd60ca7dc5cd0bf0865b92eeebd582c58",
+      "dependency_status": "available",
+      "observation_count": 8,
+      "overall": {
+        "counterexample_count": 0,
+        "detected_count": 1,
+        "detection_rate": 0.3333333333333333,
+        "equivalent_count": 0,
+        "sample_count": 8,
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "undetected_count": 2,
+        "unknown_count": 0,
+        "unknown_rate": 0.0
+      },
+      "run_id": "7a818cd4-12e1-4228-8957-bc00182a5d96"
+    },
+    {
+      "baseline_id": "baseline.rule_based_without_smt",
+      "by_class": [
+        {
+          "class_key": "artificial_mutation",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": 0.0,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 1,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "boundary_value",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "identity_preserving",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 3,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "incorrect_rewrite",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": 0.0,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 1,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "nested_expression",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "unsupported_or_malformed",
+          "counterexample_count": 0,
+          "detected_count": 1,
+          "detection_rate": 1.0,
+          "equivalent_count": 0,
+          "other_count": 1,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        }
+      ],
+      "configuration_fingerprint": "4b815bbfd066580f8078653ce9ece78bba4bbd73e50425dc4097d1ea827e0443",
+      "dependency_status": "available",
+      "observation_count": 8,
+      "overall": {
+        "counterexample_count": 0,
+        "detected_count": 1,
+        "detection_rate": 0.3333333333333333,
+        "equivalent_count": 0,
+        "sample_count": 8,
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "undetected_count": 2,
+        "unknown_count": 0,
+        "unknown_rate": 0.0
+      },
+      "run_id": "c46db134-e96b-4d0e-aa12-15ee44ff5aa5"
+    },
+    {
+      "baseline_id": "baseline.verification_enabled",
+      "by_class": [
+        {
+          "class_key": "artificial_mutation",
+          "counterexample_count": 1,
+          "detected_count": 1,
+          "detection_rate": 1.0,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "boundary_value",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 1,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "identity_preserving",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 3,
+          "other_count": 0,
+          "sample_count": 3,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "incorrect_rewrite",
+          "counterexample_count": 1,
+          "detected_count": 1,
+          "detection_rate": 1.0,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "nested_expression",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": null,
+          "equivalent_count": 1,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "unsupported_or_malformed",
+          "counterexample_count": 0,
+          "detected_count": 1,
+          "detection_rate": 1.0,
+          "equivalent_count": 0,
+          "other_count": 1,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        }
+      ],
+      "configuration_fingerprint": "709de4c0ecd0535ebea727a267cfd178dd9a08633080080239294e97799ffd09",
+      "dependency_status": "available",
+      "observation_count": 8,
+      "overall": {
+        "counterexample_count": 2,
+        "detected_count": 3,
+        "detection_rate": 1.0,
+        "equivalent_count": 5,
+        "sample_count": 8,
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "undetected_count": 0,
+        "unknown_count": 0,
+        "unknown_rate": 0.0
+      },
+      "run_id": "1e09025c-7a8e-43e5-995b-a8afc24c0a87"
+    },
+    {
+      "baseline_id": "baseline.testing_only_validation",
+      "by_class": [
+        {
+          "class_key": "artificial_mutation",
+          "counterexample_count": 1,
+          "detected_count": 1,
+          "detection_rate": 1.0,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "boundary_value",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": 0.0,
+          "equivalent_count": 1,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 1,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "identity_preserving",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": 0.0,
+          "equivalent_count": 3,
+          "other_count": 0,
+          "sample_count": 3,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 3,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "incorrect_rewrite",
+          "counterexample_count": 1,
+          "detected_count": 1,
+          "detection_rate": 1.0,
+          "equivalent_count": 0,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "nested_expression",
+          "counterexample_count": 0,
+          "detected_count": 0,
+          "detection_rate": 0.0,
+          "equivalent_count": 1,
+          "other_count": 0,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 1,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        },
+        {
+          "class_key": "unsupported_or_malformed",
+          "counterexample_count": 0,
+          "detected_count": 1,
+          "detection_rate": 1.0,
+          "equivalent_count": 0,
+          "other_count": 1,
+          "sample_count": 1,
+          "timeout_count": 0,
+          "timeout_rate": 0.0,
+          "undetected_count": 0,
+          "unknown_count": 0,
+          "unknown_rate": 0.0
+        }
+      ],
+      "configuration_fingerprint": "1578a88317b804ffc272658b941d86fc2d6cd99ce3a836a92756fdd6ab2ad6cd",
+      "dependency_status": "available",
+      "observation_count": 8,
+      "overall": {
+        "counterexample_count": 2,
+        "detected_count": 3,
+        "detection_rate": 0.375,
+        "equivalent_count": 5,
+        "sample_count": 8,
+        "timeout_count": 0,
+        "timeout_rate": 0.0,
+        "undetected_count": 5,
+        "unknown_count": 0,
+        "unknown_rate": 0.0
+      },
+      "run_id": "f1505097-db35-4af9-934e-3814c653e663"
+    }
+  ],
+  "configuration_fingerprint": "1b5a4a762b6485eca8668cc6e7dba93cd829246479cbeee00caf977c8fea5464",
+  "created_at_utc": "2026-10-09T20:05:42Z",
   "dataset_version": "0.5.0",
-  "dependency_available": false,
-  "dependency_blocker": "z3 import failed: No module named 'z3'",
+  "dependency_available": true,
+  "dependency_blocker": null,
   "hypothesis_status": {
-    "H1_verification_detects_incorrect": "unavailable \u2014 no held-out SMT runs",
-    "H2_verification_introduces_overhead": "unavailable \u2014 no held-out SMT runs",
-    "H3_varies_by_complexity_and_category": "unavailable \u2014 no held-out SMT runs"
+    "H1_verification_detects_incorrect": "supported_on_this_sample \u2014 4/4 incorrect held-out cases detected (sample is small; not a general proof)",
+    "H2_verification_introduces_overhead": "supported_on_this_sample \u2014 positive solver_seconds observed (n=14); overhead is measurable but magnitude is host-specific",
+    "H3_varies_by_complexity_and_category": "inconclusive_on_this_sample \u2014 multiple categories present (['artificial_mutation', 'incorrect_rewrite']); sample sizes are too small for a stable category-effect claim"
   },
   "is_research_conclusion_attempt": true,
   "latency_separation": {
-    "by_baseline": []
+    "by_baseline": [
+      {
+        "baseline_id": "baseline.original_no_optimization",
+        "expression_execution_optimized": {
+          "median_seconds": 2.8409000151441433e-05,
+          "n": 7,
+          "note": "reference evaluator; not solver latency"
+        },
+        "expression_execution_original": {
+          "median_seconds": 2.8409000151441433e-05,
+          "n": 7,
+          "note": "reference evaluator; not solver latency"
+        },
+        "sample_count": 8,
+        "solver_latency": {
+          "median_seconds": null,
+          "n": 0,
+          "note": "solver wall time; not expression execution"
+        }
+      },
+      {
+        "baseline_id": "baseline.rule_based_without_smt",
+        "expression_execution_optimized": {
+          "median_seconds": 2.5566000658727717e-05,
+          "n": 7,
+          "note": "reference evaluator; not solver latency"
+        },
+        "expression_execution_original": {
+          "median_seconds": 2.6470000193512533e-05,
+          "n": 7,
+          "note": "reference evaluator; not solver latency"
+        },
+        "sample_count": 8,
+        "solver_latency": {
+          "median_seconds": null,
+          "n": 0,
+          "note": "solver wall time; not expression execution"
+        }
+      },
+      {
+        "baseline_id": "baseline.verification_enabled",
+        "expression_execution_optimized": {
+          "median_seconds": 2.5650000679888763e-05,
+          "n": 7,
+          "note": "reference evaluator; not solver latency"
+        },
+        "expression_execution_original": {
+          "median_seconds": 2.569900061644148e-05,
+          "n": 7,
+          "note": "reference evaluator; not solver latency"
+        },
+        "sample_count": 8,
+        "solver_latency": {
+          "median_seconds": 4.757999977300642e-05,
+          "n": 7,
+          "note": "solver wall time; not expression execution"
+        }
+      },
+      {
+        "baseline_id": "baseline.testing_only_validation",
+        "expression_execution_optimized": {
+          "median_seconds": 1.650200010772096e-05,
+          "n": 7,
+          "note": "reference evaluator; not solver latency"
+        },
+        "expression_execution_original": {
+          "median_seconds": 3.026000013051089e-05,
+          "n": 7,
+          "note": "reference evaluator; not solver latency"
+        },
+        "sample_count": 8,
+        "solver_latency": {
+          "median_seconds": 4.3060000280092936e-05,
+          "n": 7,
+          "note": "solver wall time; not expression execution"
+        }
+      }
+    ]
   },
   "limitations": [
-    "Runtime dependency blocker on this host: z3 import failed: No module named 'z3'",
     "Held-out sample size is small (seed partition); do not treat rates as population estimates.",
-    "Exact bit-for-bit reproduction of solver timings is not guaranteed.",
+    "Exact bit-for-bit reproduction of solver timings is not guaranteed (platform / Z3 nondeterminism).",
     "Baseline external_tool remains not_selected.",
-    "No measurements were fabricated."
+    "Rule-based-without-SMT is an evaluation harness; production optimize() remains verification-guided.",
+    "Post-hoc SMT oracle on the rule-based-without-SMT baseline is used only for detection metrics, not for rewrite acceptance in that baseline."
   ],
   "novelty_claim": "No novelty claim. Literature review situates VERIFORGE among established translation-validation / equivalence-checking methods; confirmed novel research findings are not established.",
   "protocol_id": "veriforge-phase10-held-out-evaluation",
   "protocol_version": "1.0.0",
   "random_seed": 20261009,
   "software_version": "0.10.0",
-  "unavailable_baselines": [
-    "baseline.original_no_optimization: dependency blocker \u2014 z3 import failed: No module named 'z3'",
-    "baseline.rule_based_without_smt: dependency blocker \u2014 z3 import failed: No module named 'z3'",
-    "baseline.verification_enabled: dependency blocker \u2014 z3 import failed: No module named 'z3'",
-    "baseline.testing_only_validation: dependency blocker \u2014 z3 import failed: No module named 'z3'"
-  ]
+  "unavailable_baselines": []
 }

@@ -13,7 +13,8 @@ Date: 2026-10-09
 - Docs: `PROJECT_STATUS.md`, `docs/RESEARCH_PLAN.md`, `docs/EXPERIMENT_PROTOCOL.md`, `docs/LIMITATIONS.md`, `docs/ARCHITECTURE.md`, `datasets/README.md`, `README.md`, `experiments/protocols/phase10-held-out-protocol.md`.
 - Tests: `tests/unit/test_evaluation_engine.py`.
 - Version `0.10.0`. Phases 1–9 preserved. Phase 11 not started.
-- On this Phase 10 host, PyPI egress blocked Z3/pytest install; held-out measurements labeled **unavailable** (no fabricated numbers). Egress allowlist for `pypi.org`, `files.pythonhosted.org`, and `pypi.python.org` requested again.
+- Authoring host initially lacked Z3 (PyPI egress); measurements labeled unavailable there without fabrication.
+- Phase 5 warm-host re-run (2026-10-09): **359 passed, 0 failed, 0 skipped**; held-out evaluation completed (`dependency_available=true`); reports/config updated under `experiments/`; evidence ledger statuses promoted only as far as the sample supports (`supported_on_this_sample` / `inconclusive_on_this_sample`; no novelty claim).
 
 ## Phase 9 — Security and resilience
 
