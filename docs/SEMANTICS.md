@@ -1,8 +1,8 @@
 # Semantics
 
-This document is the specified contract for Phase 1. It is not implemented behavior. No parser, evaluator, or solver translation exists in this repository. Where the specification leaves a choice that would change meaning, this file records the gap and does not fill it.
+This document is the correctness contract for expression meaning. Phase 1 implements parsing, semantic configuration, and the reference evaluator for the initial grammar below. Solver translation, optimization, and verification are not part of Phase 1.
 
-Source of the contract: sections 3, 5, and 6 of the controlling specification. No operators are added beyond that text.
+Source of the contract: sections 3, 5, and 6 of the controlling specification, plus the locked Phase 1 decisions of 2026-10-09.
 
 ## Selection
 
@@ -19,30 +19,29 @@ Specified meaning:
 - Unary plus leaves the integer unchanged. Unary minus is mathematical negation.
 - No fixed-width overflow is part of this mode.
 - An optimization preserves meaning only when, for every assignment of integers to the variables, the original and the candidate denote the same integer.
-- The specified solver encoding is a Z3 integer sort, not a bit-vector sort.
+- The specified solver encoding is a Z3 integer sort, not a bit-vector sort (Phase 2).
 
-Not implemented.
+Phase 1 status: implemented by the reference evaluator under `SemanticMode.MODE_A`.
 
 ## Mode B — fixed-width bit-vectors
 
-Specified meaning:
+Locked decisions (2026-10-09):
 
-- Values are fixed-width bit-vectors.
-- The width is configurable. The initial width is 32 bits.
-- The initial language has no per-variable widths and no casts. Casts are a later extension. Until they exist, one width applies to the whole expression, and mixed widths are unsupported.
-- The specified solver encoding is a Z3 bit-vector sort of that width, not an integer sort.
-- Wrapping arithmetic and conversion into the bit-vector width must be defined explicitly before any Mode B evaluation is implemented.
+- Width is configurable. Initial default is **32** bits.
+- Arithmetic is modular fixed-width bit-vector wrap. The reference evaluator matches that contract; Z3 bit-vector sorts are reserved for Phase 2 verification.
+- Values are interpreted as **unsigned** integers in the closed range `[0, 2^w - 1]`.
+- Integer literals outside that range are **rejected** (fail closed). They are **not** reduced modulo `2^w`.
+- Unary minus is **bit-vector negation** after a legal literal or subexpression has been converted into the width: `(-x) ≡ (2^w - x) mod 2^w` for `x` already in range (equivalently, modular wrap of mathematical negation).
+- Signed interpretation is **not** used for Mode B in this contract. Signedness for later operators remains a future decision if those operators are added.
+
+Also specified:
+
+- The initial language has no per-variable widths and no casts. Until casts exist, one width applies to the whole expression, and mixed widths are unsupported.
+- The specified solver encoding is a Z3 bit-vector sort of that width, not an integer sort (Phase 2).
 - Bitwise operations and shifts are not in the initial grammar. When they are added later, they follow the bit-vector contract written at that time. They are rejected until then.
 - Operations whose signedness or language-specific behavior is not specified precisely are rejected. They are not given a silent default.
 
-Unresolved, and intentionally not decided in this document:
-
-- Whether bit-vectors are interpreted as signed, unsigned, or only as bit patterns with no integer reading.
-- How an integer literal is converted into a vector of the configured width, including literals that do not fit in that width and literals that appear under unary minus.
-
-Those choices change which values exist and which expressions are legal. Phase 1 must not encode Mode B literal conversion or a signed reading until they are decided. Modular bit-vector addition, subtraction, and multiplication do not answer the signedness or literal-range questions.
-
-Not implemented.
+Phase 1 status: implemented by the reference evaluator under `SemanticMode.MODE_B`.
 
 ## Integer and bit-vector separation
 
@@ -50,7 +49,7 @@ Not implemented.
 - Unbounded integer arithmetic is not a stand-in for wrapping arithmetic.
 - A Z3 integer encoding is not a stand-in for a bit-vector encoding, or the reverse.
 - A rule validated in one mode is not thereby validated in the other.
-- Display of a Mode B value, once an interpretation exists, must show that interpretation and the width. It must not present the vector as an unbounded integer.
+- Display of a Mode B value must show the unsigned interpretation and the width. It must not present the vector as an unbounded integer.
 
 ## Initial grammar
 
@@ -66,7 +65,7 @@ The initial language is only:
 
 The following are later extensions. They are outside the initial grammar and must be rejected, not rewritten into something else: integer division and remainder, bitwise operations, left and right shifts, comparisons and Boolean expressions, and explicit fixed-width casts. Exponentiation is also absent and must be rejected.
 
-Parsing, when it is implemented, must use Python's `ast` module and must not execute the input. `eval` and `exec` are forbidden. A name is a symbolic variable. It must not be looked up as a Python object.
+Parsing uses Python's `ast` module and does not execute the input. `eval` and `exec` are forbidden. A name is a symbolic variable. It must not be looked up as a Python object.
 
 Because that parser is Python's `ast` parser, precedence and associativity for the operators above are Python's rules for those operators:
 
@@ -76,23 +75,31 @@ Because that parser is Python's `ast` parser, precedence and associativity for t
 - Unary operators apply to the operand immediately following them, so repetition such as `--x` is repetition of the specified unary operations, not a new operator.
 - Parentheses group. A trailing comma, as in `(x,)`, is a tuple, not a grouping, and is rejected.
 
-This precedence is a consequence of the required parser. It is not a second grammar and it is not implemented here.
-
 Python has no negative integer token. The text `-1` is unary minus applied to the integer literal `1`. The same holds for `+1` and unary plus.
 
-Each occurrence of a name in one expression denotes the same variable. There are no bindings in this grammar. Assignments are rejected. The variable's domain is the domain of the selected mode: all mathematical integers in Mode A; the configured bit-vector width in Mode B, once conversion and interpretation are defined.
+Each occurrence of a name in one expression denotes the same variable. There are no bindings in this grammar. Assignments are rejected. The variable's domain is the domain of the selected mode: all mathematical integers in Mode A; unsigned values in `[0, 2^w - 1]` in Mode B.
 
-Boolean constants are not integer literals. In Python, `bool` is a subclass of `int`, so an implementation that accepts every constant whose Python type is `int` would accept `True` and `False`. The contract forbids that. Floats, complex numbers, strings, bytes, `None`, and other non-integer constants are not integer literals.
+### Integer literals (locked)
 
-Which non-decimal spellings count as integer literals is unresolved. Python's parser accepts decimal, binary (`0b`), octal (`0o`), hexadecimal (`0x`), and underscore spellings as integer constants. The specification says "integer literals" and does not list spellings. This contract does not choose a subset.
+Accepted spellings are those accepted by Python's `ast` for integer constants:
 
-In Mode A, an accepted integer literal denotes that mathematical integer, subject to the configured literal-size limit. The numeric value of that limit is not specified yet. In Mode B, the denotation of a literal is the unresolved conversion rule above.
+- Decimal
+- Hexadecimal (`0x` / `0X`)
+- Binary (`0b` / `0B`)
+- Octal (`0o` / `0O`)
+- Underscore separators
+
+`True` and `False` are rejected. They are not integer literals under this grammar. Floats, complex numbers, strings, bytes, `None`, and other non-integer constants are not integer literals.
+
+In Mode A, an accepted integer literal denotes that mathematical integer, subject to the configured Mode A integer-literal bit-length limit.
+
+In Mode B, an accepted integer literal must lie in `[0, 2^w - 1]`. Out-of-range literals are rejected; they are not reduced modulo `2^w`.
 
 ## Fail-closed rules
 
 Unsupported syntax fails closed. It is not repaired, not executed, and not translated into a different operation.
 
-When parsing exists, it must reject:
+The parser rejects:
 
 - Function calls.
 - Attribute access.
@@ -108,18 +115,19 @@ When parsing exists, it must reject:
 
 Examples of unapproved forms, all rejected: calls, attributes, subscripts, slices, comparisons, Boolean operations, conditional expressions, lambdas, lists, dicts, sets, tuples, f-strings, walrus assignment, starred expressions, `await`, and operators other than the initial `+`, `-`, and `*`.
 
-Limits required by the specification, all configurable, documented, and enforced once an implementation exists:
+### Resource limits (locked defaults)
 
-- Source length.
-- AST node count.
-- Nesting depth.
-- Integer-literal size.
-- Solver runtime.
-- Other relevant resource consumption.
+All limits are configurable, documented, and enforced. Locked Phase 1 defaults:
 
-No numeric default is set in this phase. Until a limit is configured and enforced, an implementation must not claim that resource bounds exist.
+| Limit | Default |
+| --- | --- |
+| Source length | 4096 characters |
+| AST node count | 256 |
+| Nesting depth | 32 |
+| Mode A integer-literal bit length | 4096 |
+| Solver timeout | 5 seconds (configuration only in Phase 1; solver is Phase 2) |
 
-Also fail closed, from the result contract in section 6:
+Also fail closed, from the result contract in section 6 (for later phases):
 
 - Unsupported expression: no verification claim.
 - Translation failure: verification was not performed.
@@ -130,7 +138,7 @@ Solver UNSAT means equivalence inside the encoded model and the stated assumptio
 
 ## Specified verification reading
 
-This reading is part of the contract for later phases. It is not a verifier.
+This reading is part of the contract for later phases. It is not a verifier. Phase 1 does not implement Z3 translation.
 
 For an original expression `E_o` and a candidate `E_c`, the specified query is whether a valid input exists such that `E_o(x) != E_c(x)`, under the selected mode.
 
@@ -147,6 +155,13 @@ For an original expression `E_o` and a candidate `E_c`, the specified query is w
 
 These states stay separate. They are not a Boolean.
 
-## Not a description of this repository
+## Phase 1 implementation mapping
 
-No expression can be parsed, evaluated, optimized, or verified by the code in this repository, because that code does not exist. Examples in this file illustrate the specified contract only.
+| Contract element | Module |
+| --- | --- |
+| Semantic mode and width | `veriforge.config.SemanticConfiguration` |
+| Resource limits | `veriforge.config.ResourceLimits` |
+| Safe parse | `veriforge.parser_engine.parse_expression` |
+| Mode helpers / literal checks | `veriforge.semantics` |
+| Reference evaluation | `veriforge.reference_evaluator.evaluate` |
+| Classified errors | `veriforge.exceptions` |

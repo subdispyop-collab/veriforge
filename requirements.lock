@@ -1,0 +1,8 @@
+# Locked development/runtime pins observed on the Phase 1 host (Python 3.12.3).
+# Install the project with: python3 -m pip install -e ".[dev]"
+# Runtime package has no third-party dependencies; pytest is the Phase 1 test runner.
+iniconfig==2.3.1
+packaging==24.0
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1

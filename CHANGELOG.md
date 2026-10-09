@@ -1,5 +1,18 @@
 # Changelog
 
+## Phase 1 — Semantic foundation
+
+Date: 2026-10-09
+
+- Locked Mode B, literal, and resource-limit decisions into `docs/SEMANTICS.md`.
+- Implemented package `veriforge` with `config`, `models`, `exceptions`, `parser_engine`, `semantics`, and `reference_evaluator`.
+- Safe parsing via Python's `ast` module; no `eval`/`exec` on user input.
+- Mode A (unbounded integers) and Mode B (unsigned modular wrap, default width 32) with fail-closed out-of-range literals.
+- Added `pyproject.toml`, `requirements.lock`, `README.md`, and pytest suite under `tests/unit/`.
+- Hand-checked semantic and parser tests run: **84 passed, 0 failed, 0 skipped** (`python3 -m pytest -v`).
+- Updated `PROJECT_STATUS.md`, `docs/ARCHITECTURE.md`, `docs/LIMITATIONS.md`, and this changelog.
+- Phases 2–12 not started. No Streamlit, Z3 verifier, optimizer, benchmarks, datasets, or mutation modules.
+
 ## Phase 0 — Repository audit and implementation plan
 
 Date: 2026-10-09

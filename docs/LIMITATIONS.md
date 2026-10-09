@@ -2,20 +2,17 @@
 
 ## Current limitations
 
-VERIFORGE is not implemented. The repository audit on 2026-10-09 found an empty git tree. Phase 0 added this documentation only.
+Phase 1 (semantic foundation) is implemented: grammar documentation, safe parsing, semantic configuration, reference evaluator, and hand-checked semantic tests. Phases 2–12 are not started.
 
 Consequences:
 
-- There is no supported language in running code, no evaluator, no optimizer, no Z3 translation, no benchmark, no dataset, and no user interface.
-- The program cannot be installed or run, because there is no application and no dependency manifest.
-- No test has been executed. Quality claims cannot be made.
-- No experiment has been run. Every measurement listed in the research plan is unavailable.
+- There is no Z3 translation, optimizer, mutation facility, benchmark engine, dataset store, experiment runner, audit store, or Streamlit interface.
+- Solver timeout is configurable in `ResourceLimits` but is not enforced by a solver in Phase 1 (no solver).
 - No literature review has been done. No citation is recorded.
-- The evidence ledger required by section 17 does not exist. No claim has an evidence status.
-- Documentation in this phase states the specified contract and the audit. It does not state observed tool behavior.
-- Mode B signed interpretation, integer-literal conversion into a fixed width, the set of integer-literal spellings, and the numeric resource limits are not decided. Until they are, those parts of the contract are incomplete on purpose.
-- The trusted computing base is not defined, because no component exists.
-- Definition of done (section 20) is not met. That is expected at Phase 0. The project is not complete.
+- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1 implementation/test evidence for the semantic foundation.
+- Definition of done (section 20) is not met. That is expected before release. The project is not complete.
+- Signed interpretation for Mode B is intentionally unused. If later operators need signedness, that is a new decision.
+- Division, remainder, bitwise ops, shifts, comparisons, Booleans, and casts remain unsupported and rejected.
 
 ## Standing limits from the specification
 
