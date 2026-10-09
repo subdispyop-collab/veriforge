@@ -17,7 +17,7 @@ Observed during Phase 6 work:
 - Host interpreter: Python 3.12.3 at `/usr/bin/python3`.
 - Project pin: `requires-python = ">=3.11"`; runtime dependency `z3-solver==5.1.0.0`; version `0.6.0`.
 - Test command intended: `python3 -m pytest -v` after `python3 -m pip install -e ".[dev]"`.
-- Dependency install on this Phase 6 host was blocked by restricted egress to `pypi.org` / `files.pythonhosted.org` (TLS EOF). See Current test status.
+- Dependency install on this Phase 6 host was blocked by restricted egress to `pypi.org` / `files.pythonhosted.org` (TLS EOF). Explicit coordinator-requested retry still failed the same way. See Current test status. Acceptance does **not** flip to fully met without real pytest counts.
 
 ## Implemented features
 
@@ -53,7 +53,13 @@ Known gaps that are not product defects of implemented Phase 6 code:
 
 ## Current test status
 
-Command attempted: `python3 -m pip install -e ".[dev]"` then `python3 -m pytest -v`.
+Commands attempted (initial + explicit retry on `cursor/phase-6-benchmarks-1735`):
+
+```text
+python3 -m pip install -e ".[dev]"
+python3 -m pip install --no-build-isolation -e ".[dev]"
+python3 -m pytest -v   # not reached
+```
 
 | Metric | Count |
 | --- | --- |
@@ -61,7 +67,7 @@ Command attempted: `python3 -m pip install -e ".[dev]"` then `python3 -m pytest 
 | Failed | unavailable |
 | Skipped | unavailable |
 
-Blocker: restricted network egress prevents HTTPS to `pypi.org` and `files.pythonhosted.org` (`SSL_ERROR_SYSCALL` / SSLEOFError). `z3-solver`, `pytest`, and `hypothesis` are not present in the default image. Egress allowlist additions for those domains were requested. Phase 5 previously recorded **245 passed** on a host where deps were available; Phase 6 adds `tests/unit/test_benchmark_engine.py` which has not yet been executed on this host.
+Blocker: restricted network egress still prevents HTTPS to `pypi.org` and `files.pythonhosted.org` (`SSL_ERROR_SYSCALL` / SSLEOFError). Those domains are not on the effective allowlist. `z3-solver`, `pytest`, and `hypothesis` are not present in the default image. Egress allowlist additions were requested again. Phase 5 previously recorded **245 passed** on a host where deps were available; that is not a Phase 6 result. `tests/unit/test_benchmark_engine.py` has not been executed on this host.
 
 ## Decisions requiring later research
 
@@ -88,7 +94,7 @@ Acceptance criteria:
 - Saved benchmark can be rerun from recorded configuration; nondeterminism disclosed: **met**.
 - `benchmark_engine.py` added; Phases 1–5 preserved: **met**.
 - Development datasets for engine validation only; not final research findings: **met** (`is_research_conclusion=False`; held-out runs refused).
-- Tests run with real pass/fail recorded: **blocked on this host by PyPI egress** (see Current test status). Suite is present under `tests/unit/test_benchmark_engine.py`.
+- Tests run with real pass/fail recorded: **still blocked on this host by PyPI egress after retry** (see Current test status). Suite is present under `tests/unit/test_benchmark_engine.py`. Acceptance not fully met.
 
 ### Phases 7–12
 
@@ -114,4 +120,4 @@ Not started. See the controlling specification section 19.
 - Reproduction from saved config + nondeterminism disclosure: yes.
 - `benchmark_engine.py` + models/scripts; Phases 1–5 preserved: yes.
 - Dev-only engine validation; no held-out research conclusion: yes.
-- Tests executed with real pass/fail on this host: **no — egress blocker**.
+- Tests executed with real pass/fail on this host: **no — PyPI egress still blocked after retry**.
