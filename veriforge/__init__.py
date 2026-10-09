@@ -1,4 +1,4 @@
-"""VERIFORGE: semantic foundation (Phase 1) and formal verification (Phase 2)."""
+"""VERIFORGE: semantic foundation, formal verification, and conservative optimizer."""
 
 from veriforge.config import ResourceLimits, SemanticConfiguration, default_limits
 from veriforge.exceptions import (
@@ -6,6 +6,7 @@ from veriforge.exceptions import (
     EvaluationError,
     InvalidLiteralError,
     MissingVariableError,
+    OptimizerError,
     ParseError,
     ResourceLimitError,
     TranslationError,
@@ -17,17 +18,34 @@ from veriforge.exceptions import (
 from veriforge.models import (
     BinaryOp,
     BinaryOperator,
+    CandidateDecision,
+    CorrectnessPolicy,
     Counterexample,
     CounterexampleValidationStatus,
     Expression,
     ExpressionInput,
     IntLiteral,
+    OptimizationResult,
+    OptimizationRule,
     SemanticMode,
+    TransformationStep,
     UnaryOp,
     UnaryOperator,
     Variable,
+    VerificationPolicy,
     VerificationResult,
     VerificationStatus,
+)
+from veriforge.optimizer_engine import (
+    RULE_ADD_ZERO,
+    RULE_MUL_ONE,
+    RULE_MUL_ZERO,
+    RULE_SUB_ZERO,
+    default_rules,
+    find_applicable_matches,
+    optimize,
+    rule_by_id,
+    try_apply_rule,
 )
 from veriforge.parser_engine import parse_expression
 from veriforge.reference_evaluator import evaluate
@@ -40,6 +58,8 @@ from veriforge.verifier_engine import (
 __all__ = [
     "BinaryOp",
     "BinaryOperator",
+    "CandidateDecision",
+    "CorrectnessPolicy",
     "Counterexample",
     "CounterexampleValidationStatus",
     "DomainError",
@@ -49,11 +69,19 @@ __all__ = [
     "IntLiteral",
     "InvalidLiteralError",
     "MissingVariableError",
+    "OptimizationResult",
+    "OptimizationRule",
+    "OptimizerError",
     "ParseError",
+    "RULE_ADD_ZERO",
+    "RULE_MUL_ONE",
+    "RULE_MUL_ZERO",
+    "RULE_SUB_ZERO",
     "ResourceLimitError",
     "ResourceLimits",
     "SemanticConfiguration",
     "SemanticMode",
+    "TransformationStep",
     "TranslationError",
     "UnapprovedASTNodeError",
     "UnaryOp",
@@ -61,15 +89,21 @@ __all__ = [
     "UnsupportedSyntaxError",
     "Variable",
     "VerificationEngineError",
+    "VerificationPolicy",
     "VerificationResult",
     "VerificationStatus",
     "VeriforgeError",
     "classify_check_result",
     "default_limits",
+    "default_rules",
     "evaluate",
+    "find_applicable_matches",
+    "optimize",
     "parse_expression",
+    "rule_by_id",
     "translate_to_z3",
+    "try_apply_rule",
     "verify_equivalence",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

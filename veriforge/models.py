@@ -1,4 +1,4 @@
-"""Typed models used by Phase 1 parsing/evaluation and Phase 2 verification."""
+"""Typed models used by Phases 1–3: parsing, verification, and optimization."""
 
 from __future__ import annotations
 
@@ -47,6 +47,35 @@ class CounterexampleValidationStatus(Enum):
     CONFIRMED = "confirmed"
     DISCREPANCY = "discrepancy"
     UNVALIDATABLE = "unvalidatable"
+
+
+class CorrectnessPolicy(Enum):
+    """How the optimizer decides whether a candidate may be accepted.
+
+    ``VERIFICATION_GUIDED`` is the default production path: a candidate is
+    accepted only when the Phase 2 verifier reports
+    ``EQUIVALENT_WITHIN_MODEL``.
+
+    ``EVALUATION_ONLY`` is reserved for the Phase 4 controlled harness that
+    may analyze deliberately incorrect candidates. It is not a production
+    acceptance path and must never silently accept candidates.
+    """
+
+    VERIFICATION_GUIDED = "verification_guided"
+    EVALUATION_ONLY = "evaluation_only"
+
+
+class VerificationPolicy(Enum):
+    """Per-rule requirement for accepting a rewrite under verification guidance."""
+
+    REQUIRE_EQUIVALENT_WITHIN_MODEL = "require_equivalent_within_model"
+
+
+class CandidateDecision(Enum):
+    """Outcome recorded for one generated optimization candidate."""
+
+    ACCEPTED = "accepted"
+    REJECTED = "rejected"
 
 
 @dataclass(frozen=True, slots=True)
@@ -132,3 +161,68 @@ class VerificationResult:
     counterexample: Counterexample | None = None
     solver_status: str | None = None
     reason: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class OptimizationRule:
+    """Metadata for one identifiable, auditable rewrite rule.
+
+    The executable matching/rewriting logic lives in the optimizer engine and
+    is bound by ``rule_id``. This record carries the audit surface required
+    by the specification: identity, description, preconditions, modes, and
+    verification policy.
+    """
+
+    rule_id: str
+    name: str
+    formal_description: str
+    preconditions: tuple[str, ...]
+    supported_modes: frozenset[SemanticMode]
+    verification_policy: VerificationPolicy
+
+
+@dataclass(frozen=True, slots=True)
+class TransformationStep:
+    """One candidate generation attempt in the optimization trace."""
+
+    step_index: int
+    rule_id: str
+    rule_name: str
+    formal_description: str
+    preconditions: tuple[str, ...]
+    matched_preconditions: tuple[str, ...]
+    supported_modes: frozenset[SemanticMode]
+    verification_policy: VerificationPolicy
+    before_source: str
+    after_source: str
+    decision: CandidateDecision
+    verification_result: VerificationResult | None
+    rejection_reason: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class OptimizationResult:
+    """Accepted expression plus the complete transformation trace.
+
+    Under the default verification-guided policy, every accepted step has a
+    recorded ``VerificationResult`` with status ``EQUIVALENT_WITHIN_MODEL``.
+    Rejected candidates and their reasons remain in ``trace``.
+    """
+
+    original: Expression
+    accepted: Expression
+    config: SemanticConfiguration
+    policy: CorrectnessPolicy
+    trace: tuple[TransformationStep, ...]
+
+    @property
+    def accepted_steps(self) -> tuple[TransformationStep, ...]:
+        return tuple(
+            step for step in self.trace if step.decision is CandidateDecision.ACCEPTED
+        )
+
+    @property
+    def rejected_steps(self) -> tuple[TransformationStep, ...]:
+        return tuple(
+            step for step in self.trace if step.decision is CandidateDecision.REJECTED
+        )

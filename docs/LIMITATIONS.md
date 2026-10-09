@@ -2,17 +2,19 @@
 
 ## Current limitations
 
-Phase 1 (semantic foundation) and Phase 2 (formal verification) are implemented. Phases 3–12 are not started.
+Phases 1–3 (semantic foundation, formal verification, conservative optimizer) are implemented. Phases 4–12 are not started.
 
 Consequences:
 
-- There is no optimizer, mutation facility, benchmark engine, dataset store, experiment runner, audit store, or Streamlit interface.
+- There is no mutation facility, property-based adversarial suite, benchmark engine, dataset store, experiment runner, audit store, or Streamlit interface.
+- The Phase 3 optimizer ships only four identity-preserving production rules. Aggressive rewrites are intentionally absent.
+- `CorrectnessPolicy.EVALUATION_ONLY` is modeled but rejected by `optimize()` until Phase 4 provides an isolated mutation harness.
 - No literature review has been done. No citation is recorded.
-- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1/2 implementation and test evidence.
+- The evidence ledger required by section 17 does not exist. No research claim has an evidence status beyond Phase 1–3 implementation and test evidence.
 - Definition of done (section 20) is not met. That is expected before release. The project is not complete.
 - Signed interpretation for Mode B is intentionally unused. If later operators need signedness, that is a new decision.
 - Division, remainder, bitwise ops, shifts, comparisons, Booleans, and casts remain unsupported and rejected.
-- TIMEOUT and UNKNOWN paths for live Z3 searches are classified correctly; unit tests drive those branches with controlled solver mocks because the initial arithmetic fragment usually decides quickly. The configurable timeout (default 5s) is still applied to every real `check`.
+- TIMEOUT and UNKNOWN paths for live Z3 searches are classified correctly; unit tests drive those branches with controlled solver mocks because the initial arithmetic fragment usually decides quickly. The configurable timeout (default 5s) is still applied to every real `check`. The optimizer treats those statuses as rejection, never as acceptance.
 
 ## Trusted computing base (Phase 2)
 

@@ -43,3 +43,7 @@ class TranslationError(VeriforgeError):
 
 class VerificationEngineError(VeriforgeError):
     """The verification engine failed outside of a classified solver outcome."""
+
+
+class OptimizerError(VeriforgeError):
+    """The optimizer could not run under the requested configuration or policy."""

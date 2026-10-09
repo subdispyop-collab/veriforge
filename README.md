@@ -2,9 +2,9 @@
 
 Formal-verification-guided arithmetic expression optimization and research platform.
 
-**Current phase:** Phase 2 — formal verification (AST/IR → Z3 translation, solver-result classification, counterexample validation).
+**Current phase:** Phase 3 — conservative optimizer (identity-preserving rules, transformation traces, verification-guided acceptance).
 
-Phases 3–12 (optimizer, benchmarks, Streamlit UI, and related modules) are not implemented.
+Phases 4–12 (mutation module, benchmarks, Streamlit UI, and related modules) are not implemented.
 
 ## Requirements
 
@@ -29,6 +29,22 @@ python3 -m pytest
 - **Mode B:** unsigned fixed-width bit-vectors (default width 32; Z3 `BitVec` sorts), modular wrap for `+`, `-`, `*`; literals outside `[0, 2^w-1]` are rejected
 
 See `docs/SEMANTICS.md` for the full contract and `docs/FORMAL_MODEL.md` for the encoded equivalence query and TCB assumptions.
+
+## Optimization (verification-guided)
+
+```python
+from veriforge import SemanticConfiguration, SemanticMode, optimize
+
+cfg = SemanticConfiguration(mode=SemanticMode.MODE_A)
+result = optimize("(x + 0) * 1", cfg)
+print(result.accepted.source)  # x
+for step in result.trace:
+    print(step.rule_id, step.decision, step.verification_result.status)
+```
+
+Default policy is conservative: each candidate must receive `EQUIVALENT_WITHIN_MODEL` from the Phase 2 verifier before acceptance. `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, and error statuses are recorded as rejections and never silently accepted. The Phase 4 evaluation-only mutation path is not implemented.
+
+Initial rules: `x+0→x`, `x-0→x`, `x*1→x`, `x*0→0` (validated under Mode A and Mode B separately).
 
 ## Verification
 

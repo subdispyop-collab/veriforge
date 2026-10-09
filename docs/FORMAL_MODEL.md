@@ -37,7 +37,9 @@ Correctness claims about Phase 2 equivalence checking depend on:
 5. The independent reference evaluator used to confirm counterexamples.
 6. Correct configuration of resource limits, including solver timeout (default 5 seconds).
 
-Components outside this TCB for Phase 2 claims: Streamlit UI, optimizer, mutation module, benchmarks, datasets, and persistence (none implemented in Phase 2).
+Components outside this TCB for Phase 2 equivalence claims: Streamlit UI, mutation module, benchmarks, datasets, and persistence (not implemented through Phase 3).
+
+The Phase 3 optimizer *uses* Phase 2 results as an acceptance gate. An accepted rewrite therefore depends on the Phase 2 TCB plus correct rule matching, trace recording, and the verification-guided acceptance policy in `optimizer_engine`. A solver UNSAT still does not prove the optimizer implementation correct.
 
 ## Explicit non-claims
 

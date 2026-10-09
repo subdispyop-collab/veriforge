@@ -6,7 +6,14 @@ import builtins
 
 import pytest
 
-from veriforge import SemanticConfiguration, SemanticMode, evaluate, parse_expression
+from veriforge import (
+    SemanticConfiguration,
+    SemanticMode,
+    Variable,
+    evaluate,
+    optimize,
+    parse_expression,
+)
 
 
 def test_parse_and_evaluate_without_eval_exec(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -23,3 +30,8 @@ def test_parse_and_evaluate_without_eval_exec(monkeypatch: pytest.MonkeyPatch) -
     cfg_b = SemanticConfiguration(mode=SemanticMode.MODE_B, bit_width=8)
     expression_b = parse_expression("200 + 100", cfg_b)
     assert evaluate(expression_b, {}, cfg_b) == 44
+
+    # Phase 3 optimizer must also avoid eval/exec on user input.
+    result = optimize("(x + 0) * 1", cfg)
+    assert isinstance(result.accepted.root, Variable)
+    assert result.accepted.root.name == "x"

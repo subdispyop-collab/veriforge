@@ -1,5 +1,19 @@
 # Changelog
 
+## Phase 3 — Conservative optimizer
+
+Date: 2026-10-09
+
+- Added `veriforge/optimizer_engine.py`: verification-guided pipeline (parse → IR → select rules → candidate → record preconditions → verify vs original → accept/reject → full trace).
+- Initial identity-preserving production rules, each validated under Mode A and Mode B: `x+0→x`, `x-0→x`, `x*1→x`, `x*0→0`.
+- Extended models with `OptimizationRule`, `TransformationStep`, `OptimizationResult`, `CorrectnessPolicy`, `VerificationPolicy`, and `CandidateDecision`.
+- Added `OptimizerError`; `EVALUATION_ONLY` is modeled but rejected by `optimize()` until the Phase 4 mutation harness exists.
+- Acceptance gated on `EQUIVALENT_WITHIN_MODEL` only; `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, and error statuses are recorded as rejections.
+- Tests: `tests/unit/test_optimizer.py` and `tests/regression/test_optimizer_acceptance_gate.py`.
+- Updated `docs/SEMANTICS.md`, `docs/ARCHITECTURE.md`, `docs/FORMAL_MODEL.md`, `docs/LIMITATIONS.md`, `README.md`, and `PROJECT_STATUS.md`.
+- Tests run: **181 passed, 0 failed, 0 skipped** (`python3 -m pytest -v`).
+- Phases 4–12 not started. No Streamlit UI, mutation module, benchmarks, or datasets.
+
 ## Phase 2 — Formal verification
 
 Date: 2026-10-09
@@ -10,7 +24,7 @@ Date: 2026-10-09
 - Added `tests/unit/test_verifier.py` for translation, mode selection, boundaries, timeouts, UNKNOWN/unsupported/errors, counterexample reconstruction, constants/variables, and incorrect candidates.
 - Documented the encoded query and TCB in `docs/FORMAL_MODEL.md`; updated `docs/SEMANTICS.md`, `docs/ARCHITECTURE.md`, `docs/LIMITATIONS.md`, `README.md`, and `PROJECT_STATUS.md`.
 - Tests run: **124 passed, 0 failed, 0 skipped** (`python3 -m pytest -v`).
-- Phases 3–12 not started. No Streamlit UI, optimizer production path, benchmarks, datasets, or mutation modules.
+- Phases 3–12 not started at Phase 2 close. No Streamlit UI, optimizer production path, benchmarks, datasets, or mutation modules.
 
 ## Phase 1 — Semantic foundation
 

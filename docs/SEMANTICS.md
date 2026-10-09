@@ -1,6 +1,6 @@
 # Semantics
 
-This document is the correctness contract for expression meaning. Phase 1 implements parsing, semantic configuration, and the reference evaluator for the initial grammar below. Phase 2 implements Z3 translation and equivalence checking under that same contract. Optimization and later research modules are not part of Phase 2.
+This document is the correctness contract for expression meaning. Phase 1 implements parsing, semantic configuration, and the reference evaluator for the initial grammar below. Phase 2 implements Z3 translation and equivalence checking under that same contract. Phase 3 applies conservative identity-preserving rewrites only when the Phase 2 verifier reports equivalence within the encoded model for the active mode. A rule validated in one mode is not thereby validated in the other.
 
 Source of the contract: sections 3, 5, and 6 of the controlling specification, plus the locked Phase 1 decisions of 2026-10-09.
 
@@ -157,6 +157,26 @@ These states stay separate. They are not a Boolean. A SAT model that the referen
 
 See also `docs/FORMAL_MODEL.md` for the encoded query and trusted computing base.
 
+## Optimization acceptance (Phase 3)
+
+The production optimizer is verification-guided by default:
+
+- Candidates are generated only from identifiable production rules with recorded preconditions.
+- Each candidate is checked against the *original* expression with `verify_equivalence` under the same `SemanticConfiguration`.
+- Acceptance requires `EQUIVALENT_WITHIN_MODEL`.
+- `COUNTEREXAMPLE_FOUND`, `UNKNOWN`, `TIMEOUT`, `UNSUPPORTED`, `INVALID_INPUT`, `TRANSLATION_ERROR`, and `VERIFICATION_ERROR` cause rejection with a recorded reason. They never cause silent acceptance.
+
+Initial identity-preserving rules (each validated separately under Mode A and Mode B):
+
+| Rule id | Transformation |
+| --- | --- |
+| `identity.add_zero` | `x + 0 → x` |
+| `identity.sub_zero` | `x - 0 → x` |
+| `identity.mul_one` | `x * 1 → x` |
+| `identity.mul_zero` | `x * 0 → 0` |
+
+`CorrectnessPolicy.EVALUATION_ONLY` is reserved for the Phase 4 controlled mutation harness. It is not a production acceptance path.
+
 ## Implementation mapping
 
 | Contract element | Module |
@@ -167,5 +187,6 @@ See also `docs/FORMAL_MODEL.md` for the encoded query and trusted computing base
 | Mode helpers / literal checks | `veriforge.semantics` |
 | Reference evaluation | `veriforge.reference_evaluator.evaluate` |
 | IR → Z3 translation and equivalence check | `veriforge.verifier_engine` |
-| Verification result / counterexample records | `veriforge.models` |
+| Conservative optimizer and transformation traces | `veriforge.optimizer_engine` |
+| Verification / optimization result records | `veriforge.models` |
 | Classified errors | `veriforge.exceptions` |
