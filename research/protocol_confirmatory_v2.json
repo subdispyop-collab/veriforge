@@ -1,0 +1,9 @@
+{
+  "protocol_id": "veriforge-confirmatory-v2",
+  "protocol_path": "research/PROTOCOL_CONFIRMATORY_V2.md",
+  "protocol_sha256": "1d991b3c444f3a93b531196b4da4a9794937d697212b4e45d285cf8f0f6c498b",
+  "created_at_utc": "2026-10-11T18:59:22Z",
+  "dataset_generated_before_hash": false,
+  "solver_results_inspected_before_hash": false,
+  "note": "Hash recorded before datasets/confirmatory_v2 was written and before any solver status or solver time on that set was computed."
+}
