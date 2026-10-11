@@ -144,6 +144,10 @@ H_test remains not supported: 0/54 and 0/54 at budgets 10 and 10,000 on the assu
 - Signed Mode B as a production mode. It remains the experimental module.
 - Full IRIS HTML. The allowlisted fetch rejected the guideline host. Only the retrieved excerpts are on file. No IRIS score.
 - GitHub Actions. The Podman image ran locally. The workflow file was not executed.
+- One later request to each alternate index and to GitLab. All three names resolved, and none returned a package. Nothing was installed. mutmut still has no killed or survived count. pytest was not rerun. The recorded versions stay pytest 9.1.1, Hypothesis 6.155.7, and Z3 4.8.17.
+  - `https://mirrors.aliyun.com/pypi/simple/` — DNS `163.181.60.203`, `OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to mirrors.aliyun.com:443`
+  - `https://pypi.tuna.tsinghua.edu.cn/simple` — DNS `101.6.15.130`, `OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to pypi.tuna.tsinghua.edu.cn:443`
+  - `https://gitlab.com/boxed/mutmut` — DNS `172.65.251.78`, `OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gitlab.com:443`
 
 ## Hypothesis verdict
 
