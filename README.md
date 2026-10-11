@@ -67,6 +67,18 @@ python3 scripts/run_held_out_evaluation.py --seed 20261009 --timeout 5.0 \
 
 Prior successful warm-host fingerprint: `1b5a4a762b6485eca8668cc6e7dba93cd829246479cbeee00caf977c8fea5464`. Release docs: `docs/RELEASE_CHECKLIST.md`, `docs/FINAL_RESEARCH_REPORT.md`.
 
+## Assurance experiment (research hardening)
+
+Version stays `1.0.0`. The historical held-out file is unchanged. The new dataset, protocol hash, and scored run are under `research/` and `experiments/reports/assurance-v1/`.
+
+```bash
+python3 -m unittest tests.unit.test_research_hardening -v
+python3 scripts/run_assurance_experiment.py
+python3 scripts/judge_safety_demo.py
+```
+
+The experiment refuses to score held-out pairs unless `research/protocol_preregistration.json` matches the SHA-256 of `research/EXPERIMENT_PROTOCOL.md`. If `z3` is not installed, solver baselines are recorded as unavailable. This authoring host could not reach PyPI.
+
 ## Semantic modes
 
 - **Mode A:** unbounded mathematical integers (Z3 `Int` sorts)

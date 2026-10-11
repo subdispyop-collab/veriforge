@@ -248,6 +248,8 @@ def test_rejects_when_verifier_finds_counterexample() -> None:
         VerificationStatus.VERIFICATION_ERROR,
         VerificationStatus.UNSUPPORTED,
         VerificationStatus.INVALID_INPUT,
+        VerificationStatus.COUNTEREXAMPLE_VALIDATION_FAILED,
+        VerificationStatus.SEMANTIC_DISAGREEMENT,
     ],
 )
 def test_does_not_accept_inconclusive_or_error_statuses(

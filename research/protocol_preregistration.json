@@ -1,0 +1,9 @@
+{
+  "protocol_id": "veriforge-assurance-v1",
+  "protocol_version": "1.1.0",
+  "protocol_path": "research/EXPERIMENT_PROTOCOL.md",
+  "protocol_sha256": "3e2f3c81d58e70bc789c8470f82865bd8bbcf8027a96ec7ffdc6c4081a60aa13",
+  "created_at_utc": "2026-10-11T16:43:36Z",
+  "held_out_results_inspected_before_hash": false,
+  "note": "Hash recorded before scripts/run_assurance_experiment.py scored dataset 1.1.0 held-out labels."
+}

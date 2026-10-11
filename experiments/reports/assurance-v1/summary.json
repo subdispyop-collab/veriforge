@@ -1,0 +1,1395 @@
+{
+  "case_count": 463,
+  "categories": {
+    "boundary": {
+      "conclusion": "reported",
+      "pairs": 30
+    },
+    "equivalent_algebraic": {
+      "conclusion": "reported",
+      "pairs": 283
+    },
+    "mode_dependent": {
+      "conclusion": "reported",
+      "pairs": 35
+    },
+    "non_equivalent": {
+      "conclusion": "reported",
+      "pairs": 70
+    },
+    "robustness": {
+      "conclusion": "reported",
+      "pairs": 45
+    }
+  },
+  "environment": {
+    "bitwuzla_available": false,
+    "bitwuzla_note": "not installed; egress blocked and no local binary was found",
+    "cvc5_available": false,
+    "cvc5_note": "not installed; egress blocked and no local binary was found",
+    "dataset_sha256": "36e430e0bdecfb47ac1d2ee254e7d2ba48a0f06664f7c34b7fd6e206fb746ae2",
+    "dataset_version": "1.1.0",
+    "exhaustive_budget": 65536,
+    "generator_seed": 20261011,
+    "generator_version": "1.1.0",
+    "held_out_families": [
+      "const_off_by_one",
+      "distributivity",
+      "modular_collapse",
+      "nested_identity",
+      "sub_self",
+      "unsupported_syntax",
+      "wrong_factor"
+    ],
+    "machine": "x86_64",
+    "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+    "protocol_created_at_utc": "2026-10-11T16:43:36Z",
+    "protocol_sha256": "3e2f3c81d58e70bc789c8470f82865bd8bbcf8027a96ec7ffdc6c4081a60aa13",
+    "python": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+    "veriforge": "1.0.0",
+    "z3_available": false
+  },
+  "evaluator_disagreements": [],
+  "external_solver": "unavailable",
+  "family_count": 27,
+  "h_audit": {
+    "decision": "inconclusive",
+    "reason": "production Z3 verifier and the second Z3 encoder were unavailable because z3-solver could not be installed"
+  },
+  "h_test": {
+    "by_budget": {
+      "10": {
+        "equivalent_tested": 64,
+        "false_difference_rate": {
+          "rate": 0.0,
+          "successes": 0,
+          "trials": 64,
+          "wilson95": {
+            "high": 0.05662405979280534,
+            "low": 0.0
+          }
+        },
+        "false_differences_on_equivalent": 0,
+        "false_equivalence_misses": 0,
+        "false_equivalence_rate": {
+          "rate": 0.0,
+          "successes": 0,
+          "trials": 54,
+          "wilson95": {
+            "high": 0.0664135880908964,
+            "low": 0.0
+          }
+        },
+        "missed_case_ids": [],
+        "non_equivalent_tested": 54,
+        "wall_clock_seconds": 0.004081947001168373
+      },
+      "100": {
+        "equivalent_tested": 64,
+        "false_difference_rate": {
+          "rate": 0.0,
+          "successes": 0,
+          "trials": 64,
+          "wilson95": {
+            "high": 0.05662405979280534,
+            "low": 0.0
+          }
+        },
+        "false_differences_on_equivalent": 0,
+        "false_equivalence_misses": 0,
+        "false_equivalence_rate": {
+          "rate": 0.0,
+          "successes": 0,
+          "trials": 54,
+          "wilson95": {
+            "high": 0.0664135880908964,
+            "low": 0.0
+          }
+        },
+        "missed_case_ids": [],
+        "non_equivalent_tested": 54,
+        "wall_clock_seconds": 0.02535129399871039
+      },
+      "1000": {
+        "equivalent_tested": 64,
+        "false_difference_rate": {
+          "rate": 0.0,
+          "successes": 0,
+          "trials": 64,
+          "wilson95": {
+            "high": 0.05662405979280534,
+            "low": 0.0
+          }
+        },
+        "false_differences_on_equivalent": 0,
+        "false_equivalence_misses": 0,
+        "false_equivalence_rate": {
+          "rate": 0.0,
+          "successes": 0,
+          "trials": 54,
+          "wilson95": {
+            "high": 0.0664135880908964,
+            "low": 0.0
+          }
+        },
+        "missed_case_ids": [],
+        "non_equivalent_tested": 54,
+        "wall_clock_seconds": 0.5068007940008101
+      },
+      "10000": {
+        "equivalent_tested": 64,
+        "false_difference_rate": {
+          "rate": 0.0,
+          "successes": 0,
+          "trials": 64,
+          "wilson95": {
+            "high": 0.05662405979280534,
+            "low": 0.0
+          }
+        },
+        "false_differences_on_equivalent": 0,
+        "false_equivalence_misses": 0,
+        "false_equivalence_rate": {
+          "rate": 0.0,
+          "successes": 0,
+          "trials": 54,
+          "wilson95": {
+            "high": 0.0664135880908964,
+            "low": 0.0
+          }
+        },
+        "missed_case_ids": [],
+        "non_equivalent_tested": 54,
+        "wall_clock_seconds": 4.782053818000122
+      }
+    },
+    "h_test_decision": "not_supported"
+  },
+  "held_out_oracle_labels": {
+    "equivalent": 64,
+    "non_equivalent": 54,
+    "not_computed": 1,
+    "unsupported": 34
+  },
+  "independent_encoder": "unavailable",
+  "intent_mismatches": [
+    {
+      "bit_width": 8,
+      "candidate_source": "((x * y) + (x * z))",
+      "case_id": "av1-0252",
+      "family": "distributivity",
+      "intent": "equivalent",
+      "oracle_label": "not_computed",
+      "original_source": "(x * (y + z))",
+      "partition": "held_out",
+      "semantic_mode": "mode_b"
+    },
+    {
+      "bit_width": 8,
+      "candidate_source": "(x * (y + z))",
+      "case_id": "av1-0258",
+      "family": "factoring",
+      "intent": "equivalent",
+      "oracle_label": "not_computed",
+      "original_source": "((x * y) + (x * z))",
+      "partition": "development",
+      "semantic_mode": "mode_b"
+    }
+  ],
+  "localization": {
+    "claim_level": "engineering",
+    "constant_repairs_proposed": 29,
+    "constant_repairs_verified": 29,
+    "held_out_non_equivalent_with_witness": 53,
+    "localization_wilson": {
+      "rate": 1.0,
+      "successes": 53,
+      "trials": 53,
+      "wilson95": {
+        "high": 0.9999999999999999,
+        "low": 0.932418011423458
+      }
+    },
+    "localized_difference": 53,
+    "repair_wilson": {
+      "rate": 1.0,
+      "successes": 29,
+      "trials": 29,
+      "wilson95": {
+        "high": 1.0,
+        "low": 0.8830302015002593
+      }
+    }
+  },
+  "mode_traps": [
+    {
+      "candidate_source": "(x - 1)",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 8,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "(x + 255)"
+    },
+    {
+      "candidate_source": "255",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 8,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "(-1)"
+    },
+    {
+      "candidate_source": "x",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 8,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "((x + 128) + 128)"
+    },
+    {
+      "candidate_source": "x",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 4,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "((x + 8) + 8)"
+    },
+    {
+      "candidate_source": "(y - 1)",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 4,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "(y + 15)"
+    },
+    {
+      "candidate_source": "a",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 2,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "((a + 2) + 2)"
+    },
+    {
+      "candidate_source": "(x * 2)",
+      "differs_across_modes": true,
+      "family": "literal_range",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "equivalent"
+        },
+        "mode_b": {
+          "bit_width": 1,
+          "oracle_label": "invalid_input"
+        }
+      },
+      "original_source": "(x + x)"
+    },
+    {
+      "candidate_source": "(y + 2)",
+      "differs_across_modes": true,
+      "family": "literal_range",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "equivalent"
+        },
+        "mode_b": {
+          "bit_width": 1,
+          "oracle_label": "invalid_input"
+        }
+      },
+      "original_source": "((y + 1) + 1)"
+    },
+    {
+      "candidate_source": "(a + 4)",
+      "differs_across_modes": true,
+      "family": "literal_range",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "equivalent"
+        },
+        "mode_b": {
+          "bit_width": 2,
+          "oracle_label": "invalid_input"
+        }
+      },
+      "original_source": "((a + 1) + 3)"
+    },
+    {
+      "candidate_source": "(z + 8)",
+      "differs_across_modes": true,
+      "family": "literal_range",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "equivalent"
+        },
+        "mode_b": {
+          "bit_width": 3,
+          "oracle_label": "invalid_input"
+        }
+      },
+      "original_source": "((z + 4) + 4)"
+    },
+    {
+      "candidate_source": "(y - 1)",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 8,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "(y + 255)"
+    },
+    {
+      "candidate_source": "y",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 8,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "((y + 128) + 128)"
+    },
+    {
+      "candidate_source": "(a - 1)",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 4,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "(a + 15)"
+    },
+    {
+      "candidate_source": "z",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 4,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "((z + 8) + 8)"
+    },
+    {
+      "candidate_source": "a",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 8,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "((a + 128) + 128)"
+    },
+    {
+      "candidate_source": "(x - 1)",
+      "differs_across_modes": true,
+      "family": "modular_collapse",
+      "modes": {
+        "mode_a": {
+          "bit_width": null,
+          "oracle_label": "non_equivalent"
+        },
+        "mode_b": {
+          "bit_width": 2,
+          "oracle_label": "equivalent"
+        }
+      },
+      "original_source": "(x + 3)"
+    }
+  ],
+  "mutants": {
+    "denominator": 10,
+    "detected": 10,
+    "rows": [
+      {
+        "defect": "Binary addition is computed as subtraction.",
+        "detected": true,
+        "expected_detector": "differential evaluation against the unmutated evaluator",
+        "mutant_id": "m01_add_as_sub",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "Operator-translation mixups are a common encoding fault."
+      },
+      {
+        "defect": "Mode B multiplication returns the mathematical product without wrap.",
+        "detected": true,
+        "expected_detector": "differential evaluation on a wrapping product",
+        "mutant_id": "m02_mul_without_wrap",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "Forgetting modular reduction is a fixed-width semantics fault."
+      },
+      {
+        "defect": "Values at or above 2**(w-1) are returned as negative signed integers.",
+        "detected": true,
+        "expected_detector": "differential evaluation on a high unsigned value",
+        "mutant_id": "m03_unsigned_as_signed",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "Unsigned results are sometimes reinterpreted with the sign bit."
+      },
+      {
+        "defect": "Unary minus returns its operand unchanged.",
+        "detected": true,
+        "expected_detector": "differential evaluation on a negated variable",
+        "mutant_id": "m04_unary_minus_dropped",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "A dropped unary operator changes polarity."
+      },
+      {
+        "defect": "Mode B unary minus returns a negative Python integer.",
+        "detected": true,
+        "expected_detector": "differential evaluation on unary minus",
+        "mutant_id": "m05_unary_minus_no_wrap",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "Negation implemented as mathematical negation omits bit-vector wrap."
+      },
+      {
+        "defect": "The source operator '/' is parsed as multiplication.",
+        "detected": true,
+        "expected_detector": "reference parser rejects '/' while the mutant accepts it",
+        "mutant_id": "m06_div_accepted_as_mul",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "A parser can accept a prohibited operator under a nearby meaning."
+      },
+      {
+        "defect": "A timeout gate is combined as equivalence.",
+        "detected": true,
+        "expected_detector": "reference combine_gates on a timeout fixture",
+        "mutant_id": "m07_timeout_as_equivalent",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "Solver timeouts have been misreported as successful proofs."
+      },
+      {
+        "defect": "Equal concrete values are still reported as a confirmed counterexample.",
+        "detected": true,
+        "expected_detector": "comparison with the reference confirmation rule",
+        "mutant_id": "m08_validator_always_confirms",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "A bypassed validator can bless a non-differentiating model."
+      },
+      {
+        "defect": "The source operator '/' is parsed as addition.",
+        "detected": true,
+        "expected_detector": "reference parser rejects '/' while the mutant accepts it",
+        "mutant_id": "m09_div_accepted_as_add",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "Unsupported syntax can be rewritten into a supported operator."
+      },
+      {
+        "defect": "The candidate rewrite x*0 is treated as 1 rather than 0.",
+        "detected": true,
+        "expected_detector": "differential evaluation of 0 versus 1",
+        "mutant_id": "m10_mul_zero_to_one",
+        "semantic_effect": "confirmed_difference",
+        "survived": false,
+        "why_realistic": "A constant substitution fault changes a sound identity."
+      }
+    ],
+    "survived": 0
+  },
+  "oracle_labels": {
+    "equivalent": 316,
+    "invalid_input": 13,
+    "non_equivalent": 96,
+    "not_computed": 2,
+    "unsupported": 36
+  },
+  "partitions": {
+    "development": 310,
+    "held_out": 153
+  },
+  "pipeline_vs_oracle_held_out": {
+    "abstain_or_unavailable": 0,
+    "circularity": "On tractable cases the audited pipeline's establishing method is the same exhaustive or polynomial oracle that supplies the label. Agreement there is a contract check, not an independent accuracy estimate.",
+    "decided": 118,
+    "false_accept_non_equivalent": 0,
+    "false_accept_rate": {
+      "rate": 0.0,
+      "successes": 0,
+      "trials": 54,
+      "wilson95": {
+        "high": 0.0664135880908964,
+        "low": 0.0
+      }
+    },
+    "false_reject_equivalent": 0,
+    "false_reject_rate": {
+      "rate": 0.0,
+      "successes": 0,
+      "trials": 64,
+      "wilson95": {
+        "high": 0.05662405979280534,
+        "low": 0.0
+      }
+    },
+    "labeled_cases": 118,
+    "true_accept_equivalent": 64,
+    "true_reject_non_equivalent": 54
+  },
+  "production_smt": "unavailable",
+  "proposed_rules": [
+    {
+      "bit_width": null,
+      "candidate_source": "((x * y) + (x * z))",
+      "description": "a*(b+c) \u2192 a*b + a*c",
+      "detail": "expanded polynomials are identical",
+      "independent_verdict": "equivalent",
+      "mode": "mode_a",
+      "original_source": "(x * (y + z))",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "distributivity"
+    },
+    {
+      "bit_width": null,
+      "candidate_source": "(x * (y + z))",
+      "description": "a*b + a*c \u2192 a*(b+c)",
+      "detail": "expanded polynomials are identical",
+      "independent_verdict": "equivalent",
+      "mode": "mode_a",
+      "original_source": "((x * y) + (x * z))",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "factoring"
+    },
+    {
+      "bit_width": null,
+      "candidate_source": "5",
+      "description": "(2+3) \u2192 5",
+      "detail": "expanded polynomials are identical",
+      "independent_verdict": "equivalent",
+      "mode": "mode_a",
+      "original_source": "(2 + 3)",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "const_fold"
+    },
+    {
+      "bit_width": null,
+      "candidate_source": "0",
+      "description": "x - x \u2192 0",
+      "detail": "expanded polynomials are identical",
+      "independent_verdict": "equivalent",
+      "mode": "mode_a",
+      "original_source": "(x - x)",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "sub_self"
+    },
+    {
+      "bit_width": null,
+      "candidate_source": "(x * 2)",
+      "description": "x + x \u2192 2*x",
+      "detail": "expanded polynomials are identical",
+      "independent_verdict": "equivalent",
+      "mode": "mode_a",
+      "original_source": "(x + x)",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "add_self"
+    },
+    {
+      "bit_width": null,
+      "candidate_source": "x",
+      "description": "--x \u2192 x",
+      "detail": "expanded polynomials are identical",
+      "independent_verdict": "equivalent",
+      "mode": "mode_a",
+      "original_source": "(-(-x))",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "double_neg"
+    },
+    {
+      "bit_width": null,
+      "candidate_source": "(y - x)",
+      "description": "-(a-b) \u2192 b-a",
+      "detail": "expanded polynomials are identical",
+      "independent_verdict": "equivalent",
+      "mode": "mode_a",
+      "original_source": "(-(x - y))",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "neg_sub"
+    },
+    {
+      "bit_width": null,
+      "candidate_source": "(x + 5)",
+      "description": "(x+2)+3 \u2192 x+5",
+      "detail": "expanded polynomials are identical",
+      "independent_verdict": "equivalent",
+      "mode": "mode_a",
+      "original_source": "((x + 2) + 3)",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "const_reassoc"
+    },
+    {
+      "bit_width": 4,
+      "candidate_source": "((x * y) + (x * z))",
+      "description": "a*(b+c) \u2192 a*b + a*c",
+      "detail": "outputs match on every assignment in the finite domain",
+      "independent_verdict": "equivalent",
+      "mode": "mode_b",
+      "original_source": "(x * (y + z))",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "distributivity"
+    },
+    {
+      "bit_width": 4,
+      "candidate_source": "(x * (y + z))",
+      "description": "a*b + a*c \u2192 a*(b+c)",
+      "detail": "outputs match on every assignment in the finite domain",
+      "independent_verdict": "equivalent",
+      "mode": "mode_b",
+      "original_source": "((x * y) + (x * z))",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "factoring"
+    },
+    {
+      "bit_width": 4,
+      "candidate_source": "5",
+      "description": "(2+3) \u2192 5",
+      "detail": "outputs match on every assignment in the finite domain",
+      "independent_verdict": "equivalent",
+      "mode": "mode_b",
+      "original_source": "(2 + 3)",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "const_fold"
+    },
+    {
+      "bit_width": 4,
+      "candidate_source": "0",
+      "description": "x - x \u2192 0",
+      "detail": "outputs match on every assignment in the finite domain",
+      "independent_verdict": "equivalent",
+      "mode": "mode_b",
+      "original_source": "(x - x)",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "sub_self"
+    },
+    {
+      "bit_width": 8,
+      "candidate_source": "(x * 2)",
+      "description": "x + x \u2192 2*x",
+      "detail": "outputs match on every assignment in the finite domain",
+      "independent_verdict": "equivalent",
+      "mode": "mode_b",
+      "original_source": "(x + x)",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "add_self"
+    },
+    {
+      "bit_width": 4,
+      "candidate_source": "x",
+      "description": "--x \u2192 x",
+      "detail": "outputs match on every assignment in the finite domain",
+      "independent_verdict": "equivalent",
+      "mode": "mode_b",
+      "original_source": "(-(-x))",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "double_neg"
+    },
+    {
+      "bit_width": 4,
+      "candidate_source": "(y - x)",
+      "description": "-(a-b) \u2192 b-a",
+      "detail": "outputs match on every assignment in the finite domain",
+      "independent_verdict": "equivalent",
+      "mode": "mode_b",
+      "original_source": "(-(x - y))",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "neg_sub"
+    },
+    {
+      "bit_width": 8,
+      "candidate_source": "(x + 5)",
+      "description": "(x+2)+3 \u2192 x+5",
+      "detail": "outputs match on every assignment in the finite domain",
+      "independent_verdict": "equivalent",
+      "mode": "mode_b",
+      "original_source": "((x + 2) + 3)",
+      "production_admission": "not_admitted_production_z3_not_run",
+      "rule_id": "const_reassoc"
+    },
+    {
+      "bit_width": 1,
+      "candidate_source": "(x * 2)",
+      "description": "x+x \u2192 2*x is illegal at width 1",
+      "detail": "Mode B integer literal 2 is outside unsigned range [0, 1] for width 1",
+      "independent_verdict": "rejected_input",
+      "mode": "mode_b",
+      "original_source": "(x + x)",
+      "production_admission": "not_admitted_bad_candidate_or_precondition",
+      "rule_id": "add_self_width1"
+    },
+    {
+      "bit_width": 2,
+      "candidate_source": "(x + 5)",
+      "description": "(x+2)+3 \u2192 x+5 is illegal at width 2",
+      "detail": "Mode B integer literal 5 is outside unsigned range [0, 3] for width 2",
+      "independent_verdict": "rejected_input",
+      "mode": "mode_b",
+      "original_source": "((x + 2) + 3)",
+      "production_admission": "not_admitted_bad_candidate_or_precondition",
+      "rule_id": "const_reassoc_width2"
+    }
+  ],
+  "rule_baseline_held_out": {
+    "abstain_or_unavailable": 98,
+    "decided": 20,
+    "false_accept_non_equivalent": 0,
+    "false_accept_rate": {
+      "rate": null,
+      "successes": 0,
+      "trials": 0,
+      "wilson95": null
+    },
+    "false_reject_equivalent": 0,
+    "false_reject_rate": {
+      "rate": 0.0,
+      "successes": 0,
+      "trials": 20,
+      "wilson95": {
+        "high": 0.16112515805281938,
+        "low": 0.0
+      }
+    },
+    "labeled_cases": 118,
+    "true_accept_equivalent": 20,
+    "true_reject_non_equivalent": 0
+  },
+  "scaling": {
+    "bootstrap_of_configuration_medians": {
+      "high": 1.824000037231599e-06,
+      "low": 1.1584999697333842e-06,
+      "median": 1.4072500107431551e-06,
+      "n": 48,
+      "resamples": 2000,
+      "seed": 20261011
+    },
+    "execution_rows": [
+      {
+        "depth": 1,
+        "median_seconds": 6.415000370907364e-07,
+        "operator_count": 1,
+        "p95_seconds": 8.546499771000524e-07,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.0129999736818718e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.1243999551879824e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.523000037195743e-06,
+        "operator_count": 4,
+        "p95_seconds": 1.6408501551268273e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 8,
+        "median_seconds": 2.622500005600159e-06,
+        "operator_count": 8,
+        "p95_seconds": 2.6955000407724585e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 1,
+        "median_seconds": 6.604999498449615e-07,
+        "operator_count": 1,
+        "p95_seconds": 7.083000127749983e-07,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.1535000794538064e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.2699000080829137e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.6594999578956049e-06,
+        "operator_count": 4,
+        "p95_seconds": 1.7265499309360167e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 8,
+        "median_seconds": 2.783000127237756e-06,
+        "operator_count": 8,
+        "p95_seconds": 2.901750008277304e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 1,
+        "median_seconds": 6.540000185850658e-07,
+        "operator_count": 1,
+        "p95_seconds": 7.587000823150445e-07,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.163499860012962e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.2440500540833455e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.8519999684940558e-06,
+        "operator_count": 4,
+        "p95_seconds": 2.0327000015640803e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 8,
+        "median_seconds": 2.988500000355998e-06,
+        "operator_count": 8,
+        "p95_seconds": 3.059949926864647e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 8
+      },
+      {
+        "depth": 1,
+        "median_seconds": 6.939999366295524e-07,
+        "operator_count": 1,
+        "p95_seconds": 7.668499733881617e-07,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.0339999789721332e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.2256500440344097e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.6585000821578433e-06,
+        "operator_count": 4,
+        "p95_seconds": 1.7931499769474608e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 8,
+        "median_seconds": 2.7539999791770242e-06,
+        "operator_count": 8,
+        "p95_seconds": 2.9150498903618427e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 1,
+        "median_seconds": 7.235000794025837e-07,
+        "operator_count": 1,
+        "p95_seconds": 8.425000828538031e-07,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.2279999737074832e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.3519500271286232e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.7734998891683063e-06,
+        "operator_count": 4,
+        "p95_seconds": 1.8435999550092673e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 8,
+        "median_seconds": 2.8775000373570947e-06,
+        "operator_count": 8,
+        "p95_seconds": 3.0258000606409038e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 1,
+        "median_seconds": 6.880000000819564e-07,
+        "operator_count": 1,
+        "p95_seconds": 7.90200078881753e-07,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.2044999948557233e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.3423501513898371e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.9384999632166e-06,
+        "operator_count": 4,
+        "p95_seconds": 2.011650099120743e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 8,
+        "median_seconds": 3.0934999131204677e-06,
+        "operator_count": 8,
+        "p95_seconds": 3.1807001391825903e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 16
+      },
+      {
+        "depth": 1,
+        "median_seconds": 7.400000185953104e-07,
+        "operator_count": 1,
+        "p95_seconds": 8.466500389658904e-07,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.0910000582953217e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.1687500204971e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.6365000874429825e-06,
+        "operator_count": 4,
+        "p95_seconds": 1.8778499452309915e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 8,
+        "median_seconds": 2.864499947463628e-06,
+        "operator_count": 8,
+        "p95_seconds": 3.126149954368884e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 1,
+        "median_seconds": 7.964999895193614e-07,
+        "operator_count": 1,
+        "p95_seconds": 9.932500233844616e-07,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.2810000953322742e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.4285001270764042e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.824000037231599e-06,
+        "operator_count": 4,
+        "p95_seconds": 1.962199962690647e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 8,
+        "median_seconds": 3.037999931621016e-06,
+        "operator_count": 8,
+        "p95_seconds": 3.257500009112846e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 1,
+        "median_seconds": 7.455000741174445e-07,
+        "operator_count": 1,
+        "p95_seconds": 8.731500088288157e-07,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.2914999842905672e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.3609999314212473e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 4,
+        "median_seconds": 2.061500026684371e-06,
+        "operator_count": 4,
+        "p95_seconds": 2.1463000393850963e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 8,
+        "median_seconds": 3.2205000479734736e-06,
+        "operator_count": 8,
+        "p95_seconds": 3.39029996894169e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 32
+      },
+      {
+        "depth": 1,
+        "median_seconds": 7.439999762937077e-07,
+        "operator_count": 1,
+        "p95_seconds": 8.075501000348595e-07,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.0809999366756529e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.1464500516922272e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.6445000028397772e-06,
+        "operator_count": 4,
+        "p95_seconds": 1.7746499793247495e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 8,
+        "median_seconds": 2.8089999659641762e-06,
+        "operator_count": 8,
+        "p95_seconds": 2.9677500151592535e-06,
+        "trials": 30,
+        "variable_count": 1,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 1,
+        "median_seconds": 7.404998996207723e-07,
+        "operator_count": 1,
+        "p95_seconds": 8.803000355328549e-07,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.2909999895782676e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.3775999832432717e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 4,
+        "median_seconds": 1.8549999367678538e-06,
+        "operator_count": 4,
+        "p95_seconds": 2.2376499487108956e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 8,
+        "median_seconds": 3.1014999422041e-06,
+        "operator_count": 8,
+        "p95_seconds": 3.2851999435479225e-06,
+        "trials": 30,
+        "variable_count": 2,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 1,
+        "median_seconds": 7.685000582569046e-07,
+        "operator_count": 1,
+        "p95_seconds": 9.655499184191283e-07,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 2,
+        "median_seconds": 1.2900000001536682e-06,
+        "operator_count": 2,
+        "p95_seconds": 1.388349994613236e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 4,
+        "median_seconds": 2.083000026686932e-06,
+        "operator_count": 4,
+        "p95_seconds": 2.3266000425792298e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 64
+      },
+      {
+        "depth": 8,
+        "median_seconds": 3.3264999501625425e-06,
+        "operator_count": 8,
+        "p95_seconds": 3.5457999160826146e-06,
+        "trials": 30,
+        "variable_count": 3,
+        "warmup": 3,
+        "width": 64
+      }
+    ],
+    "h3_exec_rule": "supported if Spearman rho > 0, else not supported; undefined rho is inconclusive",
+    "h3_historical": "unresolved_solver_time_unavailable",
+    "solver_reason": "z3-solver is not installed",
+    "solver_time": "unavailable",
+    "spearman_operator_count_vs_median_execution": 0.9684560277703408
+  },
+  "signed_spot_checks": [
+    {
+      "expression": "(127 + 1)",
+      "production_mode": "not_added",
+      "signed_result": -128,
+      "unsigned_mode_b_result": 128,
+      "width": 8
+    }
+  ],
+  "size_reduction": {
+    "execution_speed_claim": false,
+    "rows": [
+      {
+        "operators_after": 0,
+        "operators_before": 1,
+        "reduced": "x",
+        "source": "(x + 0)",
+        "source_length_after": 1,
+        "source_length_before": 7
+      },
+      {
+        "operators_after": 0,
+        "operators_before": 1,
+        "reduced": "y",
+        "source": "(y - 0)",
+        "source_length_after": 1,
+        "source_length_before": 7
+      },
+      {
+        "operators_after": 0,
+        "operators_before": 1,
+        "reduced": "z",
+        "source": "(z * 1)",
+        "source_length_after": 1,
+        "source_length_before": 7
+      },
+      {
+        "operators_after": 0,
+        "operators_before": 1,
+        "reduced": "0",
+        "source": "(a * 0)",
+        "source_length_after": 1,
+        "source_length_before": 7
+      },
+      {
+        "operators_after": 0,
+        "operators_before": 3,
+        "reduced": "x",
+        "source": "(((x + 0) * 1) - 0)",
+        "source_length_after": 1,
+        "source_length_before": 19
+      }
+    ]
+  },
+  "smt_versus_testing": "not_computed_solver_unavailable"
+}

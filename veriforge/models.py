@@ -39,6 +39,8 @@ class VerificationStatus(Enum):
     INVALID_INPUT = "invalid_input"
     TRANSLATION_ERROR = "translation_error"
     VERIFICATION_ERROR = "verification_error"
+    COUNTEREXAMPLE_VALIDATION_FAILED = "counterexample_validation_failed"
+    SEMANTIC_DISAGREEMENT = "semantic_disagreement"
 
 
 class CounterexampleValidationStatus(Enum):

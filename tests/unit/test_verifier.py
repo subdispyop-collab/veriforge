@@ -316,7 +316,9 @@ def test_discrepancy_not_labeled_confirmed(monkeypatch: pytest.MonkeyPatch) -> N
     )
     # Keep a real sat path: x+1 vs x.
     result = verify_equivalence("x + 1", "x", mode_a())
-    assert result.status is VerificationStatus.VERIFICATION_ERROR
+    # Failed validation is its own status. It is never equivalence, and it is
+    # no longer collapsed into VERIFICATION_ERROR (unexpected engine failures).
+    assert result.status is VerificationStatus.COUNTEREXAMPLE_VALIDATION_FAILED
     assert result.counterexample is not None
     assert (
         result.counterexample.validation_status
@@ -332,7 +334,7 @@ def test_unvalidatable_counterexample(monkeypatch: pytest.MonkeyPatch) -> None:
 
     monkeypatch.setattr("veriforge.verifier_engine.evaluate", boom)
     result = verify_equivalence("x + 1", "x", mode_a())
-    assert result.status is VerificationStatus.VERIFICATION_ERROR
+    assert result.status is VerificationStatus.COUNTEREXAMPLE_VALIDATION_FAILED
     assert result.counterexample is not None
     assert (
         result.counterexample.validation_status

@@ -32,6 +32,8 @@ UNEQUIVALENT_STATUSES: frozenset[VerificationStatus] = frozenset(
         VerificationStatus.INVALID_INPUT,
         VerificationStatus.TRANSLATION_ERROR,
         VerificationStatus.VERIFICATION_ERROR,
+        VerificationStatus.COUNTEREXAMPLE_VALIDATION_FAILED,
+        VerificationStatus.SEMANTIC_DISAGREEMENT,
     }
 )
 
@@ -46,6 +48,12 @@ _STATUS_LABELS: dict[VerificationStatus, str] = {
     VerificationStatus.INVALID_INPUT: "Invalid input — no verification claim",
     VerificationStatus.TRANSLATION_ERROR: "Translation error — verification not performed",
     VerificationStatus.VERIFICATION_ERROR: "Verification error",
+    VerificationStatus.COUNTEREXAMPLE_VALIDATION_FAILED: (
+        "Counterexample validation failed — no equivalence claim"
+    ),
+    VerificationStatus.SEMANTIC_DISAGREEMENT: (
+        "Semantic disagreement — no verification claim"
+    ),
 }
 
 

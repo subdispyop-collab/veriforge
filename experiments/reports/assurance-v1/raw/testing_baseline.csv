@@ -1,0 +1,473 @@
+case_id,oracle_label,budget,distinguished,evaluated,elapsed_seconds,detail
+av1-0128,equivalent,10,False,10,0.0001435040001069865,testing baseline did not distinguish the expressions
+av1-0128,equivalent,100,False,100,0.0005971470000076806,testing baseline did not distinguish the expressions
+av1-0128,equivalent,1000,False,101,0.014249682999889046,testing baseline did not distinguish the expressions
+av1-0128,equivalent,10000,False,101,0.13858078099997329,testing baseline did not distinguish the expressions
+av1-0132,equivalent,10,False,2,2.74900000931666e-05,testing baseline did not distinguish the expressions
+av1-0132,equivalent,100,False,2,1.863600004980981e-05,testing baseline did not distinguish the expressions
+av1-0132,equivalent,1000,False,2,1.6722000054869568e-05,testing baseline did not distinguish the expressions
+av1-0132,equivalent,10000,False,2,2.0543000118777854e-05,testing baseline did not distinguish the expressions
+av1-0136,equivalent,10,False,4,2.289799999743991e-05,testing baseline did not distinguish the expressions
+av1-0136,equivalent,100,False,4,2.3736000002827495e-05,testing baseline did not distinguish the expressions
+av1-0136,equivalent,1000,False,4,2.1400000150606502e-05,testing baseline did not distinguish the expressions
+av1-0136,equivalent,10000,False,4,2.5151000045298133e-05,testing baseline did not distinguish the expressions
+av1-0141,equivalent,10,False,10,3.50120001257892e-05,testing baseline did not distinguish the expressions
+av1-0141,equivalent,100,False,16,5.918499982726644e-05,testing baseline did not distinguish the expressions
+av1-0141,equivalent,1000,False,16,6.702100017719204e-05,testing baseline did not distinguish the expressions
+av1-0141,equivalent,10000,False,16,0.00012443100013115327,testing baseline did not distinguish the expressions
+av1-0146,equivalent,10,False,10,3.5238000009485404e-05,testing baseline did not distinguish the expressions
+av1-0146,equivalent,100,False,100,0.0002905080000346061,testing baseline did not distinguish the expressions
+av1-0146,equivalent,1000,False,256,0.001602284000000509,testing baseline did not distinguish the expressions
+av1-0146,equivalent,10000,False,256,0.001566915000012159,testing baseline did not distinguish the expressions
+av1-0152,equivalent,10,False,10,3.4430999903634074e-05,testing baseline did not distinguish the expressions
+av1-0152,equivalent,100,False,100,0.0004858449999574077,testing baseline did not distinguish the expressions
+av1-0152,equivalent,1000,False,101,0.013718127999936769,testing baseline did not distinguish the expressions
+av1-0152,equivalent,10000,False,101,0.13613065900017318,testing baseline did not distinguish the expressions
+av1-0156,equivalent,10,False,2,2.083399999719404e-05,testing baseline did not distinguish the expressions
+av1-0156,equivalent,100,False,2,1.6241999901467352e-05,testing baseline did not distinguish the expressions
+av1-0156,equivalent,1000,False,2,1.9830999917758163e-05,testing baseline did not distinguish the expressions
+av1-0156,equivalent,10000,False,2,1.6333999838025193e-05,testing baseline did not distinguish the expressions
+av1-0160,equivalent,10,False,4,2.107399996020831e-05,testing baseline did not distinguish the expressions
+av1-0160,equivalent,100,False,4,2.0990999928471865e-05,testing baseline did not distinguish the expressions
+av1-0160,equivalent,1000,False,4,2.092000022457796e-05,testing baseline did not distinguish the expressions
+av1-0160,equivalent,10000,False,4,2.0864000134679372e-05,testing baseline did not distinguish the expressions
+av1-0165,equivalent,10,False,10,3.3436999956393265e-05,testing baseline did not distinguish the expressions
+av1-0165,equivalent,100,False,16,5.292900004860712e-05,testing baseline did not distinguish the expressions
+av1-0165,equivalent,1000,False,16,6.94780001140316e-05,testing baseline did not distinguish the expressions
+av1-0165,equivalent,10000,False,16,0.00012913399996250519,testing baseline did not distinguish the expressions
+av1-0170,equivalent,10,False,10,3.471199988780427e-05,testing baseline did not distinguish the expressions
+av1-0170,equivalent,100,False,100,0.00028488099997048266,testing baseline did not distinguish the expressions
+av1-0170,equivalent,1000,False,256,0.001226762999976927,testing baseline did not distinguish the expressions
+av1-0170,equivalent,10000,False,256,0.0014694730000428535,testing baseline did not distinguish the expressions
+av1-0176,equivalent,10,False,10,3.475999983493239e-05,testing baseline did not distinguish the expressions
+av1-0176,equivalent,100,False,100,0.0007202580000011949,testing baseline did not distinguish the expressions
+av1-0176,equivalent,1000,False,101,0.013675611000053323,testing baseline did not distinguish the expressions
+av1-0176,equivalent,10000,False,101,0.1344120710000425,testing baseline did not distinguish the expressions
+av1-0180,equivalent,10,False,2,2.017200017689902e-05,testing baseline did not distinguish the expressions
+av1-0180,equivalent,100,False,2,1.6072000107669737e-05,testing baseline did not distinguish the expressions
+av1-0180,equivalent,1000,False,2,1.9216999817217584e-05,testing baseline did not distinguish the expressions
+av1-0180,equivalent,10000,False,2,1.5800000028320937e-05,testing baseline did not distinguish the expressions
+av1-0184,equivalent,10,False,4,2.084999982798763e-05,testing baseline did not distinguish the expressions
+av1-0184,equivalent,100,False,4,2.029999996011611e-05,testing baseline did not distinguish the expressions
+av1-0184,equivalent,1000,False,4,1.9883000049958355e-05,testing baseline did not distinguish the expressions
+av1-0184,equivalent,10000,False,4,2.1134999997229897e-05,testing baseline did not distinguish the expressions
+av1-0189,equivalent,10,False,10,3.334099983476335e-05,testing baseline did not distinguish the expressions
+av1-0189,equivalent,100,False,16,6.634100009250687e-05,testing baseline did not distinguish the expressions
+av1-0189,equivalent,1000,False,16,5.930899988015881e-05,testing baseline did not distinguish the expressions
+av1-0189,equivalent,10000,False,16,0.00010774599991236755,testing baseline did not distinguish the expressions
+av1-0194,equivalent,10,False,10,3.5247000141680473e-05,testing baseline did not distinguish the expressions
+av1-0194,equivalent,100,False,100,0.0002772709999590006,testing baseline did not distinguish the expressions
+av1-0194,equivalent,1000,False,256,0.001631593999945835,testing baseline did not distinguish the expressions
+av1-0194,equivalent,10000,False,256,0.008376995000162424,testing baseline did not distinguish the expressions
+av1-0240,equivalent,10,False,8,9.90220000858244e-05,testing baseline did not distinguish the expressions
+av1-0240,equivalent,100,False,8,6.512300001304538e-05,testing baseline did not distinguish the expressions
+av1-0240,equivalent,1000,False,8,5.970400002297538e-05,testing baseline did not distinguish the expressions
+av1-0240,equivalent,10000,False,8,6.879800002934644e-05,testing baseline did not distinguish the expressions
+av1-0241,equivalent,10,False,4,4.5085000010658405e-05,testing baseline did not distinguish the expressions
+av1-0241,equivalent,100,False,4,4.232399987813551e-05,testing baseline did not distinguish the expressions
+av1-0241,equivalent,1000,False,4,3.437999998823216e-05,testing baseline did not distinguish the expressions
+av1-0241,equivalent,10000,False,4,3.1897000098979333e-05,testing baseline did not distinguish the expressions
+av1-0242,equivalent,10,False,2,2.1306000007825787e-05,testing baseline did not distinguish the expressions
+av1-0242,equivalent,100,False,2,2.0205000055284472e-05,testing baseline did not distinguish the expressions
+av1-0242,equivalent,1000,False,2,2.0634000065911096e-05,testing baseline did not distinguish the expressions
+av1-0242,equivalent,10000,False,2,1.9736000012926525e-05,testing baseline did not distinguish the expressions
+av1-0243,equivalent,10,False,10,0.00010686800010262232,testing baseline did not distinguish the expressions
+av1-0243,equivalent,100,False,64,0.0006299019999005395,testing baseline did not distinguish the expressions
+av1-0243,equivalent,1000,False,64,0.0006518160000723583,testing baseline did not distinguish the expressions
+av1-0243,equivalent,10000,False,64,0.0007417150000037509,testing baseline did not distinguish the expressions
+av1-0244,equivalent,10,False,10,5.848299997524009e-05,testing baseline did not distinguish the expressions
+av1-0244,equivalent,100,False,16,0.00015757599999233207,testing baseline did not distinguish the expressions
+av1-0244,equivalent,1000,False,16,0.00011258100016675598,testing baseline did not distinguish the expressions
+av1-0244,equivalent,10000,False,16,0.00011567299998205272,testing baseline did not distinguish the expressions
+av1-0245,equivalent,10,False,4,3.216900017832813e-05,testing baseline did not distinguish the expressions
+av1-0245,equivalent,100,False,4,2.9439999934766092e-05,testing baseline did not distinguish the expressions
+av1-0245,equivalent,1000,False,4,2.9376000156844384e-05,testing baseline did not distinguish the expressions
+av1-0245,equivalent,10000,False,4,2.917999995588616e-05,testing baseline did not distinguish the expressions
+av1-0246,equivalent,10,False,10,0.0001215970000885136,testing baseline did not distinguish the expressions
+av1-0246,equivalent,100,False,100,0.0005592919999344304,testing baseline did not distinguish the expressions
+av1-0246,equivalent,1000,False,1000,0.006128833000047962,testing baseline did not distinguish the expressions
+av1-0246,equivalent,10000,False,4096,0.058769835000020976,testing baseline did not distinguish the expressions
+av1-0247,equivalent,10,False,10,7.232299981296819e-05,testing baseline did not distinguish the expressions
+av1-0247,equivalent,100,False,100,0.0006426889999602281,testing baseline did not distinguish the expressions
+av1-0247,equivalent,1000,False,256,0.0025169529999402585,testing baseline did not distinguish the expressions
+av1-0247,equivalent,10000,False,256,0.002369868999949176,testing baseline did not distinguish the expressions
+av1-0248,equivalent,10,False,10,5.5468000027758535e-05,testing baseline did not distinguish the expressions
+av1-0248,equivalent,100,False,16,0.00010348099999646365,testing baseline did not distinguish the expressions
+av1-0248,equivalent,1000,False,16,0.0001194970000142348,testing baseline did not distinguish the expressions
+av1-0248,equivalent,10000,False,16,0.0001782530000582483,testing baseline did not distinguish the expressions
+av1-0249,equivalent,10,False,10,6.0482999970190576e-05,testing baseline did not distinguish the expressions
+av1-0249,equivalent,100,False,100,0.0005086999999548425,testing baseline did not distinguish the expressions
+av1-0249,equivalent,1000,False,1000,0.005550088000063624,testing baseline did not distinguish the expressions
+av1-0249,equivalent,10000,False,10000,0.05756450500007304,testing baseline did not distinguish the expressions
+av1-0250,equivalent,10,False,10,6.838600006631168e-05,testing baseline did not distinguish the expressions
+av1-0250,equivalent,100,False,100,0.00056940400008898,testing baseline did not distinguish the expressions
+av1-0250,equivalent,1000,False,1000,0.004955562999839458,testing baseline did not distinguish the expressions
+av1-0250,equivalent,10000,False,10000,0.08272838999982923,testing baseline did not distinguish the expressions
+av1-0251,equivalent,10,False,10,6.935900000826223e-05,testing baseline did not distinguish the expressions
+av1-0251,equivalent,100,False,100,0.0005128000000240718,testing baseline did not distinguish the expressions
+av1-0251,equivalent,1000,False,1000,0.005463543000132631,testing baseline did not distinguish the expressions
+av1-0251,equivalent,10000,False,10000,0.054970058999970206,testing baseline did not distinguish the expressions
+av1-0259,equivalent,10,False,10,5.661399995915417e-05,testing baseline did not distinguish the expressions
+av1-0259,equivalent,100,False,100,0.0006492270001672296,testing baseline did not distinguish the expressions
+av1-0259,equivalent,1000,False,101,0.013655952000135585,testing baseline did not distinguish the expressions
+av1-0259,equivalent,10000,False,101,0.13433168300002762,testing baseline did not distinguish the expressions
+av1-0260,equivalent,10,False,2,2.431200005048595e-05,testing baseline did not distinguish the expressions
+av1-0260,equivalent,100,False,2,1.951499984897964e-05,testing baseline did not distinguish the expressions
+av1-0260,equivalent,1000,False,2,1.9159000203217147e-05,testing baseline did not distinguish the expressions
+av1-0260,equivalent,10000,False,2,1.9244999975853716e-05,testing baseline did not distinguish the expressions
+av1-0261,equivalent,10,False,4,2.7232000093135866e-05,testing baseline did not distinguish the expressions
+av1-0261,equivalent,100,False,4,2.6938000019072206e-05,testing baseline did not distinguish the expressions
+av1-0261,equivalent,1000,False,4,2.7014000124836457e-05,testing baseline did not distinguish the expressions
+av1-0261,equivalent,10000,False,4,2.715000005082402e-05,testing baseline did not distinguish the expressions
+av1-0262,equivalent,10,False,10,4.6816000121907564e-05,testing baseline did not distinguish the expressions
+av1-0262,equivalent,100,False,16,8.932499986258335e-05,testing baseline did not distinguish the expressions
+av1-0262,equivalent,1000,False,16,8.315800005220808e-05,testing baseline did not distinguish the expressions
+av1-0262,equivalent,10000,False,16,0.00013606300012725114,testing baseline did not distinguish the expressions
+av1-0263,equivalent,10,False,10,4.698499992628058e-05,testing baseline did not distinguish the expressions
+av1-0263,equivalent,100,False,100,0.00040383999998994113,testing baseline did not distinguish the expressions
+av1-0263,equivalent,1000,False,256,0.001712695999913194,testing baseline did not distinguish the expressions
+av1-0263,equivalent,10000,False,256,0.0017636729999139789,testing baseline did not distinguish the expressions
+av1-0264,equivalent,10,False,10,4.3184999867662555e-05,testing baseline did not distinguish the expressions
+av1-0264,equivalent,100,False,100,0.0006003099999816186,testing baseline did not distinguish the expressions
+av1-0264,equivalent,1000,False,101,0.013755131999914738,testing baseline did not distinguish the expressions
+av1-0264,equivalent,10000,False,101,0.13408460999994531,testing baseline did not distinguish the expressions
+av1-0265,equivalent,10,False,2,2.054299989140418e-05,testing baseline did not distinguish the expressions
+av1-0265,equivalent,100,False,2,1.801999997042003e-05,testing baseline did not distinguish the expressions
+av1-0265,equivalent,1000,False,2,1.7390999801136786e-05,testing baseline did not distinguish the expressions
+av1-0265,equivalent,10000,False,2,1.6627999912088853e-05,testing baseline did not distinguish the expressions
+av1-0266,equivalent,10,False,4,2.336300008209946e-05,testing baseline did not distinguish the expressions
+av1-0266,equivalent,100,False,4,2.2843000124339596e-05,testing baseline did not distinguish the expressions
+av1-0266,equivalent,1000,False,4,2.3131000034481985e-05,testing baseline did not distinguish the expressions
+av1-0266,equivalent,10000,False,4,2.2689999923386495e-05,testing baseline did not distinguish the expressions
+av1-0267,equivalent,10,False,10,3.9680000099906465e-05,testing baseline did not distinguish the expressions
+av1-0267,equivalent,100,False,16,0.00010509100002309424,testing baseline did not distinguish the expressions
+av1-0267,equivalent,1000,False,16,6.89319999764848e-05,testing baseline did not distinguish the expressions
+av1-0267,equivalent,10000,False,16,0.0001232550000622723,testing baseline did not distinguish the expressions
+av1-0268,equivalent,10,False,10,4.083500016349717e-05,testing baseline did not distinguish the expressions
+av1-0268,equivalent,100,False,100,0.000349905000120998,testing baseline did not distinguish the expressions
+av1-0268,equivalent,1000,False,256,0.0016439510000054725,testing baseline did not distinguish the expressions
+av1-0268,equivalent,10000,False,256,0.0017608320001727407,testing baseline did not distinguish the expressions
+av1-0269,equivalent,10,False,10,4.354500015324447e-05,testing baseline did not distinguish the expressions
+av1-0269,equivalent,100,False,100,0.0005960519999916869,testing baseline did not distinguish the expressions
+av1-0269,equivalent,1000,False,101,0.013802539999915098,testing baseline did not distinguish the expressions
+av1-0269,equivalent,10000,False,101,0.13871090800012098,testing baseline did not distinguish the expressions
+av1-0270,equivalent,10,False,2,2.3005000002740417e-05,testing baseline did not distinguish the expressions
+av1-0270,equivalent,100,False,2,2.0228000039423932e-05,testing baseline did not distinguish the expressions
+av1-0270,equivalent,1000,False,2,1.975200007109379e-05,testing baseline did not distinguish the expressions
+av1-0270,equivalent,10000,False,2,1.9015000134459115e-05,testing baseline did not distinguish the expressions
+av1-0271,equivalent,10,False,4,2.7475000024423935e-05,testing baseline did not distinguish the expressions
+av1-0271,equivalent,100,False,4,2.7873999897565227e-05,testing baseline did not distinguish the expressions
+av1-0271,equivalent,1000,False,4,2.7018000082534854e-05,testing baseline did not distinguish the expressions
+av1-0271,equivalent,10000,False,4,2.557899983912648e-05,testing baseline did not distinguish the expressions
+av1-0272,equivalent,10,False,10,4.565099993669719e-05,testing baseline did not distinguish the expressions
+av1-0272,equivalent,100,False,16,7.457899982910021e-05,testing baseline did not distinguish the expressions
+av1-0272,equivalent,1000,False,16,9.000599993669312e-05,testing baseline did not distinguish the expressions
+av1-0272,equivalent,10000,False,16,0.00015576900000269234,testing baseline did not distinguish the expressions
+av1-0273,equivalent,10,False,10,4.75299998470291e-05,testing baseline did not distinguish the expressions
+av1-0273,equivalent,100,False,100,0.0004072819999692001,testing baseline did not distinguish the expressions
+av1-0273,equivalent,1000,False,256,0.001592694000009942,testing baseline did not distinguish the expressions
+av1-0273,equivalent,10000,False,256,0.0016923170001064136,testing baseline did not distinguish the expressions
+av1-0274,equivalent,10,False,10,4.1540999973221915e-05,testing baseline did not distinguish the expressions
+av1-0274,equivalent,100,False,100,0.0006180640000366111,testing baseline did not distinguish the expressions
+av1-0274,equivalent,1000,False,101,0.013653234999992492,testing baseline did not distinguish the expressions
+av1-0274,equivalent,10000,False,101,0.13378670399993098,testing baseline did not distinguish the expressions
+av1-0275,equivalent,10,False,2,2.0362999975986895e-05,testing baseline did not distinguish the expressions
+av1-0275,equivalent,100,False,2,1.842999995460559e-05,testing baseline did not distinguish the expressions
+av1-0275,equivalent,1000,False,2,1.8276999981026165e-05,testing baseline did not distinguish the expressions
+av1-0275,equivalent,10000,False,2,1.7648000039116596e-05,testing baseline did not distinguish the expressions
+av1-0276,equivalent,10,False,4,2.408599993941607e-05,testing baseline did not distinguish the expressions
+av1-0276,equivalent,100,False,4,2.2847000082037994e-05,testing baseline did not distinguish the expressions
+av1-0276,equivalent,1000,False,4,2.326200001334655e-05,testing baseline did not distinguish the expressions
+av1-0276,equivalent,10000,False,4,2.351300008740509e-05,testing baseline did not distinguish the expressions
+av1-0277,equivalent,10,False,10,4.084299985152029e-05,testing baseline did not distinguish the expressions
+av1-0277,equivalent,100,False,16,8.648600010019436e-05,testing baseline did not distinguish the expressions
+av1-0277,equivalent,1000,False,16,6.69920000291313e-05,testing baseline did not distinguish the expressions
+av1-0277,equivalent,10000,False,16,0.00013051800010543957,testing baseline did not distinguish the expressions
+av1-0278,equivalent,10,False,10,4.202600007374713e-05,testing baseline did not distinguish the expressions
+av1-0278,equivalent,100,False,100,0.0003621349999320955,testing baseline did not distinguish the expressions
+av1-0278,equivalent,1000,False,256,0.0016286109998873144,testing baseline did not distinguish the expressions
+av1-0278,equivalent,10000,False,256,0.0014962109999032691,testing baseline did not distinguish the expressions
+av1-0279,equivalent,10,False,10,5.8330999991085264e-05,testing baseline did not distinguish the expressions
+av1-0279,equivalent,100,False,100,0.0004799339999408403,testing baseline did not distinguish the expressions
+av1-0279,equivalent,1000,False,1000,0.004109446000029493,testing baseline did not distinguish the expressions
+av1-0279,equivalent,10000,False,10000,0.0729905759999383,testing baseline did not distinguish the expressions
+av1-0280,equivalent,10,False,4,3.9624999999432475e-05,testing baseline did not distinguish the expressions
+av1-0280,equivalent,100,False,4,2.9425000093397102e-05,testing baseline did not distinguish the expressions
+av1-0280,equivalent,1000,False,4,2.7840000029755174e-05,testing baseline did not distinguish the expressions
+av1-0280,equivalent,10000,False,4,2.7102999865746824e-05,testing baseline did not distinguish the expressions
+av1-0281,equivalent,10,False,10,4.66429999050888e-05,testing baseline did not distinguish the expressions
+av1-0281,equivalent,100,False,16,8.823500002108631e-05,testing baseline did not distinguish the expressions
+av1-0281,equivalent,1000,False,16,8.383700014746864e-05,testing baseline did not distinguish the expressions
+av1-0281,equivalent,10000,False,16,0.00014726299991707492,testing baseline did not distinguish the expressions
+av1-0282,equivalent,10,False,10,5.5240999927264056e-05,testing baseline did not distinguish the expressions
+av1-0282,equivalent,100,False,100,0.0004285449999770208,testing baseline did not distinguish the expressions
+av1-0282,equivalent,1000,False,256,0.0024381620000895055,testing baseline did not distinguish the expressions
+av1-0282,equivalent,10000,False,256,0.0022138169999834645,testing baseline did not distinguish the expressions
+av1-0283,equivalent,10,False,10,5.584600012298324e-05,testing baseline did not distinguish the expressions
+av1-0283,equivalent,100,False,100,0.0004484579999370908,testing baseline did not distinguish the expressions
+av1-0283,equivalent,1000,False,1000,0.004290723000167418,testing baseline did not distinguish the expressions
+av1-0283,equivalent,10000,False,10000,0.0447258320000401,testing baseline did not distinguish the expressions
+av1-0284,non_equivalent,10,True,1,3.34650001150294e-05,testing baseline found a differentiating assignment
+av1-0284,non_equivalent,100,True,1,0.00038811800004623365,testing baseline found a differentiating assignment
+av1-0284,non_equivalent,1000,True,1,0.013371959999858518,testing baseline found a differentiating assignment
+av1-0284,non_equivalent,10000,True,1,0.1351353760001075,testing baseline found a differentiating assignment
+av1-0285,non_equivalent,10,True,1,2.1173999812162947e-05,testing baseline found a differentiating assignment
+av1-0285,non_equivalent,100,True,1,1.707299998088274e-05,testing baseline found a differentiating assignment
+av1-0285,non_equivalent,1000,True,1,1.72139998539933e-05,testing baseline found a differentiating assignment
+av1-0285,non_equivalent,10000,True,1,1.6508000044268556e-05,testing baseline found a differentiating assignment
+av1-0286,non_equivalent,10,True,1,2.0420000055310084e-05,testing baseline found a differentiating assignment
+av1-0286,non_equivalent,100,True,1,4.432800005815807e-05,testing baseline found a differentiating assignment
+av1-0286,non_equivalent,1000,True,1,4.238300016368157e-05,testing baseline found a differentiating assignment
+av1-0286,non_equivalent,10000,True,1,5.5649000159974094e-05,testing baseline found a differentiating assignment
+av1-0287,non_equivalent,10,True,1,2.0386999949550955e-05,testing baseline found a differentiating assignment
+av1-0287,non_equivalent,100,True,1,0.00010210100003860134,testing baseline found a differentiating assignment
+av1-0287,non_equivalent,1000,True,1,0.0011734810000234575,testing baseline found a differentiating assignment
+av1-0287,non_equivalent,10000,True,1,0.0010783770001125959,testing baseline found a differentiating assignment
+av1-0288,non_equivalent,10,True,1,2.2724000018570223e-05,testing baseline found a differentiating assignment
+av1-0288,non_equivalent,100,True,1,0.0003384839999398537,testing baseline found a differentiating assignment
+av1-0288,non_equivalent,1000,True,1,0.01333241099996485,testing baseline found a differentiating assignment
+av1-0288,non_equivalent,10000,True,1,0.13322914099990157,testing baseline found a differentiating assignment
+av1-0289,non_equivalent,10,True,1,1.8102000012731878e-05,testing baseline found a differentiating assignment
+av1-0289,non_equivalent,100,True,1,1.5084000096976524e-05,testing baseline found a differentiating assignment
+av1-0289,non_equivalent,1000,True,1,1.4801000133957132e-05,testing baseline found a differentiating assignment
+av1-0289,non_equivalent,10000,True,1,1.3976999980513938e-05,testing baseline found a differentiating assignment
+av1-0290,non_equivalent,10,True,1,1.607299986972066e-05,testing baseline found a differentiating assignment
+av1-0290,non_equivalent,100,True,1,1.6255999980785418e-05,testing baseline found a differentiating assignment
+av1-0290,non_equivalent,1000,True,1,1.5713000038886094e-05,testing baseline found a differentiating assignment
+av1-0290,non_equivalent,10000,True,1,1.577300008648308e-05,testing baseline found a differentiating assignment
+av1-0291,non_equivalent,10,True,1,1.9927000039388076e-05,testing baseline found a differentiating assignment
+av1-0291,non_equivalent,100,True,1,3.2756999871708103e-05,testing baseline found a differentiating assignment
+av1-0291,non_equivalent,1000,True,1,3.2002999887481565e-05,testing baseline found a differentiating assignment
+av1-0291,non_equivalent,10000,True,1,3.917200001524179e-05,testing baseline found a differentiating assignment
+av1-0292,non_equivalent,10,True,1,2.0456999891393934e-05,testing baseline found a differentiating assignment
+av1-0292,non_equivalent,100,True,1,9.545800003252225e-05,testing baseline found a differentiating assignment
+av1-0292,non_equivalent,1000,True,1,0.001044131000071502,testing baseline found a differentiating assignment
+av1-0292,non_equivalent,10000,True,1,0.001050736000024699,testing baseline found a differentiating assignment
+av1-0293,non_equivalent,10,True,1,2.2964999971009092e-05,testing baseline found a differentiating assignment
+av1-0293,non_equivalent,100,True,1,0.00022459000001617824,testing baseline found a differentiating assignment
+av1-0293,non_equivalent,1000,True,1,0.013398849000168411,testing baseline found a differentiating assignment
+av1-0293,non_equivalent,10000,True,1,0.13409429300008924,testing baseline found a differentiating assignment
+av1-0294,non_equivalent,10,True,2,2.212200001849851e-05,testing baseline found a differentiating assignment
+av1-0294,non_equivalent,100,True,2,1.954899994416337e-05,testing baseline found a differentiating assignment
+av1-0294,non_equivalent,1000,True,2,1.8737999880613643e-05,testing baseline found a differentiating assignment
+av1-0294,non_equivalent,10000,True,2,1.7902000081448932e-05,testing baseline found a differentiating assignment
+av1-0295,non_equivalent,10,True,2,2.25650001084432e-05,testing baseline found a differentiating assignment
+av1-0295,non_equivalent,100,True,2,7.50189999507711e-05,testing baseline found a differentiating assignment
+av1-0295,non_equivalent,1000,True,2,5.376000012802251e-05,testing baseline found a differentiating assignment
+av1-0295,non_equivalent,10000,True,2,5.519100000128674e-05,testing baseline found a differentiating assignment
+av1-0296,non_equivalent,10,True,2,2.3266000198418624e-05,testing baseline found a differentiating assignment
+av1-0296,non_equivalent,100,True,2,0.00010339300001760421,testing baseline found a differentiating assignment
+av1-0296,non_equivalent,1000,True,2,0.0011024529999303923,testing baseline found a differentiating assignment
+av1-0296,non_equivalent,10000,True,2,0.0008951529998739716,testing baseline found a differentiating assignment
+av1-0332,non_equivalent,10,True,1,2.2601000182476128e-05,testing baseline found a differentiating assignment
+av1-0332,non_equivalent,100,True,1,0.00021721899997828586,testing baseline found a differentiating assignment
+av1-0332,non_equivalent,1000,True,1,0.013567809999813107,testing baseline found a differentiating assignment
+av1-0332,non_equivalent,10000,True,1,0.13484163599991916,testing baseline found a differentiating assignment
+av1-0333,non_equivalent,10,True,2,2.0898999991914025e-05,testing baseline found a differentiating assignment
+av1-0333,non_equivalent,100,True,2,1.910499986479408e-05,testing baseline found a differentiating assignment
+av1-0333,non_equivalent,1000,True,2,1.9368000039321487e-05,testing baseline found a differentiating assignment
+av1-0333,non_equivalent,10000,True,2,1.867099990704446e-05,testing baseline found a differentiating assignment
+av1-0334,non_equivalent,10,True,2,2.2211999976207153e-05,testing baseline found a differentiating assignment
+av1-0334,non_equivalent,100,True,2,3.9741999898978975e-05,testing baseline found a differentiating assignment
+av1-0334,non_equivalent,1000,True,2,4.0407000142295146e-05,testing baseline found a differentiating assignment
+av1-0334,non_equivalent,10000,True,2,5.911700009164633e-05,testing baseline found a differentiating assignment
+av1-0335,non_equivalent,10,True,2,2.311499997631472e-05,testing baseline found a differentiating assignment
+av1-0335,non_equivalent,100,True,2,0.00010104399984811607,testing baseline found a differentiating assignment
+av1-0335,non_equivalent,1000,True,2,0.0008934840000165423,testing baseline found a differentiating assignment
+av1-0335,non_equivalent,10000,True,2,0.0009200919998875179,testing baseline found a differentiating assignment
+av1-0336,non_equivalent,10,True,1,2.2924999939277768e-05,testing baseline found a differentiating assignment
+av1-0336,non_equivalent,100,True,1,0.0002655550001691154,testing baseline found a differentiating assignment
+av1-0336,non_equivalent,1000,True,1,0.013544604999879084,testing baseline found a differentiating assignment
+av1-0336,non_equivalent,10000,True,1,0.13417556799981867,testing baseline found a differentiating assignment
+av1-0337,non_equivalent,10,True,2,2.0289999838496442e-05,testing baseline found a differentiating assignment
+av1-0337,non_equivalent,100,True,2,1.7344000070806942e-05,testing baseline found a differentiating assignment
+av1-0337,non_equivalent,1000,True,2,1.713200003905513e-05,testing baseline found a differentiating assignment
+av1-0337,non_equivalent,10000,True,2,1.702800000202842e-05,testing baseline found a differentiating assignment
+av1-0338,non_equivalent,10,True,2,1.831600002333289e-05,testing baseline found a differentiating assignment
+av1-0338,non_equivalent,100,True,2,1.8116999854100868e-05,testing baseline found a differentiating assignment
+av1-0338,non_equivalent,1000,True,2,1.8129999943994335e-05,testing baseline found a differentiating assignment
+av1-0338,non_equivalent,10000,True,2,1.779699982762395e-05,testing baseline found a differentiating assignment
+av1-0339,non_equivalent,10,True,2,2.2639999997409177e-05,testing baseline found a differentiating assignment
+av1-0339,non_equivalent,100,True,2,3.4851000009439304e-05,testing baseline found a differentiating assignment
+av1-0339,non_equivalent,1000,True,2,7.061700011945504e-05,testing baseline found a differentiating assignment
+av1-0339,non_equivalent,10000,True,2,7.500499987145304e-05,testing baseline found a differentiating assignment
+av1-0340,non_equivalent,10,True,2,2.1283000023686327e-05,testing baseline found a differentiating assignment
+av1-0340,non_equivalent,100,True,2,9.367899997414497e-05,testing baseline found a differentiating assignment
+av1-0340,non_equivalent,1000,True,2,0.001162858000043343,testing baseline found a differentiating assignment
+av1-0340,non_equivalent,10000,True,2,0.0010392120000233263,testing baseline found a differentiating assignment
+av1-0341,non_equivalent,10,True,1,2.0531000018308987e-05,testing baseline found a differentiating assignment
+av1-0341,non_equivalent,100,True,1,6.693999989693111e-05,testing baseline found a differentiating assignment
+av1-0341,non_equivalent,1000,True,1,3.923500003111258e-05,testing baseline found a differentiating assignment
+av1-0341,non_equivalent,10000,True,1,4.1339999825140694e-05,testing baseline found a differentiating assignment
+av1-0342,non_equivalent,10,True,1,2.1245000198177877e-05,testing baseline found a differentiating assignment
+av1-0342,non_equivalent,100,True,1,0.00029004299994994653,testing baseline found a differentiating assignment
+av1-0342,non_equivalent,1000,True,1,0.013671576999968238,testing baseline found a differentiating assignment
+av1-0342,non_equivalent,10000,True,1,0.13500085400005446,testing baseline found a differentiating assignment
+av1-0343,non_equivalent,10,True,1,2.215600011368224e-05,testing baseline found a differentiating assignment
+av1-0343,non_equivalent,100,True,1,0.00010077100000671635,testing baseline found a differentiating assignment
+av1-0343,non_equivalent,1000,True,1,0.0009872489999906975,testing baseline found a differentiating assignment
+av1-0343,non_equivalent,10000,True,1,0.000849214000027132,testing baseline found a differentiating assignment
+av1-0344,non_equivalent,10,True,1,2.223899991804501e-05,testing baseline found a differentiating assignment
+av1-0344,non_equivalent,100,True,1,0.0003682999999909953,testing baseline found a differentiating assignment
+av1-0344,non_equivalent,1000,True,1,0.013521674999992683,testing baseline found a differentiating assignment
+av1-0344,non_equivalent,10000,True,1,0.13399500800005626,testing baseline found a differentiating assignment
+av1-0345,non_equivalent,10,True,1,2.2515000182465883e-05,testing baseline found a differentiating assignment
+av1-0345,non_equivalent,100,True,1,0.00026104900007339893,testing baseline found a differentiating assignment
+av1-0345,non_equivalent,1000,True,1,0.013558517000092252,testing baseline found a differentiating assignment
+av1-0345,non_equivalent,10000,True,1,0.13478261399995972,testing baseline found a differentiating assignment
+av1-0346,equivalent,10,False,10,4.328999989411386e-05,testing baseline did not distinguish the expressions
+av1-0346,equivalent,100,False,100,0.00037867199989705114,testing baseline did not distinguish the expressions
+av1-0346,equivalent,1000,False,256,0.001484110000092187,testing baseline did not distinguish the expressions
+av1-0346,equivalent,10000,False,256,0.0016321179998612934,testing baseline did not distinguish the expressions
+av1-0347,non_equivalent,10,True,1,3.108000100837671e-06,constant expressions compared
+av1-0347,non_equivalent,100,True,1,2.257999994981219e-06,constant expressions compared
+av1-0347,non_equivalent,1000,True,1,1.6770000001997687e-06,constant expressions compared
+av1-0347,non_equivalent,10000,True,1,1.371000053040916e-06,constant expressions compared
+av1-0348,equivalent,10,False,1,2.1839998680661665e-06,constant expressions compared
+av1-0348,equivalent,100,False,1,1.7410000054951524e-06,constant expressions compared
+av1-0348,equivalent,1000,False,1,1.6629999208817026e-06,constant expressions compared
+av1-0348,equivalent,10000,False,1,1.5250000160449417e-06,constant expressions compared
+av1-0349,non_equivalent,10,True,1,2.3935000172059517e-05,testing baseline found a differentiating assignment
+av1-0349,non_equivalent,100,True,1,0.0002449030000661878,testing baseline found a differentiating assignment
+av1-0349,non_equivalent,1000,True,1,0.013318479999952615,testing baseline found a differentiating assignment
+av1-0349,non_equivalent,10000,True,1,0.13234851399988656,testing baseline found a differentiating assignment
+av1-0350,equivalent,10,False,10,4.724599989458511e-05,testing baseline did not distinguish the expressions
+av1-0350,equivalent,100,False,100,0.0004229969999869354,testing baseline did not distinguish the expressions
+av1-0350,equivalent,1000,False,256,0.002010749999953987,testing baseline did not distinguish the expressions
+av1-0350,equivalent,10000,False,256,0.0016392529998938699,testing baseline did not distinguish the expressions
+av1-0351,non_equivalent,10,True,1,2.403999997113715e-05,testing baseline found a differentiating assignment
+av1-0351,non_equivalent,100,True,1,0.0004072799999903509,testing baseline found a differentiating assignment
+av1-0351,non_equivalent,1000,True,1,0.013416445000075328,testing baseline found a differentiating assignment
+av1-0351,non_equivalent,10000,True,1,0.1344748830001663,testing baseline found a differentiating assignment
+av1-0352,equivalent,10,False,10,5.642399992211722e-05,testing baseline did not distinguish the expressions
+av1-0352,equivalent,100,False,16,7.419300004585239e-05,testing baseline did not distinguish the expressions
+av1-0352,equivalent,1000,False,16,6.82060001508944e-05,testing baseline did not distinguish the expressions
+av1-0352,equivalent,10000,False,16,9.193100004267762e-05,testing baseline did not distinguish the expressions
+av1-0353,non_equivalent,10,True,1,2.3073000193107873e-05,testing baseline found a differentiating assignment
+av1-0353,non_equivalent,100,True,1,0.00048505099994144985,testing baseline found a differentiating assignment
+av1-0353,non_equivalent,1000,True,1,0.013421764999975494,testing baseline found a differentiating assignment
+av1-0353,non_equivalent,10000,True,1,0.1344581589999052,testing baseline found a differentiating assignment
+av1-0354,equivalent,10,False,10,4.206399989925558e-05,testing baseline did not distinguish the expressions
+av1-0354,equivalent,100,False,16,8.142000001498673e-05,testing baseline did not distinguish the expressions
+av1-0354,equivalent,1000,False,16,6.860200005576189e-05,testing baseline did not distinguish the expressions
+av1-0354,equivalent,10000,False,16,8.183699992514448e-05,testing baseline did not distinguish the expressions
+av1-0355,non_equivalent,10,True,1,2.2142000034364173e-05,testing baseline found a differentiating assignment
+av1-0355,non_equivalent,100,True,1,0.0004506029999902239,testing baseline found a differentiating assignment
+av1-0355,non_equivalent,1000,True,1,0.013444852000020546,testing baseline found a differentiating assignment
+av1-0355,non_equivalent,10000,True,1,0.13676504399995792,testing baseline found a differentiating assignment
+av1-0356,equivalent,10,False,4,3.6927999872204964e-05,testing baseline did not distinguish the expressions
+av1-0356,equivalent,100,False,4,2.4725000002945308e-05,testing baseline did not distinguish the expressions
+av1-0356,equivalent,1000,False,4,2.3692000013397774e-05,testing baseline did not distinguish the expressions
+av1-0356,equivalent,10000,False,4,2.348800012441643e-05,testing baseline did not distinguish the expressions
+av1-0410,non_equivalent,10,True,1,2.6573000013740966e-05,testing baseline found a differentiating assignment
+av1-0410,non_equivalent,100,True,1,0.00035735799997382856,testing baseline found a differentiating assignment
+av1-0410,non_equivalent,1000,True,1,0.013289078000070731,testing baseline found a differentiating assignment
+av1-0410,non_equivalent,10000,True,1,0.13318118299980597,testing baseline found a differentiating assignment
+av1-0411,non_equivalent,10,True,2,2.6134999870919273e-05,testing baseline found a differentiating assignment
+av1-0411,non_equivalent,100,True,2,0.00010048500007542316,testing baseline found a differentiating assignment
+av1-0411,non_equivalent,1000,True,2,0.0014463320001141255,testing baseline found a differentiating assignment
+av1-0411,non_equivalent,10000,True,2,0.000663162000137163,testing baseline found a differentiating assignment
+av1-0412,non_equivalent,10,True,1,2.2352000087266788e-05,testing baseline found a differentiating assignment
+av1-0412,non_equivalent,100,True,1,0.0003444840001520788,testing baseline found a differentiating assignment
+av1-0412,non_equivalent,1000,True,1,0.013437152000051356,testing baseline found a differentiating assignment
+av1-0412,non_equivalent,10000,True,1,0.13430886600008307,testing baseline found a differentiating assignment
+av1-0413,non_equivalent,10,True,1,2.7176999992661877e-05,testing baseline found a differentiating assignment
+av1-0413,non_equivalent,100,True,1,0.00010514200016586983,testing baseline found a differentiating assignment
+av1-0413,non_equivalent,1000,True,1,0.000789932999850862,testing baseline found a differentiating assignment
+av1-0413,non_equivalent,10000,True,1,0.0010652879998360731,testing baseline found a differentiating assignment
+av1-0414,non_equivalent,10,True,1,2.831200004038692e-05,testing baseline found a differentiating assignment
+av1-0414,non_equivalent,100,True,1,0.0005274059999464953,testing baseline found a differentiating assignment
+av1-0414,non_equivalent,1000,True,1,0.014035054000032687,testing baseline found a differentiating assignment
+av1-0414,non_equivalent,10000,True,1,0.13744266300000163,testing baseline found a differentiating assignment
+av1-0415,non_equivalent,10,True,3,3.1795000040801824e-05,testing baseline found a differentiating assignment
+av1-0415,non_equivalent,100,True,3,5.165999982637004e-05,testing baseline found a differentiating assignment
+av1-0415,non_equivalent,1000,True,3,4.9699000101099955e-05,testing baseline found a differentiating assignment
+av1-0415,non_equivalent,10000,True,3,3.631699996731186e-05,testing baseline found a differentiating assignment
+av1-0416,non_equivalent,10,True,1,2.2409000166589976e-05,testing baseline found a differentiating assignment
+av1-0416,non_equivalent,100,True,1,0.00039973399998416426,testing baseline found a differentiating assignment
+av1-0416,non_equivalent,1000,True,1,0.013835071999892534,testing baseline found a differentiating assignment
+av1-0416,non_equivalent,10000,True,1,0.13793174299985367,testing baseline found a differentiating assignment
+av1-0417,non_equivalent,10,True,2,2.707700014070724e-05,testing baseline found a differentiating assignment
+av1-0417,non_equivalent,100,True,2,8.307000007334864e-05,testing baseline found a differentiating assignment
+av1-0417,non_equivalent,1000,True,2,5.0262999820915866e-05,testing baseline found a differentiating assignment
+av1-0417,non_equivalent,10000,True,2,3.589300013118191e-05,testing baseline found a differentiating assignment
+av1-0418,non_equivalent,10,True,1,2.1738999976150808e-05,testing baseline found a differentiating assignment
+av1-0418,non_equivalent,100,True,1,0.00020894599992971052,testing baseline found a differentiating assignment
+av1-0418,non_equivalent,1000,True,1,0.013650000000097862,testing baseline found a differentiating assignment
+av1-0418,non_equivalent,10000,True,1,0.13772395299997697,testing baseline found a differentiating assignment
+av1-0419,non_equivalent,10,True,2,2.7196999781153863e-05,testing baseline found a differentiating assignment
+av1-0419,non_equivalent,100,True,2,0.00010475999988557305,testing baseline found a differentiating assignment
+av1-0419,non_equivalent,1000,True,2,0.0009776009999313828,testing baseline found a differentiating assignment
+av1-0419,non_equivalent,10000,True,2,0.0009624209999401501,testing baseline found a differentiating assignment
+av1-0420,non_equivalent,10,True,1,2.4299000187966158e-05,testing baseline found a differentiating assignment
+av1-0420,non_equivalent,100,True,1,0.00011304100007691886,testing baseline found a differentiating assignment
+av1-0420,non_equivalent,1000,True,1,0.0013029839999489923,testing baseline found a differentiating assignment
+av1-0420,non_equivalent,10000,True,1,0.04437994299996717,testing baseline found a differentiating assignment
+av1-0421,non_equivalent,10,True,2,4.158100000495324e-05,testing baseline found a differentiating assignment
+av1-0421,non_equivalent,100,True,2,0.00014027499992153025,testing baseline found a differentiating assignment
+av1-0421,non_equivalent,1000,True,2,0.0011677669999698992,testing baseline found a differentiating assignment
+av1-0421,non_equivalent,10000,True,2,0.0011022310000043944,testing baseline found a differentiating assignment
+av1-0422,non_equivalent,10,True,1,2.5412000013602665e-05,testing baseline found a differentiating assignment
+av1-0422,non_equivalent,100,True,1,0.00028758799999195617,testing baseline found a differentiating assignment
+av1-0422,non_equivalent,1000,True,1,0.013531975999967472,testing baseline found a differentiating assignment
+av1-0422,non_equivalent,10000,True,1,0.13401190499985205,testing baseline found a differentiating assignment
+av1-0423,non_equivalent,10,True,1,2.3874999897088856e-05,testing baseline found a differentiating assignment
+av1-0423,non_equivalent,100,True,1,0.00010757099994407326,testing baseline found a differentiating assignment
+av1-0423,non_equivalent,1000,True,1,0.0006778239999221114,testing baseline found a differentiating assignment
+av1-0423,non_equivalent,10000,True,1,0.0006593690000045171,testing baseline found a differentiating assignment
+av1-0424,non_equivalent,10,True,1,2.3096999939298257e-05,testing baseline found a differentiating assignment
+av1-0424,non_equivalent,100,True,1,0.0002687050000531599,testing baseline found a differentiating assignment
+av1-0424,non_equivalent,1000,True,1,0.0134173199999168,testing baseline found a differentiating assignment
+av1-0424,non_equivalent,10000,True,1,0.1345997329999591,testing baseline found a differentiating assignment
+av1-0425,non_equivalent,10,True,1,2.487100005055254e-05,testing baseline found a differentiating assignment
+av1-0425,non_equivalent,100,True,1,5.8090000038646394e-05,testing baseline found a differentiating assignment
+av1-0425,non_equivalent,1000,True,1,4.527600003711996e-05,testing baseline found a differentiating assignment
+av1-0425,non_equivalent,10000,True,1,3.420200005166407e-05,testing baseline found a differentiating assignment
+av1-0452,non_equivalent,10,True,1,2.21790000978217e-05,testing baseline found a differentiating assignment
+av1-0452,non_equivalent,100,True,1,0.0002541540000038367,testing baseline found a differentiating assignment
+av1-0452,non_equivalent,1000,True,1,0.01332733799995367,testing baseline found a differentiating assignment
+av1-0452,non_equivalent,10000,True,1,0.13420061100009661,testing baseline found a differentiating assignment
+av1-0453,equivalent,10,False,10,4.678000004787464e-05,testing baseline did not distinguish the expressions
+av1-0453,equivalent,100,False,100,0.00037048499984848604,testing baseline did not distinguish the expressions
+av1-0453,equivalent,1000,False,256,0.0020969299998796487,testing baseline did not distinguish the expressions
+av1-0453,equivalent,10000,False,256,0.0015519850001055602,testing baseline did not distinguish the expressions
+av1-0454,non_equivalent,10,True,1,2.38439999975526e-05,testing baseline found a differentiating assignment
+av1-0454,non_equivalent,100,True,1,0.0003585450001537538,testing baseline found a differentiating assignment
+av1-0454,non_equivalent,1000,True,1,0.013437092000003759,testing baseline found a differentiating assignment
+av1-0454,non_equivalent,10000,True,1,0.13376629200001844,testing baseline found a differentiating assignment
+av1-0455,equivalent,10,False,10,4.457699992599373e-05,testing baseline did not distinguish the expressions
+av1-0455,equivalent,100,False,100,0.00041433899991716316,testing baseline did not distinguish the expressions
+av1-0455,equivalent,1000,False,256,0.001570972999843434,testing baseline did not distinguish the expressions
+av1-0455,equivalent,10000,False,256,0.0017241909999938798,testing baseline did not distinguish the expressions
+av1-0456,non_equivalent,10,True,1,3.188899995620886e-05,testing baseline found a differentiating assignment
+av1-0456,non_equivalent,100,True,1,0.00036985900010222394,testing baseline found a differentiating assignment
+av1-0456,non_equivalent,1000,True,1,0.013571768000019802,testing baseline found a differentiating assignment
+av1-0456,non_equivalent,10000,True,1,0.13442776300007608,testing baseline found a differentiating assignment
+av1-0457,equivalent,10,False,10,4.340000009506184e-05,testing baseline did not distinguish the expressions
+av1-0457,equivalent,100,False,16,8.788699983597326e-05,testing baseline did not distinguish the expressions
+av1-0457,equivalent,1000,False,16,7.70040001043526e-05,testing baseline did not distinguish the expressions
+av1-0457,equivalent,10000,False,16,8.543199987798289e-05,testing baseline did not distinguish the expressions
+av1-0458,non_equivalent,10,True,1,2.3074000182532473e-05,testing baseline found a differentiating assignment
+av1-0458,non_equivalent,100,True,1,0.0004353809999884106,testing baseline found a differentiating assignment
+av1-0458,non_equivalent,1000,True,1,0.013652001999844288,testing baseline found a differentiating assignment
+av1-0458,non_equivalent,10000,True,1,0.13510519200008275,testing baseline found a differentiating assignment
+av1-0459,equivalent,10,False,10,4.374500008452742e-05,testing baseline did not distinguish the expressions
+av1-0459,equivalent,100,False,16,8.400000001529406e-05,testing baseline did not distinguish the expressions
+av1-0459,equivalent,1000,False,16,8.32050000099116e-05,testing baseline did not distinguish the expressions
+av1-0459,equivalent,10000,False,16,8.824500014270598e-05,testing baseline did not distinguish the expressions
+av1-0460,non_equivalent,10,True,1,2.388999996583152e-05,testing baseline found a differentiating assignment
+av1-0460,non_equivalent,100,True,1,0.00030380899988813326,testing baseline found a differentiating assignment
+av1-0460,non_equivalent,1000,True,1,0.013544164999984787,testing baseline found a differentiating assignment
+av1-0460,non_equivalent,10000,True,1,0.1348818639999081,testing baseline found a differentiating assignment
+av1-0461,equivalent,10,False,10,4.709800009550236e-05,testing baseline did not distinguish the expressions
+av1-0461,equivalent,100,False,100,0.00036350400000628724,testing baseline did not distinguish the expressions
+av1-0461,equivalent,1000,False,256,0.0016055719997893902,testing baseline did not distinguish the expressions
+av1-0461,equivalent,10000,False,256,0.0017694460000257095,testing baseline did not distinguish the expressions
+av1-0462,non_equivalent,10,True,1,2.421700014565431e-05,testing baseline found a differentiating assignment
+av1-0462,non_equivalent,100,True,1,0.00030209100009415124,testing baseline found a differentiating assignment
+av1-0462,non_equivalent,1000,True,1,0.015176924000115832,testing baseline found a differentiating assignment
+av1-0462,non_equivalent,10000,True,1,0.13618659700000535,testing baseline found a differentiating assignment
+av1-0463,equivalent,10,False,4,2.7439999939815607e-05,testing baseline did not distinguish the expressions
+av1-0463,equivalent,100,False,4,2.424699982839229e-05,testing baseline did not distinguish the expressions
+av1-0463,equivalent,1000,False,4,2.3963999865372898e-05,testing baseline did not distinguish the expressions
+av1-0463,equivalent,10000,False,4,2.425699995001196e-05,testing baseline did not distinguish the expressions

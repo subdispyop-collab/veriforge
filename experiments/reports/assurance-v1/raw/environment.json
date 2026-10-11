@@ -1,0 +1,27 @@
+{
+  "bitwuzla_available": false,
+  "bitwuzla_note": "not installed; egress blocked and no local binary was found",
+  "cvc5_available": false,
+  "cvc5_note": "not installed; egress blocked and no local binary was found",
+  "dataset_sha256": "36e430e0bdecfb47ac1d2ee254e7d2ba48a0f06664f7c34b7fd6e206fb746ae2",
+  "dataset_version": "1.1.0",
+  "exhaustive_budget": 65536,
+  "generator_seed": 20261011,
+  "generator_version": "1.1.0",
+  "held_out_families": [
+    "const_off_by_one",
+    "distributivity",
+    "modular_collapse",
+    "nested_identity",
+    "sub_self",
+    "unsupported_syntax",
+    "wrong_factor"
+  ],
+  "machine": "x86_64",
+  "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+  "protocol_created_at_utc": "2026-10-11T16:43:36Z",
+  "protocol_sha256": "3e2f3c81d58e70bc789c8470f82865bd8bbcf8027a96ec7ffdc6c4081a60aa13",
+  "python": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+  "veriforge": "1.0.0",
+  "z3_available": false
+}

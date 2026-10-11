@@ -20,7 +20,10 @@ from pathlib import Path
 from time import perf_counter
 from typing import Any, Iterable, Mapping, Sequence
 
-import z3
+try:
+    import z3
+except ImportError:  # environment manifest must still load without the solver
+    z3 = None  # type: ignore[assignment]
 
 from veriforge.config import ResourceLimits, SemanticConfiguration
 from veriforge.dataset_engine import load_bundle
@@ -100,11 +103,14 @@ def collect_environment(
     """Record software and hardware environment for a benchmark run."""
 
     z3_version: str | None
-    try:
-        z3_version = z3.get_version_string()
-    except Exception:  # noqa: BLE001
-        raw = getattr(z3, "__version__", None)
-        z3_version = None if raw is None else str(raw)
+    if z3 is None:
+        z3_version = None
+    else:
+        try:
+            z3_version = z3.get_version_string()
+        except Exception:  # noqa: BLE001
+            raw = getattr(z3, "__version__", None)
+            z3_version = None if raw is None else str(raw)
 
     try:
         cpu_count = os.cpu_count()

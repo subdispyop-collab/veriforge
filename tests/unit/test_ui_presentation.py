@@ -52,6 +52,8 @@ def test_format_covers_every_status(status: VerificationStatus) -> None:
         VerificationStatus.INVALID_INPUT,
         VerificationStatus.TRANSLATION_ERROR,
         VerificationStatus.VERIFICATION_ERROR,
+        VerificationStatus.COUNTEREXAMPLE_VALIDATION_FAILED,
+        VerificationStatus.SEMANTIC_DISAGREEMENT,
     ],
 )
 def test_unknown_and_timeout_never_labeled_equivalent(

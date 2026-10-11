@@ -1,0 +1,31 @@
+== correct rewrite x + 0 versus x, Mode A
+status=equivalent_within_model
+establishing_method=polynomial
+reason=every completed check established equivalence within its model
+  gate polynomial: equivalent (expanded polynomials are identical)
+
+== incorrect rewrite x + 1 versus x + 2, Mode B width 8
+status=counterexample_found
+establishing_method=exhaustive
+reason=a completed check found a differentiating assignment
+witness={'x': 0}
+  gate exhaustive: counterexample (outputs differ on a fully enumerated assignment)
+
+== malformed decimal literal 01, Mode A
+status=unsupported
+establishing_method=none
+reason=unsupported syntax
+  gate independent_parse_original: unsupported (leading zeros in decimal integer literals are not permitted)
+  gate production_parse_original: unsupported (syntax error: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers)
+
+== domain over exhaustive budget, Mode B width 8, three variables, budget 16
+status=unknown
+establishing_method=none
+reason=no establishing check completed; result is unresolved
+  gate exhaustive: not_computed (domain 2^(8*3)=16777216 exceeds assignment budget 16)
+
+== status-contract timeout fixture (not a live Z3 timeout)
+status=timeout
+establishing_method=none
+reason=solver timeout; not an equivalence result
+labeled_equivalent=False

@@ -11,7 +11,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Mapping
 
-import z3
+try:
+    import z3
+except ImportError:  # solver is optional at import time; checks fail closed
+    z3 = None  # type: ignore[assignment]
 
 from veriforge.config import SemanticConfiguration
 from veriforge.exceptions import (
@@ -40,6 +43,16 @@ from veriforge.models import (
 )
 from veriforge.parser_engine import parse_expression
 from veriforge.reference_evaluator import evaluate
+
+def _require_z3():
+    """Return the z3 module or fail closed if it is not installed."""
+
+    if z3 is None:
+        raise VerificationEngineError(
+            "z3-solver is not installed; SMT equivalence checking is unavailable"
+        )
+    return z3
+
 
 # Z3 check outcomes that indicate a configured timeout or interruption.
 _TIMEOUT_REASON_MARKERS: tuple[str, ...] = (
@@ -201,6 +214,7 @@ def translate_to_z3(
     Returns the Z3 term and the symbol map (created or reused).
     """
 
+    _require_z3()
     env: dict[str, z3.ExprRef]
     if symbols is None:
         env = {
@@ -231,11 +245,12 @@ def classify_check_result(
     must still validate the model before emitting ``COUNTEREXAMPLE_FOUND``.
     """
 
-    if check_result == z3.unsat:
+    z3mod = _require_z3()
+    if check_result == z3mod.unsat:
         return VerificationStatus.EQUIVALENT_WITHIN_MODEL
-    if check_result == z3.sat:
+    if check_result == z3mod.sat:
         return VerificationStatus.COUNTEREXAMPLE_FOUND
-    if check_result == z3.unknown:
+    if check_result == z3mod.unknown:
         reason = (reason_unknown or "").lower()
         if any(marker in reason for marker in _TIMEOUT_REASON_MARKERS):
             return VerificationStatus.TIMEOUT
@@ -273,6 +288,7 @@ def _solve_difference_timed(
 ) -> tuple[VerificationResult, float | None, float | None]:
     from time import perf_counter
 
+    z3mod = _require_z3()
     timeout_seconds = config.limits.solver_timeout_seconds
     bit_width = config.bit_width if config.mode is SemanticMode.MODE_B else None
     names = sorted(original.variables | candidate.variables)
@@ -292,7 +308,7 @@ def _solve_difference_timed(
             f"({original_term.sort()} vs {candidate_term.sort()})"
         )
 
-    solver = z3.Solver()
+    solver = z3mod.Solver()
     timeout_ms = max(1, int(timeout_seconds * 1000))
     solver.set("timeout", timeout_ms)
     solver.add(original_term != candidate_term)
@@ -301,7 +317,7 @@ def _solve_difference_timed(
     check_result = solver.check()
     solver_seconds = perf_counter() - t1
     reason_unknown: str | None = None
-    if check_result == z3.unknown:
+    if check_result == z3mod.unknown:
         try:
             reason_unknown = solver.reason_unknown()
         except Exception:  # noqa: BLE001
@@ -390,7 +406,7 @@ def _solve_difference_timed(
     # Failed validation is a defect / discrepancy, not a confirmed counterexample.
     return (
         VerificationResult(
-            status=VerificationStatus.VERIFICATION_ERROR,
+            status=VerificationStatus.COUNTEREXAMPLE_VALIDATION_FAILED,
             mode=config.mode,
             bit_width=bit_width,
             timeout_seconds=timeout_seconds,

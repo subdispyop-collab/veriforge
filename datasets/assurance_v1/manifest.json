@@ -1,0 +1,18 @@
+{
+  "case_count": 463,
+  "dataset_sha256": "36e430e0bdecfb47ac1d2ee254e7d2ba48a0f06664f7c34b7fd6e206fb746ae2",
+  "dataset_version": "1.1.0",
+  "exhaustive_budget": 65536,
+  "generator_seed": 20261011,
+  "generator_version": "1.1.0",
+  "held_out_families": [
+    "const_off_by_one",
+    "distributivity",
+    "modular_collapse",
+    "nested_identity",
+    "sub_self",
+    "unsupported_syntax",
+    "wrong_factor"
+  ],
+  "historical_held_out_preserved": "datasets/held_out"
+}
