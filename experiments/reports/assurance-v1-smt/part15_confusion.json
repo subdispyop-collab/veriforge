@@ -1,0 +1,345 @@
+{
+  "note": "Oracle labels are the polynomial or exhaustive labels in experiments/reports/assurance-v1/raw/cases.jsonl. Agreement with that oracle is not an independent SMT proof. False equivalence means oracle non_equivalent and solver equivalent_within_model.",
+  "solvers": [
+    {
+      "solver": "z3-4.8.17",
+      "unique_pairs": 463,
+      "unique_non_equivalent_families": [
+        "boundary_values",
+        "const_off_by_one",
+        "drop_term",
+        "modular_collapse",
+        "mul_to_add",
+        "op_swap",
+        "swap_sub",
+        "wrong_factor"
+      ],
+      "unique_non_equivalent_family_count": 8,
+      "all": {
+        "n": 463,
+        "oracle_non_equivalent": 96,
+        "oracle_equivalent": 316,
+        "false_equivalence": 0,
+        "false_equivalence_wilson95": [
+          3.469446951953614e-18,
+          0.038475587857675686
+        ],
+        "correct_rejection": 96,
+        "false_rejection": 0,
+        "false_rejection_wilson95": [
+          0.0,
+          0.012010509315640912
+        ],
+        "correct_acceptance": 316,
+        "decisive": 414,
+        "decisive_rate": 0.8941684665226782,
+        "status_counts": {
+          "equivalent_within_model": 318,
+          "counterexample_found": 96,
+          "invalid_input": 8,
+          "unsupported": 41
+        }
+      },
+      "by_mode": {
+        "mode_a": {
+          "n": 132,
+          "oracle_non_equivalent": 34,
+          "oracle_equivalent": 72,
+          "false_equivalence": 0,
+          "false_equivalence_wilson95": [
+            0.0,
+            0.10151455415332376
+          ],
+          "correct_rejection": 34,
+          "false_rejection": 0,
+          "false_rejection_wilson95": [
+            0.0,
+            0.05065117259645781
+          ],
+          "correct_acceptance": 72,
+          "decisive": 106,
+          "decisive_rate": 0.803030303030303,
+          "status_counts": {
+            "equivalent_within_model": 72,
+            "counterexample_found": 34,
+            "unsupported": 24,
+            "invalid_input": 2
+          }
+        },
+        "mode_b": {
+          "n": 331,
+          "oracle_non_equivalent": 62,
+          "oracle_equivalent": 244,
+          "false_equivalence": 0,
+          "false_equivalence_wilson95": [
+            0.0,
+            0.058344072101372484
+          ],
+          "correct_rejection": 62,
+          "false_rejection": 0,
+          "false_rejection_wilson95": [
+            0.0,
+            0.015499661916827669
+          ],
+          "correct_acceptance": 244,
+          "decisive": 308,
+          "decisive_rate": 0.9305135951661632,
+          "status_counts": {
+            "equivalent_within_model": 246,
+            "counterexample_found": 62,
+            "invalid_input": 6,
+            "unsupported": 17
+          }
+        }
+      },
+      "cells": {
+        "equivalent|equivalent_within_model": 316,
+        "invalid_input|invalid_input": 8,
+        "invalid_input|unsupported": 5,
+        "non_equivalent|counterexample_found": 96,
+        "not_computed|equivalent_within_model": 2,
+        "unsupported|unsupported": 36
+      }
+    },
+    {
+      "solver": "cvc5-1.3.2",
+      "unique_pairs": 463,
+      "unique_non_equivalent_families": [
+        "boundary_values",
+        "const_off_by_one",
+        "drop_term",
+        "modular_collapse",
+        "mul_to_add",
+        "op_swap",
+        "swap_sub",
+        "wrong_factor"
+      ],
+      "unique_non_equivalent_family_count": 8,
+      "all": {
+        "n": 463,
+        "oracle_non_equivalent": 96,
+        "oracle_equivalent": 316,
+        "false_equivalence": 0,
+        "false_equivalence_wilson95": [
+          3.469446951953614e-18,
+          0.038475587857675686
+        ],
+        "correct_rejection": 96,
+        "false_rejection": 0,
+        "false_rejection_wilson95": [
+          0.0,
+          0.012010509315640912
+        ],
+        "correct_acceptance": 316,
+        "decisive": 414,
+        "decisive_rate": 0.8941684665226782,
+        "status_counts": {
+          "equivalent_within_model": 318,
+          "counterexample_found": 96,
+          "invalid_input": 8,
+          "unsupported": 41
+        }
+      },
+      "by_mode": {
+        "mode_a": {
+          "n": 132,
+          "oracle_non_equivalent": 34,
+          "oracle_equivalent": 72,
+          "false_equivalence": 0,
+          "false_equivalence_wilson95": [
+            0.0,
+            0.10151455415332376
+          ],
+          "correct_rejection": 34,
+          "false_rejection": 0,
+          "false_rejection_wilson95": [
+            0.0,
+            0.05065117259645781
+          ],
+          "correct_acceptance": 72,
+          "decisive": 106,
+          "decisive_rate": 0.803030303030303,
+          "status_counts": {
+            "equivalent_within_model": 72,
+            "counterexample_found": 34,
+            "unsupported": 24,
+            "invalid_input": 2
+          }
+        },
+        "mode_b": {
+          "n": 331,
+          "oracle_non_equivalent": 62,
+          "oracle_equivalent": 244,
+          "false_equivalence": 0,
+          "false_equivalence_wilson95": [
+            0.0,
+            0.058344072101372484
+          ],
+          "correct_rejection": 62,
+          "false_rejection": 0,
+          "false_rejection_wilson95": [
+            0.0,
+            0.015499661916827669
+          ],
+          "correct_acceptance": 244,
+          "decisive": 308,
+          "decisive_rate": 0.9305135951661632,
+          "status_counts": {
+            "equivalent_within_model": 246,
+            "counterexample_found": 62,
+            "invalid_input": 6,
+            "unsupported": 17
+          }
+        }
+      },
+      "cells": {
+        "equivalent|equivalent_within_model": 316,
+        "invalid_input|invalid_input": 8,
+        "invalid_input|unsupported": 5,
+        "non_equivalent|counterexample_found": 96,
+        "not_computed|equivalent_within_model": 2,
+        "unsupported|unsupported": 36
+      }
+    },
+    {
+      "solver": "bitwuzla-0.8.2",
+      "unique_pairs": 463,
+      "unique_non_equivalent_families": [
+        "boundary_values",
+        "const_off_by_one",
+        "drop_term",
+        "modular_collapse",
+        "mul_to_add",
+        "op_swap",
+        "swap_sub",
+        "wrong_factor"
+      ],
+      "unique_non_equivalent_family_count": 8,
+      "all": {
+        "n": 463,
+        "oracle_non_equivalent": 96,
+        "oracle_equivalent": 316,
+        "false_equivalence": 0,
+        "false_equivalence_wilson95": [
+          3.469446951953614e-18,
+          0.038475587857675686
+        ],
+        "correct_rejection": 62,
+        "false_rejection": 0,
+        "false_rejection_wilson95": [
+          0.0,
+          0.012010509315640912
+        ],
+        "correct_acceptance": 244,
+        "decisive": 308,
+        "decisive_rate": 0.6652267818574514,
+        "status_counts": {
+          "solver_error": 106,
+          "equivalent_within_model": 246,
+          "counterexample_found": 62,
+          "invalid_input": 8,
+          "unsupported": 41
+        }
+      },
+      "by_mode": {
+        "mode_a": {
+          "n": 132,
+          "oracle_non_equivalent": 34,
+          "oracle_equivalent": 72,
+          "false_equivalence": 0,
+          "false_equivalence_wilson95": [
+            0.0,
+            0.10151455415332376
+          ],
+          "correct_rejection": 0,
+          "false_rejection": 0,
+          "false_rejection_wilson95": [
+            0.0,
+            0.05065117259645781
+          ],
+          "correct_acceptance": 0,
+          "decisive": 0,
+          "decisive_rate": 0.0,
+          "status_counts": {
+            "solver_error": 106,
+            "unsupported": 24,
+            "invalid_input": 2
+          }
+        },
+        "mode_b": {
+          "n": 331,
+          "oracle_non_equivalent": 62,
+          "oracle_equivalent": 244,
+          "false_equivalence": 0,
+          "false_equivalence_wilson95": [
+            0.0,
+            0.058344072101372484
+          ],
+          "correct_rejection": 62,
+          "false_rejection": 0,
+          "false_rejection_wilson95": [
+            0.0,
+            0.015499661916827669
+          ],
+          "correct_acceptance": 244,
+          "decisive": 308,
+          "decisive_rate": 0.9305135951661632,
+          "status_counts": {
+            "equivalent_within_model": 246,
+            "counterexample_found": 62,
+            "invalid_input": 6,
+            "unsupported": 17
+          }
+        }
+      },
+      "cells": {
+        "equivalent|equivalent_within_model": 244,
+        "equivalent|solver_error": 72,
+        "invalid_input|invalid_input": 8,
+        "invalid_input|unsupported": 5,
+        "non_equivalent|counterexample_found": 62,
+        "non_equivalent|solver_error": 34,
+        "not_computed|equivalent_within_model": 2,
+        "unsupported|unsupported": 36
+      }
+    }
+  ],
+  "encoded_case_study": [
+    {
+      "case_id": "pldi21-nsw-add-skeleton",
+      "original": "( (a + b) + (c + d) )",
+      "candidate": "( ( (a + b) + c ) + d )",
+      "semantic_mode": "mode_a",
+      "bit_width": null,
+      "status": "equivalent_within_model",
+      "reason": "no differentiating input within the encoded model"
+    },
+    {
+      "case_id": "pldi21-nsw-add-skeleton",
+      "original": "( (a + b) + (c + d) )",
+      "candidate": "( ( (a + b) + c ) + d )",
+      "semantic_mode": "mode_b",
+      "bit_width": 8,
+      "status": "equivalent_within_model",
+      "reason": "no differentiating input within the encoded model"
+    },
+    {
+      "case_id": "llvm-57683-scalar-negation",
+      "original": "(a - b)",
+      "candidate": "(a + (-b))",
+      "semantic_mode": "mode_a",
+      "bit_width": null,
+      "status": "equivalent_within_model",
+      "reason": "no differentiating input within the encoded model"
+    },
+    {
+      "case_id": "llvm-57683-scalar-negation",
+      "original": "(a - b)",
+      "candidate": "(a + (-b))",
+      "semantic_mode": "mode_b",
+      "bit_width": 8,
+      "status": "equivalent_within_model",
+      "reason": "no differentiating input within the encoded model"
+    }
+  ]
+}

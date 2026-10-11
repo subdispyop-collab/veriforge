@@ -1,0 +1,14 @@
+{
+  "command": "python3 -m pytest --junitxml=/tmp/pytest-911.xml -q --tb=line",
+  "python": "3.12.3",
+  "pytest": "9.1.1",
+  "pytest_package": "Debian sid python3-pytest 9.1.1-1",
+  "hypothesis": "6.155.7",
+  "hypothesis_note": "Debian sid python3-hypothesis 6.155.7-1. The lock pin hypothesis==6.168.5 was not the package that ran.",
+  "z3": "4.8.17",
+  "tests": 383,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "exit_code": 0
+}
