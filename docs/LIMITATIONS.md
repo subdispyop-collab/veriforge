@@ -15,7 +15,7 @@ Consequences:
 - Baselines 1–4 are implemented in the harness; baseline 5 (external tool) remains not selected.
 - Metric unit tests and benchmark-engine validation runs may use development/fixture data. Those numbers are not scientific findings unless a held-out report says otherwise with traceable raw observations.
 - Timing and solver wall-clock measurements are subject to platform and Z3 nondeterminism; exact bit-for-bit reproduction of durations is not guaranteed.
-- The Phase 3 optimizer ships only four identity-preserving production rules. Aggressive rewrites are intentionally absent.
+- The Phase 3 optimizer shipped four identity-preserving production rules. Eight algebra rules were added later, only after production Z3 returned `EQUIVALENT_WITHIN_MODEL` for each template in Mode A and in one legal Mode B width. Width-1 `x * 2` and width-2 `x + 5` stay rejected.
 - Artificial mutations exist only in `veriforge.fuzzer_suite` for detection testing. They are not estimates of real-world defect prevalence.
 - An artificial 90/10 correct/incorrect mix may appear as a controlled configuration only. It is not real-world prevalence.
 - Passing Hypothesis property tests and mutation campaigns is not a mathematical proof of equivalence.

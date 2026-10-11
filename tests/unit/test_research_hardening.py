@@ -134,7 +134,26 @@ class ContractTests(unittest.TestCase):
         self.assertIs(status, VerificationStatus.UNKNOWN)
 
     def test_missing_solver_does_not_veto_polynomial_proof(self) -> None:
-        report = audit_equivalence("(x + 0)", "x", mode_a(), run_smt=True)
+        from unittest.mock import patch
+
+        from veriforge.models import VerificationResult
+
+        def _missing(*_args, **_kwargs):
+            return VerificationResult(
+                status=VerificationStatus.VERIFICATION_ERROR,
+                mode=SemanticMode.MODE_A,
+                bit_width=None,
+                timeout_seconds=5.0,
+                original_source="(x + 0)",
+                candidate_source="x",
+                reason="z3-solver is not installed",
+            )
+
+        with (
+            patch("veriforge.verifier_engine.verify_equivalence", _missing),
+            patch("veriforge.independent_encoder.z3", None),
+        ):
+            report = audit_equivalence("(x + 0)", "x", mode_a(), run_smt=True)
         self.assertIs(report.status, VerificationStatus.EQUIVALENT_WITHIN_MODEL)
         self.assertIn("polynomial", report.establishing_method)
         self.assertFalse(report.smt_available)

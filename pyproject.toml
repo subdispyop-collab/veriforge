@@ -25,5 +25,6 @@ include = ["veriforge*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+python_functions = ["test_*"]
 pythonpath = ["."]
 addopts = "-q"

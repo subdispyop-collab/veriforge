@@ -111,6 +111,147 @@ def _try_mul_zero(node: Expr) -> Expr | None:
     return None
 
 
+def _same_expr(left: Expr, right: Expr) -> bool:
+    if type(left) is not type(right):
+        return False
+    if isinstance(left, IntLiteral) and isinstance(right, IntLiteral):
+        return left.value == right.value
+    if isinstance(left, Variable) and isinstance(right, Variable):
+        return left.name == right.name
+    if isinstance(left, UnaryOp) and isinstance(right, UnaryOp):
+        return left.op is right.op and _same_expr(left.operand, right.operand)
+    if isinstance(left, BinaryOp) and isinstance(right, BinaryOp):
+        return (
+            left.op is right.op
+            and _same_expr(left.left, right.left)
+            and _same_expr(left.right, right.right)
+        )
+    return False
+
+
+def _try_distributivity(node: Expr) -> Expr | None:
+    """a * (b + c) → (a * b) + (a * c). The proved orientation only."""
+
+    if (
+        isinstance(node, BinaryOp)
+        and node.op is BinaryOperator.MUL
+        and isinstance(node.right, BinaryOp)
+        and node.right.op is BinaryOperator.ADD
+    ):
+        return BinaryOp(
+            op=BinaryOperator.ADD,
+            left=BinaryOp(op=BinaryOperator.MUL, left=node.left, right=node.right.left),
+            right=BinaryOp(op=BinaryOperator.MUL, left=node.left, right=node.right.right),
+        )
+    return None
+
+
+def _try_factoring(node: Expr) -> Expr | None:
+    """(a * b) + (a * c) → a * (b + c), matching the left factor."""
+
+    if not (
+        isinstance(node, BinaryOp)
+        and node.op is BinaryOperator.ADD
+        and isinstance(node.left, BinaryOp)
+        and node.left.op is BinaryOperator.MUL
+        and isinstance(node.right, BinaryOp)
+        and node.right.op is BinaryOperator.MUL
+        and _same_expr(node.left.left, node.right.left)
+    ):
+        return None
+    return BinaryOp(
+        op=BinaryOperator.MUL,
+        left=node.left.left,
+        right=BinaryOp(
+            op=BinaryOperator.ADD,
+            left=node.left.right,
+            right=node.right.right,
+        ),
+    )
+
+
+def _try_const_fold(node: Expr) -> Expr | None:
+    """Fold addition of two integer literals. Other folds stay unproved."""
+
+    if (
+        isinstance(node, BinaryOp)
+        and node.op is BinaryOperator.ADD
+        and isinstance(node.left, IntLiteral)
+        and isinstance(node.right, IntLiteral)
+    ):
+        return IntLiteral(value=node.left.value + node.right.value)
+    return None
+
+
+def _try_sub_self(node: Expr) -> Expr | None:
+    if (
+        isinstance(node, BinaryOp)
+        and node.op is BinaryOperator.SUB
+        and _same_expr(node.left, node.right)
+    ):
+        return IntLiteral(value=0)
+    return None
+
+
+def _try_add_self(node: Expr) -> Expr | None:
+    if (
+        isinstance(node, BinaryOp)
+        and node.op is BinaryOperator.ADD
+        and _same_expr(node.left, node.right)
+    ):
+        return BinaryOp(
+            op=BinaryOperator.MUL,
+            left=node.left,
+            right=IntLiteral(value=2),
+        )
+    return None
+
+
+def _try_double_neg(node: Expr) -> Expr | None:
+    if (
+        isinstance(node, UnaryOp)
+        and node.op is UnaryOperator.MINUS
+        and isinstance(node.operand, UnaryOp)
+        and node.operand.op is UnaryOperator.MINUS
+    ):
+        return node.operand.operand
+    return None
+
+
+def _try_neg_sub(node: Expr) -> Expr | None:
+    if (
+        isinstance(node, UnaryOp)
+        and node.op is UnaryOperator.MINUS
+        and isinstance(node.operand, BinaryOp)
+        and node.operand.op is BinaryOperator.SUB
+    ):
+        return BinaryOp(
+            op=BinaryOperator.SUB,
+            left=node.operand.right,
+            right=node.operand.left,
+        )
+    return None
+
+
+def _try_const_reassoc(node: Expr) -> Expr | None:
+    """(e + c1) + c2 → e + (c1 + c2) for integer literals c1 and c2."""
+
+    if (
+        isinstance(node, BinaryOp)
+        and node.op is BinaryOperator.ADD
+        and isinstance(node.right, IntLiteral)
+        and isinstance(node.left, BinaryOp)
+        and node.left.op is BinaryOperator.ADD
+        and isinstance(node.left.right, IntLiteral)
+    ):
+        return BinaryOp(
+            op=BinaryOperator.ADD,
+            left=node.left.left,
+            right=IntLiteral(value=node.left.right.value + node.right.value),
+        )
+    return None
+
+
 _BOTH_MODES = frozenset({SemanticMode.MODE_A, SemanticMode.MODE_B})
 
 RULE_ADD_ZERO = OptimizationRule(
@@ -165,16 +306,132 @@ RULE_MUL_ZERO = OptimizationRule(
     verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
 )
 
+RULE_DISTRIBUTIVITY = OptimizationRule(
+    rule_id="algebra.distributivity",
+    name="Distribute multiplication over addition",
+    formal_description="a * (b + c) → (a * b) + (a * c)",
+    preconditions=(
+        "The matched node is a binary multiplication",
+        "The right operand is a binary addition",
+        "Production Z3 returned EQUIVALENT_WITHIN_MODEL for this template in Mode A and in Mode B width 4",
+    ),
+    supported_modes=_BOTH_MODES,
+    verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
+)
+
+RULE_FACTORING = OptimizationRule(
+    rule_id="algebra.factoring",
+    name="Factor a common left multiplier",
+    formal_description="(a * b) + (a * c) → a * (b + c)",
+    preconditions=(
+        "The matched node is a binary addition of two multiplications",
+        "The two multiplications share the same left operand",
+        "Production Z3 returned EQUIVALENT_WITHIN_MODEL for this template in Mode A and in Mode B width 4",
+    ),
+    supported_modes=_BOTH_MODES,
+    verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
+)
+
+RULE_CONST_FOLD = OptimizationRule(
+    rule_id="algebra.const_fold",
+    name="Fold addition of two literals",
+    formal_description="c1 + c2 → (c1 + c2) for integer literals",
+    preconditions=(
+        "Both operands are integer literals",
+        "The operator is addition",
+        "Production Z3 returned EQUIVALENT_WITHIN_MODEL for (2 + 3) versus 5 in Mode A and in Mode B width 4",
+    ),
+    supported_modes=_BOTH_MODES,
+    verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
+)
+
+RULE_SUB_SELF = OptimizationRule(
+    rule_id="algebra.sub_self",
+    name="Subtract a term from itself",
+    formal_description="e - e → 0",
+    preconditions=(
+        "The matched node is a binary subtraction",
+        "The two operands are structurally identical",
+        "Production Z3 returned EQUIVALENT_WITHIN_MODEL for (x - x) versus 0 in Mode A and in Mode B width 4",
+    ),
+    supported_modes=_BOTH_MODES,
+    verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
+)
+
+RULE_ADD_SELF = OptimizationRule(
+    rule_id="algebra.add_self",
+    name="Add a term to itself",
+    formal_description="e + e → e * 2",
+    preconditions=(
+        "The matched node is a binary addition",
+        "The two operands are structurally identical",
+        "The literal 2 must be legal in the active mode; width 1 is not an admission case",
+        "Production Z3 returned EQUIVALENT_WITHIN_MODEL for (x + x) versus (x * 2) in Mode A and in Mode B width 8",
+    ),
+    supported_modes=_BOTH_MODES,
+    verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
+)
+
+RULE_DOUBLE_NEG = OptimizationRule(
+    rule_id="algebra.double_neg",
+    name="Cancel double negation",
+    formal_description="--e → e",
+    preconditions=(
+        "The matched node is unary minus of unary minus",
+        "Production Z3 returned EQUIVALENT_WITHIN_MODEL for (-(-x)) versus x in Mode A and in Mode B width 4",
+    ),
+    supported_modes=_BOTH_MODES,
+    verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
+)
+
+RULE_NEG_SUB = OptimizationRule(
+    rule_id="algebra.neg_sub",
+    name="Negate a subtraction",
+    formal_description="-(a - b) → b - a",
+    preconditions=(
+        "The matched node is unary minus of a subtraction",
+        "Production Z3 returned EQUIVALENT_WITHIN_MODEL for (-(x - y)) versus (y - x) in Mode A and in Mode B width 4",
+    ),
+    supported_modes=_BOTH_MODES,
+    verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
+)
+
+RULE_CONST_REASSOC = OptimizationRule(
+    rule_id="algebra.const_reassoc",
+    name="Reassociate added literals",
+    formal_description="(e + c1) + c2 → e + (c1 + c2)",
+    preconditions=(
+        "The matched node is addition of a literal onto (e + literal)",
+        "The summed literal must be legal in the active mode; width 2 with sum 5 is not an admission case",
+        "Production Z3 returned EQUIVALENT_WITHIN_MODEL for ((x + 2) + 3) versus (x + 5) in Mode A and in Mode B width 8",
+    ),
+    supported_modes=_BOTH_MODES,
+    verification_policy=VerificationPolicy.REQUIRE_EQUIVALENT_WITHIN_MODEL,
+)
+
 _DEFAULT_RULE_IMPLS: tuple[_RuleImpl, ...] = (
     _RuleImpl(RULE_ADD_ZERO, _try_add_zero),
     _RuleImpl(RULE_SUB_ZERO, _try_sub_zero),
     _RuleImpl(RULE_MUL_ONE, _try_mul_one),
     _RuleImpl(RULE_MUL_ZERO, _try_mul_zero),
+    _RuleImpl(RULE_CONST_FOLD, _try_const_fold),
+    _RuleImpl(RULE_SUB_SELF, _try_sub_self),
+    _RuleImpl(RULE_ADD_SELF, _try_add_self),
+    _RuleImpl(RULE_DOUBLE_NEG, _try_double_neg),
+    _RuleImpl(RULE_NEG_SUB, _try_neg_sub),
+    _RuleImpl(RULE_CONST_REASSOC, _try_const_reassoc),
+    _RuleImpl(RULE_FACTORING, _try_factoring),
+    _RuleImpl(RULE_DISTRIBUTIVITY, _try_distributivity),
 )
 
 
 def default_rules() -> tuple[OptimizationRule, ...]:
-    """Return the Phase 3 identity-preserving production rules."""
+    """Return production rules admitted by verification.
+
+    The four identity rules shipped in 1.0.0. The eight algebra rules were
+    added only after production Z3 returned ``EQUIVALENT_WITHIN_MODEL`` for
+    each template in Mode A and in the Mode B width named on the rule.
+    """
 
     return tuple(impl.metadata for impl in _DEFAULT_RULE_IMPLS)
 
@@ -232,6 +489,7 @@ def optimize(
     current = original
     trace: list[TransformationStep] = []
     blocked: set[tuple[Path, str]] = set()
+    seen_canonical = {render_expr(original.root)}
     accepted_count = 0
     step_index = 0
 
@@ -247,8 +505,14 @@ def optimize(
 
         candidate_root = replace_at_path(current.root, match.path, match.after)
         candidate = expression_from_root(candidate_root)
-        verification = verify_equivalence(original, candidate, config)
-        decision, rejection_reason = _decide_acceptance(verification, match.rule)
+        canonical = render_expr(candidate.root)
+        if canonical in seen_canonical:
+            verification = None
+            decision = CandidateDecision.REJECTED
+            rejection_reason = "candidate repeats an earlier expression"
+        else:
+            verification = verify_equivalence(original, candidate, config)
+            decision, rejection_reason = _decide_acceptance(verification, match.rule)
 
         step = TransformationStep(
             step_index=step_index,
@@ -271,6 +535,7 @@ def optimize(
         if decision is CandidateDecision.ACCEPTED:
             current = candidate
             accepted_count += 1
+            seen_canonical.add(canonical)
             # Paths refer to the previous tree; clear blocks after a rewrite.
             blocked.clear()
         else:
@@ -479,7 +744,7 @@ def _impl_for_rule(rule: OptimizationRule) -> _RuleImpl:
             return _RuleImpl(rule, impl.try_rewrite)
     raise OptimizerError(
         f"no implementation registered for rule id {rule.rule_id!r}; "
-        "Phase 3 only ships the four identity-preserving production rules"
+        "no production rewrite is registered for this rule id"
     )
 
 

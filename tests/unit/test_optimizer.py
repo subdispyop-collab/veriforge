@@ -57,14 +57,24 @@ def mode_b(width: int = 32, **limit_changes: float | int) -> SemanticConfigurati
 
 def test_default_rules_have_required_metadata() -> None:
     rules = default_rules()
-    assert len(rules) == 4
+    assert len(rules) == 12
     ids = {rule.rule_id for rule in rules}
     assert ids == {
         "identity.add_zero",
         "identity.sub_zero",
         "identity.mul_one",
         "identity.mul_zero",
+        "algebra.distributivity",
+        "algebra.factoring",
+        "algebra.const_fold",
+        "algebra.sub_self",
+        "algebra.add_self",
+        "algebra.double_neg",
+        "algebra.neg_sub",
+        "algebra.const_reassoc",
     }
+    assert "add_self_width1" not in ids
+    assert "const_reassoc_width2" not in ids
     for rule in rules:
         assert rule.name
         assert rule.formal_description
@@ -370,3 +380,51 @@ def test_try_apply_rule_on_binary_node_directly() -> None:
     )
     after = try_apply_rule(node, RULE_ADD_ZERO)
     assert after == Variable("x")
+
+
+def test_admitted_algebra_rules_match_proved_templates() -> None:
+    """The eight Z3-admitted templates rewrite, and the width traps do not."""
+
+    from veriforge.optimizer_engine import (
+        RULE_ADD_SELF,
+        RULE_CONST_FOLD,
+        RULE_CONST_REASSOC,
+        RULE_DISTRIBUTIVITY,
+        RULE_DOUBLE_NEG,
+        RULE_FACTORING,
+        RULE_NEG_SUB,
+        RULE_SUB_SELF,
+    )
+
+    cfg = mode_a()
+    cases = (
+        ("(x * (y + z))", RULE_DISTRIBUTIVITY),
+        ("((x * y) + (x * z))", RULE_FACTORING),
+        ("(2 + 3)", RULE_CONST_FOLD),
+        ("(x - x)", RULE_SUB_SELF),
+        ("(x + x)", RULE_ADD_SELF),
+        ("(-(-x))", RULE_DOUBLE_NEG),
+        ("(-(x - y))", RULE_NEG_SUB),
+        ("((x + 2) + 3)", RULE_CONST_REASSOC),
+    )
+    for source, rule in cases:
+        parsed = parse_expression(source, cfg)
+        assert try_apply_rule(parsed.root, rule) is not None
+    for cfg_b, source in (
+        (mode_b(1), "(x + x)"),
+        (mode_b(2), "((x + 2) + 3)"),
+    ):
+        result = optimize(source, cfg_b)
+        assert all(
+            step.decision is not CandidateDecision.ACCEPTED for step in result.trace
+        )
+
+
+def test_distributivity_and_factoring_do_not_cycle() -> None:
+    result = optimize("(x * (y + z))", mode_a())
+    assert len(result.trace) < 8
+    assert any(step.rule_id == "algebra.distributivity" for step in result.accepted_steps)
+    assert any(
+        step.rejection_reason == "candidate repeats an earlier expression"
+        for step in result.trace
+    )

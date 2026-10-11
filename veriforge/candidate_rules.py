@@ -1,8 +1,8 @@
-"""Proposed arithmetic rules that are not in the production optimizer.
+"""Independent checks for the eight algebra rules.
 
-Production admission requires ``EQUIVALENT_WITHIN_MODEL`` from the Z3
-verifier in both modes. This module records independent polynomial and
-exhaustive checks. A pass here does not admit the rule into ``default_rules``.
+Production admission is membership in ``default_rules()``, which happens
+only after production Z3 returns ``EQUIVALENT_WITHIN_MODEL`` in both modes.
+This module does not itself call Z3. Width traps stay labelled bad candidates.
 """
 
 from __future__ import annotations
@@ -14,6 +14,28 @@ from veriforge.exhaustive_oracle import exhaustive_compare
 from veriforge.independent_parser import parse_independent
 from veriforge.models import SemanticMode
 from veriforge.polynomial_oracle import polynomial_compare
+
+_PRODUCTION_RULE_IDS = {
+    "distributivity": "algebra.distributivity",
+    "factoring": "algebra.factoring",
+    "const_fold": "algebra.const_fold",
+    "sub_self": "algebra.sub_self",
+    "add_self": "algebra.add_self",
+    "double_neg": "algebra.double_neg",
+    "neg_sub": "algebra.neg_sub",
+    "const_reassoc": "algebra.const_reassoc",
+}
+
+
+def _admitted_rule_ids() -> set[str]:
+    from veriforge.optimizer_engine import default_rules
+
+    production = {rule.rule_id for rule in default_rules()}
+    return {
+        short
+        for short, production_id in _PRODUCTION_RULE_IDS.items()
+        if production_id in production
+    }
 
 
 @dataclass(frozen=True, slots=True)
@@ -84,8 +106,10 @@ def check_proposed_rules() -> tuple[RuleCheck, ...]:
             )
             verdict = compared_b.verdict
             detail = compared_b.detail
-        if verdict == "equivalent":
-            admission = "not_admitted_production_z3_not_run"
+        if verdict == "equivalent" and rule_id in _admitted_rule_ids():
+            admission = "admitted_in_default_rules"
+        elif verdict == "equivalent":
+            admission = "not_admitted_z3_gate_not_passed"
         else:
             admission = "not_admitted_independent_check_failed"
         results.append(
