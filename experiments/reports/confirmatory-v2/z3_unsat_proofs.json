@@ -1,0 +1,53 @@
+[
+  {
+    "case_id": "cv2-0001",
+    "family": "comm_add",
+    "semantic_mode": "mode_a",
+    "bit_width": null,
+    "original_source": "(a + b)",
+    "candidate_source": "(b + a)",
+    "api": "z3.set_param('proof', True) before Solver(); solver.add(original != candidate); solver.proof()",
+    "z3_version": "4.8.17",
+    "check": "unsat",
+    "proof_ok": true,
+    "proof_chars": 346,
+    "proof": "mp(asserted(a + b != b + a),\n   trans(rewrite(a + b != b + a == Not(a + b == b + a)),\n         trans(monotonicity(rewrite((a + b == b + a) == True),\n                            Not(a + b == b + a) == Not(True)),\n               rewrite(Not(True) == False),\n               Not(a + b == b + a) == False),\n         a + b != b + a == False),\n   False)"
+  },
+  {
+    "case_id": "cv2-0021",
+    "family": "sub_neg",
+    "semantic_mode": "mode_b",
+    "bit_width": 8,
+    "original_source": "(a - b)",
+    "candidate_source": "(a + (-b))",
+    "api": "z3.set_param('proof', True) before Solver(); solver.add(original != candidate); solver.proof()",
+    "z3_version": "4.8.17",
+    "check": "unsat",
+    "proof_ok": true,
+    "proof_chars": 775,
+    "proof": "mp(asserted(a - b != a + -b),\n   trans(trans(monotonicity(rewrite(a - b == a + 255*b),\n                            rewrite(a + -b == a + 255*b),\n                            a - b != a + -b ==\n                            a + 255*b != a + 255*b),\n               rewrite(a + 255*b != a + 255*b ==\n                       Not(a + 255*b == a + 255*b)),\n               a - b != a + -b ==\n               Not(a + 255*b == a + 255*b)),\n         trans(monotonicity(rewrite((a + 255*b == a + 255*b) ==\n                                    True),\n                            Not(a + 255*b == a + 255*b) ==\n                            Not(True)),\n               rewrite(Not(True) == False),\n               Not(a + 255*b == a + 255*b) == False),\n         a - b != a + -b == False),\n   False)"
+  },
+  {
+    "case_id": "cv2-0029",
+    "family": "cancel_add",
+    "semantic_mode": "mode_b",
+    "bit_width": 4,
+    "original_source": "((a + 3) - 3)",
+    "candidate_source": "a",
+    "api": "z3.set_param('proof', True) before Solver(); solver.add(original != candidate); solver.proof()",
+    "z3_version": "4.8.17",
+    "check": "unsat",
+    "proof_ok": true,
+    "proof_chars": 1382,
+    "proof": "mp(asserted(a + 3 - 3 != a),\n   trans(trans(monotonicity(trans(trans(monotonicity(rewrite(a +\n                                        3 ==\n                                        3 + a),\n                                        a + 3 - 3 ==\n                                        3 + a - 3),\n                                        rewrite(3 + a - 3 ==\n                                        3 + a + 15*3),\n                                        a + 3 - 3 ==\n                                        3 + a + 15*3),\n                                  trans(monotonicity(rewrite(15*\n                                        3 ==\n                                        13),\n                                        3 + a + 15*3 ==\n                                        3 + a + 13),\n                                        rewrite(3 + a + 13 ==\n                                        a),\n                                        3 + a + 15*3 == a),\n                                  a + 3 - 3 == a),\n                            a + 3 - 3 != a == a != a),\n               rewrite(a != a == Not(a == a)),\n               a + 3 - 3 != a == Not(a == a)),\n         trans(monotonicity(rewrite((a == a) == True),\n                            Not(a == a) == Not(True)),\n               rewrite(Not(True) == False),\n               Not(a == a) == False),\n         a + 3 - 3 != a == False),\n   False)"
+  },
+  {
+    "case_id": "direct-api-int",
+    "check": "unsat",
+    "api": "z3.Int('x'); Solver.add(x+0 != x); proof()",
+    "z3_version": "4.8.17",
+    "proof_ok": true,
+    "proof_chars": 447,
+    "proof": "mp(asserted(x + 0 != x),\n   trans(trans(monotonicity(rewrite(x + 0 == x),\n                            x + 0 != x == x != x),\n               rewrite(x != x == Not(x == x)),\n               x + 0 != x == Not(x == x)),\n         trans(monotonicity(rewrite((x == x) == True),\n                            Not(x == x) == Not(True)),\n               rewrite(Not(True) == False),\n               Not(x == x) == False),\n         x + 0 != x == False),\n   False)"
+  }
+]

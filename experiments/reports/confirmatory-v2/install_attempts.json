@@ -1,0 +1,94 @@
+{
+  "mutmut": {
+    "debian_indexes": [
+      "/tmp/debidx/bookworm-Packages.gz",
+      "/tmp/debidx/sid-Packages.gz",
+      "/tmp/debidx/stable-Packages.gz",
+      "/tmp/debidx/testing-Packages.gz",
+      "/tmp/debidx/trixie-Packages.gz",
+      "/tmp/debidx/unstable-Packages.gz"
+    ],
+    "package_name_count": 0,
+    "fetches": [
+      {
+        "url": "https://github.com/boxed/mutmut/archive/refs/heads/main.tar.gz",
+        "result": "curl exit 35, OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443"
+      },
+      {
+        "url": "https://gitlab.com/mutmut/mutmut/-/archive/main/mutmut-main.tar.gz",
+        "result": "curl http 000, OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gitlab.com:443"
+      },
+      {
+        "url": "https://bitbucket.org/boxed/mutmut/get/master.tar.gz",
+        "result": "curl http 000, OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to bitbucket.org:443"
+      },
+      {
+        "url": "https://codeberg.org/boxed/mutmut/archive/main.tar.gz",
+        "result": "curl http 000, OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to codeberg.org:443"
+      },
+      {
+        "url": "https://cdn.jsdelivr.net/gh/boxed/mutmut@main/README.rst",
+        "result": "curl http 000, OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to cdn.jsdelivr.net:443"
+      },
+      {
+        "url": "https://snapshot.debian.org/package/mutmut/",
+        "result": "curl http 000, OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to snapshot.debian.org:443"
+      }
+    ],
+    "installed": false,
+    "ran": false
+  },
+  "z3_solver_pin": {
+    "requested": "z3-solver==5.1.0.0",
+    "pypi_json": {
+      "url": "https://pypi.org/pypi/z3-solver/5.1.0.0/json",
+      "result": "curl exit, OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to pypi.org:443"
+    },
+    "debian_python3_z3": {
+      "bookworm": "4.8.12-3.1",
+      "sid": "4.13.3-1.1",
+      "stable": "4.13.3-1",
+      "testing": "4.13.3-1.1",
+      "trixie": "4.13.3-1"
+    },
+    "installed_pin": false,
+    "running_z3": "4.8.17"
+  },
+  "hypothesis_pin": {
+    "requested": "hypothesis==6.168.5",
+    "https": {
+      "url": "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.168.5.tar.gz",
+      "result": "curl exit 35, OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to files.pythonhosted.org:443"
+    },
+    "http": {
+      "url": "http://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.168.5.tar.gz",
+      "result": "HTTP/1.1 403 Forbidden"
+    },
+    "debian_python3_hypothesis": {
+      "bookworm": "6.67.1-1",
+      "sid": "6.155.7-1",
+      "stable": "6.130.5-2",
+      "testing": "6.155.7-1",
+      "trixie": "6.130.5-2"
+    },
+    "installed_on_this_host": "6.155.7",
+    "installed_pin": false
+  },
+  "pytest_rerun_after_pins": false,
+  "reason_not_rerun": "The pinned wheels were not fetched, so pytest was not rerun against them. The earlier JUnit result remains 383 tests, 0 failures, 0 errors, 0 skipped, pytest 9.1.1, Hypothesis 6.155.7, Z3 4.8.17.",
+  "docker": {
+    "ubuntu_archive": "HTTP 403 for archive.ubuntu.com, us-east-1.ec2.archive.ubuntu.com, and security.ubuntu.com",
+    "runtime": "podman 4.3.1 from Debian bookworm deb pool/main/libp/libpod/podman_4.3.1+ds1-8+deb12u1+b3_amd64.deb via https://dpvctowv9b08b.cloudfront.net/debian/",
+    "helpers": [
+      "crun 1.8.1",
+      "conmon 2.1.6",
+      "fuse-overlayfs 1.10",
+      "uidmap 4.13"
+    ],
+    "base_image": "public.ecr.aws/docker/library/python:3.12-slim tagged locally as docker.io/library/python:3.12-slim so the Dockerfile FROM line resolved without Docker Hub",
+    "image_id": "df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+    "command": "podman build --network=host -t veriforge:1.0.0 -f Dockerfile .",
+    "exit_code": 1,
+    "failure": "pip could not fetch setuptools from https://pypi.org/simple/setuptools/: SSL UNEXPECTED_EOF_WHILE_READING. ERROR: No matching distribution found for setuptools>=68"
+  }
+}

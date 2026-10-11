@@ -85,9 +85,19 @@ CVC5 status counts match Z3: 318, 96, 8, 41. Bitwuzla: equivalent_within_model 2
 
 Joined to the labeling oracle in `experiments/reports/assurance-v1-smt/part15_confusion.json`: false equivalence 0/96 for each solver. That join is not an external proof. Two `not_computed` pairs were called equivalent by the solvers.
 
+## Confirmatory v2
+
+Protocol hash `1d991b3c444f3a93b531196b4da4a9794937d697212b4e45d285cf8f0f6c498b` at `2026-10-11T18:59:22Z`, before `datasets/confirmatory_v2/cases.jsonl` existed. Command: `python3 scripts/run_confirmatory_v2.py` with Z3 4.8.17 on `PYTHONPATH` and CVC5 1.3.2. Exit 0. 72 pairs, 12 families. Oracle: equivalent 32, non_equivalent 33, not_computed 7.
+
+False equivalence, Z3 and CVC5: 0/33 overall, 0/12 in Mode A, 0/21 in Mode B. Wilson 95% upper bounds: 0.10426999754245206, 0.24249400665524085, and 0.154639018924847. Correct acceptance 32/32 and correct rejection 33/33. The seven `not_computed` pairs are outside those denominators.
+
+H3 on Z3 `solver_seconds`, after separating init (`0.0069491530002778745` seconds for an empty solver, `0.01112446600018302` seconds for `cvc5 --version`): unresolved. Family-median Spearman rho `0.0036324031737947717`, bootstrap interval `-0.5543202549518428` to `0.5625128124822065` (2000 resamples, seed `20261012`). The uniform equivalent class has 1 family, below the locked minimum of 4.
+
+Ablation false equivalence stayed 0/33. Concrete checking took 0.46935624000252574 seconds and the full pipeline took 2.552952216999074 seconds, both above the verifier’s 0.4641656299972965 seconds, so neither reduced the primary count. The encoder arm took 0.4516596080038653 seconds and also left the count at 0/33.
+
 ## Mutants
 
-10 mutants, 10 detected, 0 survived, denominator 10. Fixtures are the ones in `run_mutants`. This is not a mutmut score. mutmut was not installed.
+10 mutants, 10 detected, 0 survived, denominator 10. Fixtures are the ones in `run_mutants`. This is not a mutmut score. mutmut still did not install: Debian indexes have no package, and the source hosts failed with `SSL_ERROR_SYSCALL`.
 
 ## Scaling
 

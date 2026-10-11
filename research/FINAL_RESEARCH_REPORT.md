@@ -56,11 +56,11 @@ No false accept of a non-equivalent pair by the testing baseline or the rule bas
 
 ## 12. Mutation results
 
-`10/10` seeded mutants detected on fixed fixtures, `0` survived. Denominator 10. mutmut did not run.
+`10/10` seeded mutants detected on fixed fixtures, `0` survived. Denominator 10. mutmut did not run. Later install attempts are in section 18.
 
 ## 13. Limitations
 
-Shared Python integer semantics. CVC5 1.3.2 matched the Z3 status of every pair. Bitwuzla 0.8.2 matched on unsigned pairs and rejected integer logic. That agreement is not a proof of the translator. The first pipeline-versus-oracle comparison stays circular. Small expressions that boundary values hit easily. Historical H3 stays unresolved: no solver-time analysis was preregistered before the census was inspected. Alive2 was not run and is not a fair comparison. Z3 here is 4.8.17, not the pinned `z3-solver==5.1.0.0` wheel. pytest 9.1.1 passed 383 tests; Hypothesis on that run was Debian 6.155.7, not the lock pin 6.168.5.
+Shared Python integer semantics. CVC5 1.3.2 matched the Z3 status of every pair. Bitwuzla 0.8.2 matched on unsigned pairs and rejected integer logic. That agreement is not a proof of the translator. The first pipeline-versus-oracle comparison stays circular. Small expressions that boundary values hit easily. Historical H3 on the census stays unresolved because that timing was seen before a solver-time rule existed. A later preregistered pass on 72 new pairs is also unresolved. Alive2 was not run and is not a fair comparison. Z3 here is 4.8.17, not the pinned `z3-solver==5.1.0.0` wheel. pytest 9.1.1 passed 383 tests; Hypothesis on that run was Debian 6.155.7, not the lock pin 6.168.5.
 
 ## 14. Reproducibility
 
@@ -101,3 +101,13 @@ Command: `python3 scripts/run_second_solver.py`. Binaries: CVC5 1.3.2 and Bitwuz
 | Bitwuzla 0.8.2 | 246 | 62 | 8 | 41 | 106 |
 
 CVC5 matches Z3 on every pair, including Mode A 72/34/2/24 and Mode B 246/62/6/17. Bitwuzla’s 106 `solver_error` rows are the Mode A pairs that parsed: the binary reports `unsupported logic 'QF_NIA'`. Its Mode B counts match Z3 and CVC5. Against the labeling oracle, false equivalence is 0/96 for all three solvers. Two pairs the exhaustive oracle left `not_computed` (`av1-0252`, `av1-0258`) were `equivalent_within_model`. That oracle comparison is not an independent proof.
+
+## 18. Confirmatory v2
+
+Protocol SHA-256 `1d991b3c444f3a93b531196b4da4a9794937d697212b4e45d285cf8f0f6c498b` at `2026-10-11T18:59:22Z`, before the 72-pair file was written. `datasets/held_out/cases.jsonl` remains 8 lines. Z3 4.8.17 and CVC5 1.3.2 false equivalence: 0/33 pairs, 0/12 in Mode A, 0/21 in Mode B. Seven pairs are oracle `not_computed` and are not in that denominator. Correct acceptance 32/32. Correct rejection 33/33.
+
+H3 is unresolved. Z3 init was `0.0069491530002778745` seconds and was not a per-case sample. Spearman of 12 family-median operator counts against family-median `solver_seconds` is `0.0036324031737947717`, with bootstrap interval `-0.5543202549518428` to `0.5625128124822065`. The uniform equivalent class has one family.
+
+Ablation false equivalence stayed 0/33. Concrete checking and the full pipeline took more wall time than the verifier (0.46935624000252574 and 2.552952216999074 seconds versus 0.4641656299972965) and did not reduce the count. The encoder arm also stayed at 0/33.
+
+`z3.proof()` returned objects for three UNSAT production queries and one direct integer query. No external checker ran. Podman 4.3.1 executed the Dockerfile and exited 1 when pip could not fetch setuptools. `z3-solver==5.1.0.0`, `hypothesis==6.168.5`, and mutmut were not fetched. pytest was not rerun against those pins. The suite record remains pytest 9.1.1, Hypothesis 6.155.7, Z3 4.8.17, 383 tests, 0 failures.
