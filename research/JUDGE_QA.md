@@ -4,9 +4,9 @@
 
 2. What is already known? Translation validation, Z3, Alive, Alive2, property-based testing, and mutation testing. See `research/LITERATURE_REVIEW.md`.
 
-3. Why does the question matter? A single translator can be wrong and still return UNSAT. A second reading can catch some of those mistakes. This run did not measure that against Z3, because Z3 was not installed.
+3. Why does the question matter? A single translator can be wrong and still return UNSAT. A second reading can catch some of those mistakes. The production census recorded Z3 statuses. It did not score those statuses against the labeling oracle.
 
-4. Why are four production rules enough for the current scope? They are the rules the 1.0.0 optimizer actually applies. Eight more candidates passed an independent check and stayed out of `default_rules()` until Z3 admission can run.
+4. Why were only four rules in 1.0.0? Those were the rules that release admitted. Eight more templates later returned `EQUIVALENT_WITHIN_MODEL` from production Z3 in Mode A and in a legal Mode B width, and those eight are now in `default_rules()`. Width-1 `x * 2` and width-2 `x + 5` stayed out.
 
 5. Is the benchmark large enough? 463 pairs, 27 families, every reported category has at least 30 pairs. The pairs are small arithmetic expressions, not LLVM IR. Fifty-four held-out non-equivalent pairs are enough for the preregistered testing comparison and not enough to estimate rare solver bugs.
 
@@ -18,18 +18,18 @@
 
 9. What happens on UNKNOWN or timeout? The status stays `UNKNOWN` or `TIMEOUT`. The judge demo's timeout fixture was not labeled equivalent. A domain over the budget is `UNKNOWN`, not equivalent.
 
-10. How is this different from Alive2? Alive2 validates LLVM IR with SMT and has found real miscompilations. VERIFORGE 1.0.0 checks four identities on `+ - *`. This pass did not run Alive2 and did not run Z3.
+10. How is this different from Alive2? Alive2 validates LLVM IR with SMT and has found real miscompilations. VERIFORGE checks `+ - *` identities. This pass ran production Z3 4.8.17 on the 463-pair set. It did not run Alive2.
 
-11. Does it improve execution speed or verifier reliability? Neither was shown for the production Z3 path. Testing reliability on this particular set was already saturated at budget 10. Operator count dropped on five identity examples. That is not a runtime speedup.
+11. Does it improve execution speed or verifier reliability? Execution speed was not shown. Production Z3 returned 318 `equivalent_within_model`, 96 reference-confirmed `counterexample_found`, 8 `invalid_input`, and 41 `unsupported` on 463 pairs, with 0 `unknown` and 0 `timeout` at 5 seconds. That is a status census, not a reliability gain against the oracles. Testing on this set was already saturated at budget 10.
 
 12. What is the measured overhead? Held-out testing wall time `0.00408` seconds at budget 10 and `4.782` seconds at budget 10,000. Evaluator medians on the scaling grid were under `4e-6` seconds. Solver overhead: not measured.
 
-13. Which faults were reproduced? Ten seeded mutants, all detected on their fixtures. The width-1 fact that addition and subtraction coincide was reproduced on development before the protocol hash. No LLVM bug ID was reproduced, because the bug trackers were unreachable.
+13. Which faults were reproduced? Ten seeded mutants, all detected on their fixtures. No published LLVM, GCC, or Alive2 bug was reproduced. The fetched arithmetic bugs need poison, `nsw`, shifts, casts, or floating point. The two `+`/`-` skeletons that can be written were `equivalent_within_model` in both modes.
 
-14. Strongest remaining failure modes? A false UNSAT from a shared semantic mistake; any domain larger than the budget; the missing SMT comparison; testing that looks perfect because the bugs are boundary-sized.
+14. Strongest remaining failure modes? A false UNSAT from a shared semantic mistake. CVC5 repeating Z3 does not remove that risk. Bitwuzla does not check Mode A. Testing looks perfect because these bugs are boundary-sized. Alive2 is a different language and was not compared.
 
 15. What would falsify the main executed hypothesis? A held-out non-equivalent pair that budget 10,000 distinguishes and budget 10 does not, in these files. The files show `0/54` and `0/54`, so the strict decrease is false.
 
-16. Why trust the results? The protocol hash was written at `2026-10-11T16:43:36Z` before the scored run. Counts match `experiments/reports/assurance-v1/summary.json`. Historical n=8 was not edited. Z3 numbers were not invented.
+16. Why trust the results? The protocol hash was written at `2026-10-11T16:43:36Z` before the first scored run. The production-Z3 amendment hash was written at `2026-10-11T18:20:40Z` before `scripts/run_production_smt.py`. Counts match `experiments/reports/assurance-v1/summary.json` and `experiments/reports/assurance-v1-smt/production_smt.json`. Historical n=8 was not edited.
 
-17. Which claims are excluded? Novelty, execution speedup, population error rates, SMT-versus-testing comparisons, CVC5 or Bitwuzla results, Z3 proof certificates, signed Mode B as a product mode, and any IRIS score.
+17. Which claims are excluded? A new decision procedure, an execution speedup, a population error rate, an IRIS score, a judge score, a Z3 proof certificate, signed Mode B as a product mode, and any claim that solver agreement proves the translator. The Z3, CVC5, and Bitwuzla status counts are reported as counts. The 0/96 false-equivalence figure uses the project’s own oracle and is not an external proof.

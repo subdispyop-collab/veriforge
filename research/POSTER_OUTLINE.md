@@ -4,7 +4,7 @@ Use only the numbers in `experiments/reports/assurance-v1/summary.json` and the 
 
 ## Title
 
-VERIFORGE 1.0.0: what an independent arithmetic check can show without a solver install
+VERIFORGE 1.0.0: a small arithmetic check, not a new decision procedure
 
 ## Question
 
@@ -22,7 +22,7 @@ Does a larger concrete test catch more bad rewrites than a 10-input test, on a f
 - Testing misses: 0/54 at every budget. Hypothesis: not supported.
 - Plot: `experiments/reports/assurance-v1/plots/testing-false-equivalence.svg`.
 - Mode traps: 16/16 pairs differ by mode.
-- Z3, CVC5, Bitwuzla: not run.
+- Z3 4.8.17 and CVC5 1.3.2: same 463 statuses. Bitwuzla 0.8.2 matches on unsigned pairs only.
 - Seeded faults: 10/10 on fixtures.
 
 ## Cost panel
