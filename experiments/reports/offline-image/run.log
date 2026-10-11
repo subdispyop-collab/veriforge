@@ -1,0 +1,19 @@
+labeled 50/463
+labeled 100/463
+labeled 150/463
+labeled 200/463
+labeled 250/463
+labeled 300/463
+labeled 350/463
+labeled 400/463
+labeled 450/463
+testing baseline complete
+{
+  "case_count": 463,
+  "dataset_sha256": "36e430e0bdecfb47ac1d2ee254e7d2ba48a0f06664f7c34b7fd6e206fb746ae2",
+  "h_audit": "inconclusive",
+  "h_test": "not_supported",
+  "mutants_detected": 10,
+  "mutants_denominator": 10
+}
+EXIT:0

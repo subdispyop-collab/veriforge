@@ -1,0 +1,15 @@
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/i/importlib-resources/python3-importlib-resources_6.5.2-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/j/jaraco.context/python3-jaraco.context_6.0.1-1+deb13u1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/j/jaraco.text/python3-jaraco.text_4.0.0-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/m/more-itertools/python3-more-itertools_10.7.0-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/p/python-autocommand/python3-autocommand_2.2.2-3_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/p/python-importlib-metadata/python3-importlib-metadata_8.7.0-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/p/python-inflect/python3-inflect_7.3.1-2_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/p/python-jaraco.functools/python3-jaraco.functools_4.1.0-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/p/python-packaging/python3-packaging_25.0-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/p/python-typeguard/python3-typeguard_4.4.2-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/p/python-typing-extensions/python3-typing-extensions_4.13.2-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/p/python-zipp/python3-zipp_3.21.0-1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/s/setuptools/python3-pkg-resources_78.1.1-0.1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/s/setuptools/python3-setuptools_78.1.1-0.1_all.deb
+https://dpvctowv9b08b.cloudfront.net/debian/pool/main/w/wheel/python3-wheel_0.46.1-2_all.deb

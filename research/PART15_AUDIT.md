@@ -77,7 +77,21 @@ Dockerfile. Podman was not installed from Ubuntu (`archive.ubuntu.com`, the EC2 
 podman build --network=host -t veriforge:1.0.0 -f Dockerfile .
 ```
 
-Exit 1. pip could not read `https://pypi.org/simple/setuptools/` (`SSL: UNEXPECTED_EOF_WHILE_READING`) and reported `No matching distribution found for setuptools>=68`. Log: `experiments/reports/confirmatory-v2/dockerfile_build.log`. The image was not produced. CI on GitHub Actions was not run.
+Exit 1. pip could not read `https://pypi.org/simple/setuptools/` (`SSL: UNEXPECTED_EOF_WHILE_READING`) and reported `No matching distribution found for setuptools>=68`. Log: `experiments/reports/confirmatory-v2/dockerfile_build.log`. That attempt did not produce an image.
+
+A later Dockerfile vendors Debian setuptools 78.1.1 and its dependency debs from `https://dpvctowv9b08b.cloudfront.net/debian/` (`vendor/debian/SOURCES.txt`). The build does not contact PyPI.
+
+```text
+podman build --network=none -t veriforge:1.0.0 -f Dockerfile .
+```
+
+Exit 0. The build printed `78.1.1` and tagged `localhost/veriforge:1.0.0` as `e0fecde777b6b335e8cbcb8583375d3e3b9c232a52ac04d39eadb7249f791efa`. Log: `experiments/reports/offline-image/build.log`.
+
+```text
+podman run --rm --network=none localhost/veriforge:1.0.0
+```
+
+Exit 0. The image command is `scripts/run_assurance_experiment.py`. It printed `case_count` 463, dataset SHA-256 `36e430e0bdecfb47ac1d2ee254e7d2ba48a0f06664f7c34b7fd6e206fb746ae2`, `h_test` `not_supported`, and mutants 10/10. That is the existing assurance script inside the image, not a new solver census. Log: `experiments/reports/offline-image/run.log`. GitHub Actions was not run.
 
 mutmut did not install. Bookworm, sid, stable, testing, trixie, and unstable package indexes contain zero `mutmut` package names. GitHub, GitLab, Bitbucket, Codeberg, jsDelivr, and snapshot.debian.org failed with `SSL_ERROR_SYSCALL`. It was not run on the parser, verifier, or acceptance gate.
 
@@ -112,13 +126,24 @@ H_test remains not supported: 0/54 and 0/54 at budgets 10 and 10,000 on the assu
 
 ## Not completed
 
-- mutmut. Debian indexes have no package, and GitHub, GitLab, Bitbucket, Codeberg, jsDelivr, and snapshot.debian.org failed with `SSL_ERROR_SYSCALL`. It did not run on the parser, verifier, or acceptance gate.
-- The pinned `z3-solver==5.1.0.0` wheel and `hypothesis==6.168.5` source. PyPI HTTPS failed with `SSL_ERROR_SYSCALL`. HTTP to files.pythonhosted.org returned 403. pytest was not rerun against those pins.
-- A finished container image. Podman 4.3.1 executed the Dockerfile once. The build exited 1 because pip could not fetch setuptools from PyPI. GitHub Actions was not run.
+- mutmut did not install, so there is no killed count and no survived count. It was not run on the parser, verifier, or acceptance gate. Bookworm, sid, stable, testing, trixie, and unstable indexes at `https://dpvctowv9b08b.cloudfront.net/debian/dists/<suite>/main/binary-amd64/Packages.gz` contain zero `mutmut` package names. Source fetches, each `curl` with `OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443`:
+  - `https://github.com/boxed/mutmut/archive/refs/heads/main.tar.gz`
+  - `https://github.com/boxed/mutmut/archive/refs/tags/3.8.0.tar.gz`
+  - `https://github.com/boxed/mutmut/archive/refs/tags/v3.8.0.tar.gz`
+- `z3-solver==5.1.0.0` and `hypothesis==6.168.5` did not install. pytest was not rerun against them. The recorded suite remains pytest 9.1.1, Hypothesis 6.155.7, and Z3 4.8.17. The same Debian indexes have `python3-hypothesis` 6.155.7-1 on sid and `python3-z3` 4.13.3-1.1 on sid, which are not these pins. Fetch errors:
+  - `https://pypi.org/pypi/z3-solver/5.1.0.0/json` — `SSL_ERROR_SYSCALL` to pypi.org:443
+  - `https://pypi.org/packages/source/z/z3-solver/z3-solver-5.1.0.0.tar.gz` — `SSL_ERROR_SYSCALL` to pypi.org:443
+  - `https://pypi.org/packages/source/z/z3-solver/z3_solver-5.1.0.0.tar.gz` — `SSL_ERROR_SYSCALL` to pypi.org:443
+  - `https://pypi.org/pypi/hypothesis/6.168.5/json` — `SSL_ERROR_SYSCALL` to pypi.org:443
+  - `https://pypi.org/packages/source/h/hypothesis/hypothesis-6.168.5.tar.gz` — `SSL_ERROR_SYSCALL` to pypi.org:443
+  - `https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.168.5.tar.gz` — `SSL_ERROR_SYSCALL` to files.pythonhosted.org:443
+  - `http://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.168.5.tar.gz` — HTTP 403
+  - `https://github.com/HypothesisWorks/hypothesis/archive/refs/tags/hypothesis-python-6.168.5.tar.gz` — `SSL_ERROR_SYSCALL` to github.com:443
 - An external checker for the Z3 proof objects. The proof strings were produced. Nothing checked them.
 - Alive2 as a baseline. Not installed, and not a fair comparison if it were. No Alive2 score.
 - Signed Mode B as a production mode. It remains the experimental module.
 - Full IRIS HTML. The allowlisted fetch rejected the guideline host. Only the retrieved excerpts are on file. No IRIS score.
+- GitHub Actions. The Podman image ran locally. The workflow file was not executed.
 
 ## Hypothesis verdict
 

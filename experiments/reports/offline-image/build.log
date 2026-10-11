@@ -1,0 +1,49 @@
+STEP 1/15: FROM python:3.12-slim
+STEP 2/15: WORKDIR /app
+--> Using cache cbe16420dcd0c20a9061cbc964a4ba14ed34fd02e103aae04395754cf89154bd
+--> cbe16420dcd
+STEP 3/15: COPY vendor/debian /vendor/debian
+--> 0db88c2156e
+STEP 4/15: RUN mkdir -p /opt/vendor     && for deb in /vendor/debian/*.deb; do dpkg-deb -x "$deb" /opt/vendor; done     && cp -a /opt/vendor/usr/lib/python3/dist-packages/. /usr/local/lib/python3.12/site-packages/     && python -c "import setuptools; print(setuptools.__version__)"
+78.1.1
+--> d12781800a2
+STEP 5/15: COPY pyproject.toml requirements.lock README.md ./
+--> c2831f3444e
+STEP 6/15: COPY veriforge ./veriforge
+--> a02e63cbe9f
+STEP 7/15: COPY tests ./tests
+--> f7b08426b0a
+STEP 8/15: COPY scripts ./scripts
+--> 06d18e9b6e8
+STEP 9/15: COPY datasets ./datasets
+--> 9598b7b2443
+STEP 10/15: COPY research ./research
+--> 82affa3cec3
+STEP 11/15: COPY experiments ./experiments
+--> c6f2828bf93
+STEP 12/15: COPY docs ./docs
+--> 445380fb8d8
+STEP 13/15: ENV PIP_NO_INDEX=1     PIP_DISABLE_PIP_VERSION_CHECK=1
+--> 21917360e0f
+STEP 14/15: RUN python -m pip install --no-build-isolation --no-index --no-deps -e .
+Obtaining file:///app
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: veriforge
+  Building editable for veriforge (pyproject.toml): started
+  Building editable for veriforge (pyproject.toml): finished with status 'done'
+  Created wheel for veriforge: filename=veriforge-1.0.0-0.editable-py3-none-any.whl size=5914 sha256=3dee9f181b264e37ed8f1f659f11a52afba5ef007fa9b70b020cf14192a90407
+  Stored in directory: /tmp/pip-ephem-wheel-cache-tdo682s6/wheels/54/1b/b7/aa63e25c8f14f4f2ae7b04e6097bdecb770e455c5c1ee0a600
+Successfully built veriforge
+Installing collected packages: veriforge
+Successfully installed veriforge-1.0.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+--> 10a8b55c043
+STEP 15/15: CMD ["python", "scripts/run_assurance_experiment.py"]
+COMMIT veriforge:1.0.0
+--> e0fecde777b
+Successfully tagged localhost/veriforge:1.0.0
+e0fecde777b6b335e8cbcb8583375d3e3b9c232a52ac04d39eadb7249f791efa
+EXIT:0
