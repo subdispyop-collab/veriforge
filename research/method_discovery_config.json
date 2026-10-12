@@ -1,0 +1,14 @@
+{
+  "gate": "NO-GO",
+  "method_id": null,
+  "implemented": false,
+  "software_version": "1.0.0",
+  "base_commit": "8ad58149d1ee1fcf7248cbf4d9e7618e66daec14",
+  "branch": "cursor/method-discovery-7f34",
+  "primary_hypothesis": "not_tested",
+  "z3_version_observed": "4.8.17",
+  "cvc5_version_line_observed": "This is cvc5 version 1.3.2",
+  "python": "3.12.3",
+  "alive2": "not_installed",
+  "new_module": null
+}

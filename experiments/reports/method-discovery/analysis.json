@@ -1,0 +1,8 @@
+{
+  "gate": "NO-GO",
+  "protocol_sha256": "d0b112064b93acb4b19aecd62cac865eedb2f653a1a9aade65ee10d2255869cb",
+  "primary_hypothesis": "not_tested",
+  "pair_count": 0,
+  "false_equivalence": null,
+  "reason": "no candidate survived the gate; no confirmatory rows exist"
+}

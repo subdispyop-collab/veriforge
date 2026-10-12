@@ -1,0 +1,9 @@
+{
+  "record_id": "veriforge-method-discovery-nogo-v1",
+  "protocol_sha256": "d0b112064b93acb4b19aecd62cac865eedb2f653a1a9aade65ee10d2255869cb",
+  "created_at_utc": "2026-10-12T13:13:20Z",
+  "gate": "NO-GO",
+  "dataset_generated_before_hash": false,
+  "solver_results_inspected_before_hash": false,
+  "new_pairs_authorized": false
+}

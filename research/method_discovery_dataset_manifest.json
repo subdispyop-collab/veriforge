@@ -1,0 +1,11 @@
+{
+  "dataset_generated": false,
+  "reason": "NO-GO in research/CANDIDATE_METHODS.md before any new pair was created",
+  "fingerprint": null,
+  "pair_count": 0,
+  "family_count": 0,
+  "held_out_path": "datasets/held_out/cases.jsonl",
+  "held_out_lines_required": 8,
+  "historical_datasets_rewritten": false,
+  "census_rerun": false
+}
