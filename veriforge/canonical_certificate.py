@@ -99,24 +99,25 @@ def check_certificate(
     if time.perf_counter() >= deadline:
         return CheckResult(False, None, "timeout")
     try:
-        values = _evaluate_grid(original, candidate, names, degrees, deadline)
+        raw_coefficients = _newton_raw_coefficients(
+            original, candidate, names, degrees, deadline
+        )
     except _CheckerTimeout:
+        return CheckResult(False, None, "timeout")
+    except _NotDivisible:
+        return CheckResult(False, None, "not_divisible")
+    if time.perf_counter() >= deadline:
         return CheckResult(False, None, "timeout")
     expected = []
     all_zero = True
-    for alpha in iter_box(degrees):
-        if time.perf_counter() >= deadline:
-            return CheckResult(False, None, "timeout")
-        difference = _forward_difference(values, alpha)
-        divisor = math.prod(math.factorial(exponent) for exponent in alpha)
-        if divisor == 0 or difference % divisor != 0:
-            return CheckResult(False, None, "not_divisible")
-        raw = difference // divisor
+    for alpha, raw in zip(iter_box(degrees), raw_coefficients, strict=True):
         modulus = canonical_modulus(alpha, certificate.width)
         residue = raw % modulus
         if residue != 0:
             all_zero = False
         expected.append((alpha, raw, modulus, residue))
+    if time.perf_counter() >= deadline:
+        return CheckResult(False, None, "timeout")
     if tuple(expected) != certificate.terms:
         return _mismatch(expected, certificate.terms)
     return CheckResult(True, all_zero, "accepted")
@@ -133,6 +134,10 @@ def syntactic_degrees(
 
 
 class _CheckerTimeout(Exception):
+    pass
+
+
+class _NotDivisible(Exception):
     pass
 
 
@@ -194,6 +199,125 @@ def _evaluate_grid(
             candidate, assignment
         )
     return values
+
+
+def _compile(node: IExpr, variables: tuple[str, ...]) -> tuple:
+    """Flatten one expression to a stack program. The result matches ``_integer_value``."""
+
+    index = {name: position for position, name in enumerate(variables)}
+    code: list[tuple] = []
+
+    def walk(current: IExpr) -> None:
+        if isinstance(current, ILit):
+            code.append(("c", current.value))
+            return
+        if isinstance(current, IVar):
+            code.append(("v", index[current.name]))
+            return
+        if isinstance(current, IUnary):
+            walk(current.operand)
+            if current.op == "+":
+                return
+            if current.op == "-":
+                code.append(("n",))
+                return
+        if isinstance(current, IBinary):
+            walk(current.left)
+            walk(current.right)
+            if current.op in {"+", "-", "*"}:
+                code.append((current.op,))
+                return
+        raise ValueError(f"unsupported node in integer evaluation: {type(current).__name__}")
+
+    walk(node)
+    return tuple(code)
+
+
+def _run(code: tuple, point: tuple[int, ...]) -> int:
+    stack: list[int] = []
+    for op in code:
+        kind = op[0]
+        if kind == "c":
+            stack.append(op[1])
+        elif kind == "v":
+            stack.append(point[op[1]])
+        elif kind == "n":
+            stack[-1] = -stack[-1]
+        elif kind == "+":
+            right = stack.pop()
+            stack[-1] += right
+        elif kind == "-":
+            right = stack.pop()
+            stack[-1] -= right
+        else:
+            right = stack.pop()
+            stack[-1] *= right
+    return stack[0]
+
+
+def _newton_raw_coefficients(
+    original: IExpr,
+    candidate: IExpr,
+    variables: tuple[str, ...],
+    degrees: tuple[int, ...],
+    deadline: float,
+) -> list[int]:
+    """Newton coefficients ``Δ^alpha f(0) / alpha!`` in ``iter_box`` order.
+
+    The table is the same forward difference as ``_forward_difference``,
+    applied one variable at a time. A clock overrun raises
+    ``_CheckerTimeout`` and is not an acceptance.
+    """
+
+    if not degrees:
+        if time.perf_counter() >= deadline:
+            raise _CheckerTimeout
+        return [_integer_value(original, {}) - _integer_value(candidate, {})]
+    left_code = _compile(original, variables)
+    right_code = _compile(candidate, variables)
+    extents = [degree + 1 for degree in degrees]
+    size = math.prod(extents)
+    strides: list[int] = []
+    stride = 1
+    for extent in extents:
+        strides.append(stride)
+        stride *= extent
+    table = [0] * size
+    seen = 0
+    for point in product(*[range(extent) for extent in extents]):
+        if seen % 4096 == 0 and time.perf_counter() >= deadline:
+            raise _CheckerTimeout
+        seen += 1
+        index = 0
+        for coord, step in zip(point, strides):
+            index += coord * step
+        table[index] = _run(left_code, point) - _run(right_code, point)
+    for axis, length in enumerate(extents):
+        if time.perf_counter() >= deadline:
+            raise _CheckerTimeout
+        step = strides[axis]
+        block = step * length
+        for base in range(0, size, block):
+            for offset in range(step):
+                start = base + offset
+                for order in range(1, length):
+                    for position in range(length - 1, order - 1, -1):
+                        table[start + position * step] -= table[start + (position - 1) * step]
+    raws: list[int] = []
+    seen = 0
+    for alpha in iter_box(degrees):
+        if seen % 4096 == 0 and time.perf_counter() >= deadline:
+            raise _CheckerTimeout
+        seen += 1
+        index = 0
+        for coord, step in zip(alpha, strides):
+            index += coord * step
+        difference = table[index]
+        divisor = math.prod(math.factorial(exponent) for exponent in alpha)
+        if divisor == 0 or difference % divisor != 0:
+            raise _NotDivisible
+        raws.append(difference // divisor)
+    return raws
 
 
 def _forward_difference(values: dict[tuple[int, ...], int], alpha: tuple[int, ...]) -> int:

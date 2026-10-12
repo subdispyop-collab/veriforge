@@ -27,9 +27,9 @@ def _decide(original: str, candidate: str, width: int):
     return decide_mode_b(original, candidate, _mode_b(width))
 
 
-def test_budgets_match_the_preregistered_protocol():
-    assert TERM_BUDGET == 256
-    assert GRID_BUDGET == 4096
+def test_budgets_cover_the_degree7_product():
+    assert TERM_BUDGET == 1715
+    assert GRID_BUDGET == 262144
     assert MAX_DEGREE == 12
     assert MAX_VARIABLES == 6
 
@@ -126,6 +126,61 @@ def test_malformed_certificate_is_rejected():
     )
     assert shifted_check.accepted is False
     assert shifted_check.reason == "coefficient_mismatch"
+
+
+def _power(factors: int) -> str:
+    return "*".join(["(a+b+c+d+e+f)"] * factors)
+
+
+def test_fast_newton_matches_the_direct_forward_difference():
+    import math
+    from itertools import product
+
+    from veriforge.canonical_certificate import (
+        _evaluate_grid,
+        _forward_difference,
+        _newton_raw_coefficients,
+        syntactic_degrees,
+    )
+
+    config = _mode_b(4)
+    left = parse_independent("((a + b) * (a + c)) + 1", config).root
+    right = parse_independent("((a * b) + (b - c))", config).root
+    names = ("a", "b", "c")
+    degrees = syntactic_degrees(left, right, names)
+    values = _evaluate_grid(left, right, names, degrees, deadline=1e12)
+    raws = _newton_raw_coefficients(left, right, names, degrees, deadline=1e12)
+    alphas = list(product(*[range(degree + 1) for degree in degrees]))
+    assert len(raws) == len(alphas)
+    for alpha, raw in zip(alphas, raws):
+        difference = _forward_difference(values, alpha)
+        divisor = math.prod(math.factorial(exponent) for exponent in alpha)
+        assert difference % divisor == 0
+        assert raw == difference // divisor
+
+
+def test_degree7_cap_is_the_falling_factorial_count():
+    power = _power(7)
+    short = decide_mode_b(power, "0", _mode_b(1), term_budget=1714)
+    assert short.status is CanonicalStatus.UNKNOWN
+    assert short.detail == "falling-factorial term count 1715 exceeds 1714"
+    decided = decide_mode_b(power, "0", _mode_b(1))
+    assert decided.status is CanonicalStatus.NOT_EQUIVALENT
+    assert decided.witness is not None
+    same = decide_mode_b(power, power, _mode_b(1))
+    assert same.status is CanonicalStatus.EQUIVALENT
+    assert same.checker_accepted
+    blocked = decide_mode_b(power, power, _mode_b(1), grid_budget=262143)
+    assert blocked.status is CanonicalStatus.UNKNOWN
+    assert blocked.status is not CanonicalStatus.EQUIVALENT
+
+
+def test_degree6_rows_finish_under_the_new_cap():
+    power = _power(6)
+    same = decide_mode_b(power, power, _mode_b(1))
+    assert same.status is CanonicalStatus.EQUIVALENT
+    different = decide_mode_b(power, "0", _mode_b(1))
+    assert different.status is CanonicalStatus.NOT_EQUIVALENT
 
 
 def test_unknown_is_not_equivalent_when_the_grid_cannot_be_checked():

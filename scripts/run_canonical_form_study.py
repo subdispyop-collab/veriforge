@@ -137,6 +137,12 @@ def main() -> int:
     held_lines = [line for line in HELD_OUT.read_text(encoding="utf-8").splitlines() if line.strip()]
     if len(held_lines) != 8:
         raise SystemExit(f"held-out file has {len(held_lines)} lines")
+    from veriforge.falling_factorial import TERM_BUDGET
+
+    if TERM_BUDGET != 256:
+        raise SystemExit(
+            f"refusing to rewrite the 57-pair study because the term cap is {TERM_BUDGET}"
+        )
 
     rows = _cases()
     OUT_DIR.mkdir(parents=True, exist_ok=True)

@@ -231,6 +231,12 @@ def main() -> int:
     frozen_lines = [line for line in FROZEN.read_text(encoding="utf-8").splitlines() if line.strip()]
     if len(frozen_lines) != 57:
         raise SystemExit(f"57-pair study changed: {len(frozen_lines)} lines")
+    from veriforge.falling_factorial import TERM_BUDGET
+
+    if TERM_BUDGET != 256:
+        raise SystemExit(
+            f"refusing to rewrite canonical-wide-v1 because the term cap is {TERM_BUDGET}"
+        )
 
     rows = _cases()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -241,7 +247,7 @@ def main() -> int:
     dataset_sha = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
 
     from veriforge.config import SemanticConfiguration
-    from veriforge.falling_factorial import TERM_BUDGET, decide_mode_b
+    from veriforge.falling_factorial import decide_mode_b
     from veriforge.independent_parser import parse_independent
     from veriforge.models import SemanticMode
     from veriforge.parser_engine import parse_expression

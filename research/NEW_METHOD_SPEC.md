@@ -8,7 +8,7 @@ Mode A is not decided here. `decide_mode_b` returns `UNSUPPORTED` when the confi
 
 Unsigned width `w ≥ 1`. Expressions built from integer literals, variables, parentheses, binary `+` `-` `*`, and unary `+` `-`. A Mode B literal outside `[0, 2^w - 1]` is `UNSUPPORTED`. The function decided is the integer polynomial reduced modulo `2^w`.
 
-Limits fixed in `veriforge/falling_factorial.py` and in `research/PROTOCOL_CANONICAL_FORM.md`: term budget 256, certificate grid budget 4096, syntactic degree at most 12 in each variable, at most 6 variables, timeout 5 seconds. Crossing a size budget returns `UNKNOWN`. Crossing the clock returns `TIMEOUT`. Neither is an equivalence.
+The code defaults in `veriforge/falling_factorial.py` are term budget 1715, certificate grid budget 262144, syntactic degree at most 12 in each variable, at most 6 variables, and timeout 5 seconds. 1715 is the falling-factorial term count of a degree-7 product of `(a+b+c+d+e+f)`, and 262144 is that product's syntactic box `8^6`. The earlier protocols still record the previous defaults: `research/PROTOCOL_CANONICAL_FORM.md` and `research/PROTOCOL_CANONICAL_WIDE.md` say term budget 256 and grid budget 4096. Crossing a size budget returns `UNKNOWN`. Crossing the clock returns `TIMEOUT`. Neither is an equivalence.
 
 ## Result contract
 
@@ -39,7 +39,7 @@ This is the argument the code relies on. It is not claimed as a theorem of this 
 
 ## Checker
 
-`check_certificate` evaluates the integer difference on the syntactic grid `{0, ..., d_i}` and applies the forward-difference formula. It rejects a certificate whose degree box, modulus, raw coefficient, or residue differs. A residue that was edited, and a raw coefficient shifted by the modulus, are both rejected. The checker does not multiply polynomials and does not build Stirling numbers, so the check is a different and smaller procedure than the search.
+`check_certificate` evaluates the integer difference on the syntactic grid `{0, ..., d_i}` and applies the forward-difference formula, one variable at a time. The coefficients match the direct sum in `_forward_difference`. It rejects a certificate whose degree box, modulus, raw coefficient, or residue differs. A residue that was edited, and a raw coefficient shifted by the modulus, are both rejected. The checker does not multiply polynomials and does not build Stirling numbers, so the check is a different and smaller procedure than the search.
 
 ## Witness
 

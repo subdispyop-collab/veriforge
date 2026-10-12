@@ -42,8 +42,12 @@ from veriforge.independent_parser import (
 )
 from veriforge.models import SemanticMode
 
-TERM_BUDGET = 256
-GRID_BUDGET = 4096
+# Degree 7 of (a+b+c+d+e+f) has 792 monomials and 1715 falling-factorial
+# terms. The cap is that falling-factorial count, which also covers the
+# degree-6 product (462 monomials, 923 falling-factorial terms).
+TERM_BUDGET = 1715
+# Syntactic box of per-variable degree 7 on six variables: 8**6.
+GRID_BUDGET = 262144
 MAX_DEGREE = 12
 MAX_VARIABLES = 6
 
@@ -261,8 +265,8 @@ def _certificate(
     from veriforge.canonical_certificate import canonical_modulus
 
     terms = []
-    for alpha in iter_box(degrees):
-        if time.perf_counter() >= deadline:
+    for count, alpha in enumerate(iter_box(degrees)):
+        if count % 4096 == 0 and time.perf_counter() >= deadline:
             raise _TimedOut
         raw = raw_by_alpha.get(alpha, 0)
         modulus = canonical_modulus(alpha, width)
@@ -415,7 +419,9 @@ def _to_falling(
         for alpha, alpha_coeff in partial.items():
             converted[alpha] = converted.get(alpha, 0) + coefficient * alpha_coeff
         if len(converted) > budget:
-            raise _BudgetExceeded(f"falling-factorial term count exceeds {budget}")
+            raise _BudgetExceeded(
+                f"falling-factorial term count {len(converted)} exceeds {budget}"
+            )
     return {key: value for key, value in converted.items() if value != 0}
 
 

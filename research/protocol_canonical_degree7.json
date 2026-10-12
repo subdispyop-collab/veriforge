@@ -1,0 +1,16 @@
+{
+  "record_id": "veriforge-canonical-degree7-v1",
+  "protocol_sha256": "6ce6df1d90998fc38ed52f78da5edef49b8a06b7e85601644fff656be74564b3",
+  "created_at_utc": "2026-10-12T15:06:00Z",
+  "dataset_generated_before_hash": false,
+  "solver_results_inspected_before_hash": false,
+  "pair_count_planned": 20,
+  "software_version": "1.0.0",
+  "term_budget": 1715,
+  "grid_budget": 262144,
+  "measured_before_pairs": {
+    "degree_6": {"monomials": 462, "falling_factorial": 923},
+    "degree_7": {"monomials": 792, "falling_factorial": 1715}
+  },
+  "widths": [1, 2, 4, 8, 32]
+}
