@@ -38,4 +38,14 @@ No new method module was added, so no new unit tests were added. Existing tests 
 
 ## Offline image
 
-The earlier Podman build and run on `cursor/research-hardening-7f34` exited 0. That image runs the old assurance script. It is not a run of a new method.
+The earlier Podman build and run on `cursor/research-hardening-7f34` exited 0. That image runs the old assurance script. It is not a run of the canonical-form study.
+
+## Canonical-form study
+
+Protocol `research/PROTOCOL_CANONICAL_FORM.md`, SHA-256 `e5cb120f983a8df481b1db2c52aa92d8293eb80e94251b1e536c8fa71646cd00`. Dataset `datasets/canonical_form_v1/cases.jsonl`, SHA-256 `e7de7560c6fa46f23038d6f2ea3701d867d3114fdd7d1b323cf672c6f4a5f37a`, 57 lines. Summary `experiments/reports/canonical-form-v1/summary.json`.
+
+```text
+env -u PYTHONPATH -u LD_LIBRARY_PATH PYTHONPATH=/home/ubuntu/py-z3:/workspace Z3_LIBRARY_PATH=/home/ubuntu/al-root/usr/lib64 python3 scripts/run_canonical_form_study.py
+```
+
+That command was run once. Python 3.12.3, Z3 4.8.17, cvc5 `This is cvc5 version 1.3.2`. Unit tests `tests/unit/test_falling_factorial.py` exited 0 before that run. GitHub Actions was not started.

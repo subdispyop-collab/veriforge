@@ -1,0 +1,14 @@
+{
+  "record_id": "veriforge-canonical-form-v1",
+  "dataset_generated": true,
+  "generated_after_protocol_hash": true,
+  "protocol_sha256": "e5cb120f983a8df481b1db2c52aa92d8293eb80e94251b1e536c8fa71646cd00",
+  "path": "datasets/canonical_form_v1/cases.jsonl",
+  "fingerprint": "e7de7560c6fa46f23038d6f2ea3701d867d3114fdd7d1b323cf672c6f4a5f37a",
+  "pair_count": 57,
+  "family_count": 19,
+  "held_out_path": "datasets/held_out/cases.jsonl",
+  "held_out_lines_required": 8,
+  "historical_datasets_rewritten": false,
+  "census_rerun": false
+}
