@@ -1,0 +1,767 @@
+{
+  "record_id": "veriforge-canonical-wide-v1",
+  "protocol_sha256": "65ad64b6d5275f402f4a736a6613ce99352cb4d22d61b81e9e9016ea81c249ca",
+  "dataset_sha256": "4ca42c4ddfa73e26e74fa10077e56b237f18921662d26b8e0ea6eb1f9c941c82",
+  "pair_count": 105,
+  "held_out_lines": 8,
+  "frozen_57_pair_lines": 57,
+  "software_version": "1.0.0",
+  "python": "3.12.3",
+  "z3_version": "4.8.17",
+  "cvc5_version_line": "This is cvc5 version 1.3.2",
+  "z3_init_seconds": 0.029187585998442955,
+  "cvc5_init_seconds": 0.01233195199893089,
+  "term_budget": 256,
+  "unknown_is_equivalence": false,
+  "canonical_unknown": {
+    "count": 10,
+    "case_ids": [
+      "cw-0096",
+      "cw-0097",
+      "cw-0098",
+      "cw-0099",
+      "cw-0100",
+      "cw-0101",
+      "cw-0102",
+      "cw-0103",
+      "cw-0104",
+      "cw-0105"
+    ],
+    "details": [
+      "term count 462 exceeds 256"
+    ]
+  },
+  "ground_truth_counts": {
+    "1:equivalent": 17,
+    "1:non_equivalent": 4,
+    "2:equivalent": 8,
+    "2:non_equivalent": 13,
+    "32:non_equivalent": 13,
+    "32:not_computed": 8,
+    "4:equivalent": 7,
+    "4:non_equivalent": 13,
+    "4:not_computed": 1,
+    "8:equivalent": 6,
+    "8:non_equivalent": 13,
+    "8:not_computed": 2
+  },
+  "false_equivalence": {
+    "canonical": {
+      "1": {
+        "numerator": 0,
+        "denominator": 4,
+        "wilson95": [
+          0.0,
+          0.4898908364545973
+        ]
+      },
+      "2": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "4": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "8": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "32": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "control": {
+        "numerator": 0,
+        "denominator": 30,
+        "wilson95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "wide": {
+        "numerator": 0,
+        "denominator": 26,
+        "wilson95": [
+          0.0,
+          0.1287289218592153
+        ]
+      },
+      "all": {
+        "numerator": 0,
+        "denominator": 56,
+        "wilson95": [
+          6.938893903907228e-18,
+          0.06419393671876342
+        ]
+      }
+    },
+    "z3": {
+      "1": {
+        "numerator": 0,
+        "denominator": 4,
+        "wilson95": [
+          0.0,
+          0.4898908364545973
+        ]
+      },
+      "2": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "4": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "8": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "32": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "control": {
+        "numerator": 0,
+        "denominator": 30,
+        "wilson95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "wide": {
+        "numerator": 0,
+        "denominator": 26,
+        "wilson95": [
+          0.0,
+          0.1287289218592153
+        ]
+      },
+      "all": {
+        "numerator": 0,
+        "denominator": 56,
+        "wilson95": [
+          6.938893903907228e-18,
+          0.06419393671876342
+        ]
+      }
+    },
+    "cvc5": {
+      "1": {
+        "numerator": 0,
+        "denominator": 4,
+        "wilson95": [
+          0.0,
+          0.4898908364545973
+        ]
+      },
+      "2": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "4": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "8": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "32": {
+        "numerator": 0,
+        "denominator": 13,
+        "wilson95": [
+          0.0,
+          0.22809537235419838
+        ]
+      },
+      "control": {
+        "numerator": 0,
+        "denominator": 30,
+        "wilson95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "wide": {
+        "numerator": 0,
+        "denominator": 26,
+        "wilson95": [
+          0.0,
+          0.1287289218592153
+        ]
+      },
+      "all": {
+        "numerator": 0,
+        "denominator": 56,
+        "wilson95": [
+          6.938893903907228e-18,
+          0.06419393671876342
+        ]
+      }
+    }
+  },
+  "false_rejection": {
+    "canonical": {
+      "1": {
+        "numerator": 0,
+        "denominator": 17,
+        "wilson95": [
+          0.0,
+          0.1843181350088518
+        ]
+      },
+      "2": {
+        "numerator": 0,
+        "denominator": 8,
+        "wilson95": [
+          0.0,
+          0.32440756488388023
+        ]
+      },
+      "4": {
+        "numerator": 0,
+        "denominator": 7,
+        "wilson95": [
+          5.551115123125783e-17,
+          0.35433043506668743
+        ]
+      },
+      "8": {
+        "numerator": 0,
+        "denominator": 6,
+        "wilson95": [
+          2.7755575615628914e-17,
+          0.3903342879021653
+        ]
+      },
+      "32": {
+        "numerator": 0,
+        "denominator": 0,
+        "wilson95": null
+      },
+      "control": {
+        "numerator": 0,
+        "denominator": 32,
+        "wilson95": [
+          0.0,
+          0.1071791982550706
+        ]
+      },
+      "wide": {
+        "numerator": 0,
+        "denominator": 6,
+        "wilson95": [
+          2.7755575615628914e-17,
+          0.3903342879021653
+        ]
+      },
+      "all": {
+        "numerator": 0,
+        "denominator": 38,
+        "wilson95": [
+          0.0,
+          0.09180986822558396
+        ]
+      }
+    },
+    "z3": {
+      "1": {
+        "numerator": 0,
+        "denominator": 17,
+        "wilson95": [
+          0.0,
+          0.1843181350088518
+        ]
+      },
+      "2": {
+        "numerator": 0,
+        "denominator": 8,
+        "wilson95": [
+          0.0,
+          0.32440756488388023
+        ]
+      },
+      "4": {
+        "numerator": 0,
+        "denominator": 7,
+        "wilson95": [
+          5.551115123125783e-17,
+          0.35433043506668743
+        ]
+      },
+      "8": {
+        "numerator": 0,
+        "denominator": 6,
+        "wilson95": [
+          2.7755575615628914e-17,
+          0.3903342879021653
+        ]
+      },
+      "32": {
+        "numerator": 0,
+        "denominator": 0,
+        "wilson95": null
+      },
+      "control": {
+        "numerator": 0,
+        "denominator": 32,
+        "wilson95": [
+          0.0,
+          0.1071791982550706
+        ]
+      },
+      "wide": {
+        "numerator": 0,
+        "denominator": 6,
+        "wilson95": [
+          2.7755575615628914e-17,
+          0.3903342879021653
+        ]
+      },
+      "all": {
+        "numerator": 0,
+        "denominator": 38,
+        "wilson95": [
+          0.0,
+          0.09180986822558396
+        ]
+      }
+    },
+    "cvc5": {
+      "1": {
+        "numerator": 0,
+        "denominator": 17,
+        "wilson95": [
+          0.0,
+          0.1843181350088518
+        ]
+      },
+      "2": {
+        "numerator": 0,
+        "denominator": 8,
+        "wilson95": [
+          0.0,
+          0.32440756488388023
+        ]
+      },
+      "4": {
+        "numerator": 0,
+        "denominator": 7,
+        "wilson95": [
+          5.551115123125783e-17,
+          0.35433043506668743
+        ]
+      },
+      "8": {
+        "numerator": 0,
+        "denominator": 6,
+        "wilson95": [
+          2.7755575615628914e-17,
+          0.3903342879021653
+        ]
+      },
+      "32": {
+        "numerator": 0,
+        "denominator": 0,
+        "wilson95": null
+      },
+      "control": {
+        "numerator": 0,
+        "denominator": 32,
+        "wilson95": [
+          0.0,
+          0.1071791982550706
+        ]
+      },
+      "wide": {
+        "numerator": 0,
+        "denominator": 6,
+        "wilson95": [
+          2.7755575615628914e-17,
+          0.3903342879021653
+        ]
+      },
+      "all": {
+        "numerator": 0,
+        "denominator": 38,
+        "wilson95": [
+          0.0,
+          0.09180986822558396
+        ]
+      }
+    }
+  },
+  "decisive": {
+    "canonical": {
+      "1": {
+        "numerator": 19,
+        "denominator": 21,
+        "wilson95": [
+          0.7108586092608176,
+          0.9734812325619255
+        ]
+      },
+      "2": {
+        "numerator": 19,
+        "denominator": 21,
+        "wilson95": [
+          0.7108586092608176,
+          0.9734812325619255
+        ]
+      },
+      "4": {
+        "numerator": 19,
+        "denominator": 21,
+        "wilson95": [
+          0.7108586092608176,
+          0.9734812325619255
+        ]
+      },
+      "8": {
+        "numerator": 19,
+        "denominator": 21,
+        "wilson95": [
+          0.7108586092608176,
+          0.9734812325619255
+        ]
+      },
+      "32": {
+        "numerator": 19,
+        "denominator": 21,
+        "wilson95": [
+          0.7108586092608176,
+          0.9734812325619255
+        ]
+      },
+      "control": {
+        "numerator": 57,
+        "denominator": 63,
+        "wilson95": [
+          0.8073829893716311,
+          0.955616515723108
+        ]
+      },
+      "wide": {
+        "numerator": 38,
+        "denominator": 42,
+        "wilson95": [
+          0.7793489419142897,
+          0.9623377511944261
+        ]
+      },
+      "all": {
+        "numerator": 95,
+        "denominator": 105,
+        "wilson95": [
+          0.8335087237779633,
+          0.9474436901365668
+        ]
+      }
+    },
+    "z3": {
+      "1": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "2": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "4": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "8": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "32": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "control": {
+        "numerator": 63,
+        "denominator": 63,
+        "wilson95": [
+          0.9425288004111484,
+          1.0
+        ]
+      },
+      "wide": {
+        "numerator": 42,
+        "denominator": 42,
+        "wilson95": [
+          0.916201209134296,
+          0.9999999999999999
+        ]
+      },
+      "all": {
+        "numerator": 105,
+        "denominator": 105,
+        "wilson95": [
+          0.9647059230708901,
+          1.0
+        ]
+      }
+    },
+    "cvc5": {
+      "1": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "2": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "4": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "8": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "32": {
+        "numerator": 21,
+        "denominator": 21,
+        "wilson95": [
+          0.8453609810751531,
+          1.0
+        ]
+      },
+      "control": {
+        "numerator": 63,
+        "denominator": 63,
+        "wilson95": [
+          0.9425288004111484,
+          1.0
+        ]
+      },
+      "wide": {
+        "numerator": 42,
+        "denominator": 42,
+        "wilson95": [
+          0.916201209134296,
+          0.9999999999999999
+        ]
+      },
+      "all": {
+        "numerator": 105,
+        "denominator": 105,
+        "wilson95": [
+          0.9647059230708901,
+          1.0
+        ]
+      }
+    }
+  },
+  "time_seconds": {
+    "canonical_wall": {
+      "1": {
+        "n": 21,
+        "sum": 0.006837435001216363,
+        "median": 9.456200132262893e-05
+      },
+      "2": {
+        "n": 21,
+        "sum": 0.007104688003892079,
+        "median": 0.0001514590003353078
+      },
+      "4": {
+        "n": 21,
+        "sum": 0.007080346003931481,
+        "median": 0.00014517300223815255
+      },
+      "8": {
+        "n": 21,
+        "sum": 0.007149832003051415,
+        "median": 0.00014261199976317585
+      },
+      "32": {
+        "n": 21,
+        "sum": 0.006881995010189712,
+        "median": 0.0001177240010292735
+      },
+      "control": {
+        "n": 63,
+        "sum": 0.021022469009039924,
+        "median": 0.00013274299999466166
+      },
+      "wide": {
+        "n": 42,
+        "sum": 0.014031827013241127,
+        "median": 0.00012999400132684968
+      },
+      "all": {
+        "n": 105,
+        "sum": 0.03505429602228105,
+        "median": 0.00012999899990973063
+      }
+    },
+    "z3_wall": {
+      "1": {
+        "n": 21,
+        "sum": 0.14679410301323514,
+        "median": 0.006149954002466984
+      },
+      "2": {
+        "n": 21,
+        "sum": 0.14191286199638853,
+        "median": 0.006232452997210203
+      },
+      "4": {
+        "n": 21,
+        "sum": 0.15791611100939917,
+        "median": 0.007088452002790291
+      },
+      "8": {
+        "n": 21,
+        "sum": 0.1518048509969958,
+        "median": 0.0074258479980926495
+      },
+      "32": {
+        "n": 21,
+        "sum": 0.26835986799778766,
+        "median": 0.007192460998339811
+      },
+      "control": {
+        "n": 63,
+        "sum": 0.44662307601902285,
+        "median": 0.00623904099848005
+      },
+      "wide": {
+        "n": 42,
+        "sum": 0.42016471899478347,
+        "median": 0.007220085499284323
+      },
+      "all": {
+        "n": 105,
+        "sum": 0.8667877950138063,
+        "median": 0.00631002900263411
+      }
+    },
+    "cvc5_wall": {
+      "1": {
+        "n": 21,
+        "sum": 0.09124711299227783,
+        "median": 0.00391207099892199
+      },
+      "2": {
+        "n": 21,
+        "sum": 0.08510805799960508,
+        "median": 0.004016114999103593
+      },
+      "4": {
+        "n": 21,
+        "sum": 0.08769305399619043,
+        "median": 0.003982902999268845
+      },
+      "8": {
+        "n": 21,
+        "sum": 0.09209144600390573,
+        "median": 0.004039313000248512
+      },
+      "32": {
+        "n": 21,
+        "sum": 0.19458908100205008,
+        "median": 0.004334667999501107
+      },
+      "control": {
+        "n": 63,
+        "sum": 0.26404822498807334,
+        "median": 0.00397206499837921
+      },
+      "wide": {
+        "n": 42,
+        "sum": 0.2866805270059558,
+        "median": 0.004129711998757557
+      },
+      "all": {
+        "n": 105,
+        "sum": 0.5507287519940292,
+        "median": 0.003986095998698147
+      }
+    }
+  }
+}

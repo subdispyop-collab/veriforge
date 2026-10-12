@@ -80,3 +80,17 @@ The earlier NO-GO writeup on `cursor/method-discovery-7f34` remains history. Thi
 **A technically useful implementation without a demonstrated novel method.**
 
 The representation is the Keller–Olson form as attributed second-hand in the retrieved eprint, extended in code to a product basis by the divisibility argument in the spec. The measured answer on the preregistered 57 pairs is: certificate-backed `EQUIVALENT` on 9/9 pairs where integer coefficient comparison was the wrong semantics; false equivalence 0/27 for the checker, Z3 4.8.17, and cvc5 1.3.2; decisive rate 57/57 for each; canonical wall sum `0.007584139995742589` seconds against solver wall sums `0.3974383819877403` and `0.2561598999782291` seconds on this small set.
+
+## Wider widths, after the 57-pair study
+
+A second protocol, `research/PROTOCOL_CANONICAL_WIDE.md`, was hashed before its pairs existed. SHA-256 `65ad64b6d5275f402f4a736a6613ce99352cb4d22d61b81e9e9016ea81c249ca`. Dataset SHA-256 `4ca42c4ddfa73e26e74fa10077e56b237f18921662d26b8e0ea6eb1f9c941c82`, 105 rows. Widths 1, 2, and 4 are the control. Widths 8 and 32 are the wide arm. The term cap is 256. This does not replace the 57-pair counts above, and it is not a new theorem.
+
+False equivalence for the canonical checker, Z3 4.8.17, and cvc5 1.3.2 is 0/4, 0/13, 0/13, 0/13, and 0/13 at widths 1, 2, 4, 8, and 32. The wide arm is 0/26. The full set is 0/56. Wilson intervals are in `research/CANONICAL_WIDE_RESULTS.md`. The all-set lower endpoint `6.938893903907228e-18` is a floating-point residue of a zero numerator.
+
+False rejection is 0/17, 0/8, 0/7, and 0/6 at widths 1, 2, 4, and 8. Width 32 has denominator 0, which is null, not a zero rate. Eight width-32 rows are `not_computed`, and seven of those are canonical `EQUIVALENT`. They are unlabeled, not confirmed.
+
+Decisive rate for the canonical checker is 19/21 at every width, because `degree_six_self` and `degree_six_zero` return `UNKNOWN` with detail `term count 462 exceeds 256`. Those ten rows were kept. Z3 and cvc5 are decisive on 21/21 at every width, including 105/105 overall. Canonical overall is 95/105.
+
+Width-32 wall sums, n=21: canonical `0.006881995010189712` seconds, Z3 `0.26835986799778766`, cvc5 `0.19458908100205008`.
+
+mutmut and Alive2 did not install. The Debian CloudFront indexes for trixie, bookworm, and sid answered and contained neither package. PyPI, GitHub, and files.pythonhosted.org failed once each with `SSL_ERROR_SYSCALL`. No mutation counts and no Alive2 score. Details are in `research/INSTALL_ATTEMPTS_WIDE.md`.
