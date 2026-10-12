@@ -1,0 +1,9 @@
+{
+  "record_id": "veriforge-canonical-form-v1",
+  "protocol_sha256": "e5cb120f983a8df481b1db2c52aa92d8293eb80e94251b1e536c8fa71646cd00",
+  "created_at_utc": "2026-10-12T13:25:52Z",
+  "dataset_generated_before_hash": false,
+  "solver_results_inspected_before_hash": false,
+  "pair_count_planned": 57,
+  "software_version": "1.0.0"
+}
