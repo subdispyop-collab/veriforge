@@ -4,21 +4,12 @@ Formal-verification-guided arithmetic expression optimization and research platf
 
 ## Measured results
 
-Recorded counts from `research/PART15_AUDIT.md`, `research/FINAL_RESEARCH_REPORT.md`, `research/RESULTS.md`, `research/METHOD_DISCOVERY_REPORT.md`, and `research/CANONICAL_WIDE_RESULTS.md`.
-
-The pytest record in `research/PART15_AUDIT.md` is pytest 9.1.1 on Python 3.12.3: 383 tests, 0 failures, 0 errors, 0 skipped, exit 0. That audit and `research/FINAL_RESEARCH_REPORT.md` state that this suite was not rerun. The recorded run used Hypothesis 6.155.7 and Z3 4.8.17.
-
-The assurance set has 463 unique pairs and 27 families. Testing false equivalences on the held-out labels were 0/54 at budgets 10, 100, 1,000, and 10,000. Against the labeling oracle, false equivalence was 0/96 for Z3 4.8.17, CVC5 1.3.2, and Bitwuzla 0.8.2. On all 463 pairs, timeout 5 seconds, the Z3 census was 318 `equivalent_within_model`, 96 `counterexample_found`, 8 `invalid_input`, 41 `unsupported`, 0 `unknown`, and 0 `timeout`. CVC5 matched those counts.
-
-The confirmatory set has 72 pairs in 12 families. Oracle labels were equivalent 32, non_equivalent 33, and not_computed 7. Z3 4.8.17 and CVC5 1.3.2 false equivalence was 0/33 pairs, 0/12 in Mode A, and 0/21 in Mode B. Correct acceptance was 32/32 and correct rejection was 33/33. The recorded H3 verdict is unresolved.
-
-On `datasets/canonical_form_v1/cases.jsonl` (57 lines), the canonical checker returned `EQUIVALENT` on 9/9 width-1 pairs where integer coefficient comparison was the wrong semantics. False equivalence was 0/27 for that checker, for Z3 4.8.17, and for cvc5 1.3.2. Each was decisive on 57/57 pairs.
-
-`research/CANONICAL_WIDE_RESULTS.md` records `veriforge-canonical-wide-v1` on `datasets/canonical_wide_v1/cases.jsonl` (105 lines), term cap 256. The record states that this wider study is not a new theorem and that the 57-pair study was not rewritten. False equivalence for the canonical checker, Z3 4.8.17, and cvc5 1.3.2 is 0/4 at width 1, 0/13 at width 2, 0/13 at width 4, 0/13 at width 8, and 0/13 at width 32. The control (widths 1, 2, and 4) is 0/30. The wide arm (widths 8 and 32) is 0/26. The full set is 0/56. The printed all-set Wilson lower endpoint `6.938893903907228e-18` is a floating-point residue of a zero numerator.
-
-False rejection in that wider study is 0/17 at width 1, 0/8 at width 2, 0/7 at width 4, and 0/6 at width 8. Width 32 is 0/0, an empty denominator, not a zero rate. The control is 0/32, the wide arm is 0/6, and the full set is 0/38. Width 32 has no exhaustive `equivalent` label. Eight width-32 rows are `not_computed`, including seven on which the canonical checker returned `EQUIVALENT`. Those seven are not scored as correct acceptances and are not in the false-rejection denominator.
-
-The decisive rate uses every row. The canonical checker is 19/21 at each width, 57/63 on the control, 38/42 on the wide arm, and 95/105 overall. Z3 and cvc5 are 21/21 at each width, 63/63 on the control, 42/42 on the wide arm, and 105/105 overall. Ten rows are canonical `UNKNOWN` with detail `term count 462 exceeds 256`. `UNKNOWN` is not equivalence. The degree-6 self-comparisons at widths 1 and 2 are ground-truth `equivalent` and canonical `UNKNOWN`. They are non-decisive.
+- pytest 9.1.1: 383 tests, 0 failures, 0 errors, 0 skipped (`research/PART15_AUDIT.md`).
+- Assurance set: 463 pairs, false equivalence 0/96. Testing false equivalences 0/54 at budgets 10, 100, 1,000, and 10,000.
+- Confirmatory v2: false equivalence 0/33, correct acceptance 32/32, correct rejection 33/33.
+- Canonical 57-pair study: 9/9 width-1 cases decided `EQUIVALENT` where integer comparison was the wrong semantics; false equivalence 0/27 for the checker, Z3, and cvc5; decisive 57/57.
+- Time, n=57 (`research/RESULTS.md`): canonical wall sum `0.007584139995742589` seconds, Z3 wall sum `0.3974383819877403` seconds, and cvc5 wall sum `0.2561598999782291` seconds. The canonical sum is about 52 times smaller than the Z3 wall sum on this set; these are small expressions, syntactic degree at most 2 and at most 3 variables, and no superiority test was preregistered.
+- Wider study: false equivalence 0/56 overall and 0/26 on widths 8 and 32 (`research/CANONICAL_WIDE_RESULTS.md`).
 
 Digests that match the hashes printed in the research reports are listed in `dataset_hashes.txt`.
 
