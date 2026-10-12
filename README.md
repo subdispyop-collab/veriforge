@@ -67,7 +67,7 @@ Application logic stays in engine modules and `veriforge/ui/actions.py` / `prese
 python3 -m pytest
 ```
 
-Warm-host evidence used for release (§20 criterion 8): **359 passed, 0 failed, 0 skipped** on commit `6848fd4`. Authoring hosts without PyPI egress cannot re-run the suite until dependencies install.
+The later recorded suite is the 383 tests, 0 failures result above. The earlier release attestation on commit `6848fd4` was 359 passed, 0 failed, 0 skipped. Authoring hosts without PyPI egress cannot re-run the suite until dependencies install.
 
 ## Reproduce the saved held-out experiment
 
