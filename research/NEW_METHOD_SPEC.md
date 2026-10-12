@@ -8,7 +8,7 @@ Mode A is not decided here. `decide_mode_b` returns `UNSUPPORTED` when the confi
 
 Unsigned width `w ≥ 1`. Expressions built from integer literals, variables, parentheses, binary `+` `-` `*`, and unary `+` `-`. A Mode B literal outside `[0, 2^w - 1]` is `UNSUPPORTED`. The function decided is the integer polynomial reduced modulo `2^w`.
 
-The code defaults in `veriforge/falling_factorial.py` are term budget 1715, certificate grid budget 262144, syntactic degree at most 12 in each variable, at most 6 variables, and timeout 5 seconds. 1715 is the falling-factorial term count of a degree-7 product of `(a+b+c+d+e+f)`, and 262144 is that product's syntactic box `8^6`. The earlier protocols still record the previous defaults: `research/PROTOCOL_CANONICAL_FORM.md` and `research/PROTOCOL_CANONICAL_WIDE.md` say term budget 256 and grid budget 4096. Crossing a size budget returns `UNKNOWN`. Crossing the clock returns `TIMEOUT`. Neither is an equivalence.
+Limits fixed in `veriforge/falling_factorial.py` and in `research/PROTOCOL_CANONICAL_FORM.md`: term budget 256, certificate grid budget 4096, syntactic degree at most 12 in each variable, at most 6 variables, timeout 5 seconds. Crossing a size budget returns `UNKNOWN`. Crossing the clock returns `TIMEOUT`. Neither is an equivalence.
 
 ## Result contract
 

@@ -27,9 +27,9 @@ def _decide(original: str, candidate: str, width: int):
     return decide_mode_b(original, candidate, _mode_b(width))
 
 
-def test_budgets_cover_the_degree7_product():
-    assert TERM_BUDGET == 1715
-    assert GRID_BUDGET == 262144
+def test_budgets_match_the_preregistered_protocol():
+    assert TERM_BUDGET == 256
+    assert GRID_BUDGET == 4096
     assert MAX_DEGREE == 12
     assert MAX_VARIABLES == 6
 
@@ -128,10 +128,6 @@ def test_malformed_certificate_is_rejected():
     assert shifted_check.reason == "coefficient_mismatch"
 
 
-def _power(factors: int) -> str:
-    return "*".join(["(a+b+c+d+e+f)"] * factors)
-
-
 def test_fast_newton_matches_the_direct_forward_difference():
     import math
     from itertools import product
@@ -157,30 +153,6 @@ def test_fast_newton_matches_the_direct_forward_difference():
         divisor = math.prod(math.factorial(exponent) for exponent in alpha)
         assert difference % divisor == 0
         assert raw == difference // divisor
-
-
-def test_degree7_cap_is_the_falling_factorial_count():
-    power = _power(7)
-    short = decide_mode_b(power, "0", _mode_b(1), term_budget=1714)
-    assert short.status is CanonicalStatus.UNKNOWN
-    assert short.detail == "falling-factorial term count 1715 exceeds 1714"
-    decided = decide_mode_b(power, "0", _mode_b(1))
-    assert decided.status is CanonicalStatus.NOT_EQUIVALENT
-    assert decided.witness is not None
-    same = decide_mode_b(power, power, _mode_b(1))
-    assert same.status is CanonicalStatus.EQUIVALENT
-    assert same.checker_accepted
-    blocked = decide_mode_b(power, power, _mode_b(1), grid_budget=262143)
-    assert blocked.status is CanonicalStatus.UNKNOWN
-    assert blocked.status is not CanonicalStatus.EQUIVALENT
-
-
-def test_degree6_rows_finish_under_the_new_cap():
-    power = _power(6)
-    same = decide_mode_b(power, power, _mode_b(1))
-    assert same.status is CanonicalStatus.EQUIVALENT
-    different = decide_mode_b(power, "0", _mode_b(1))
-    assert different.status is CanonicalStatus.NOT_EQUIVALENT
 
 
 def test_unknown_is_not_equivalent_when_the_grid_cannot_be_checked():

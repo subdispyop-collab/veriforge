@@ -42,12 +42,8 @@ from veriforge.independent_parser import (
 )
 from veriforge.models import SemanticMode
 
-# Degree 7 of (a+b+c+d+e+f) has 792 monomials and 1715 falling-factorial
-# terms. The cap is that falling-factorial count, which also covers the
-# degree-6 product (462 monomials, 923 falling-factorial terms).
-TERM_BUDGET = 1715
-# Syntactic box of per-variable degree 7 on six variables: 8**6.
-GRID_BUDGET = 262144
+TERM_BUDGET = 256
+GRID_BUDGET = 4096
 MAX_DEGREE = 12
 MAX_VARIABLES = 6
 
