@@ -94,3 +94,13 @@ Decisive rate for the canonical checker is 19/21 at every width, because `degree
 Width-32 wall sums, n=21: canonical `0.006881995010189712` seconds, Z3 `0.26835986799778766`, cvc5 `0.19458908100205008`.
 
 mutmut and Alive2 did not install. The Debian CloudFront indexes for trixie, bookworm, and sid answered and contained neither package. PyPI, GitHub, and files.pythonhosted.org failed once each with `SSL_ERROR_SYSCALL`. No mutation counts and no Alive2 score. Details are in `research/INSTALL_ATTEMPTS_WIDE.md`.
+
+## Degree 7, after the 105-row study
+
+A third protocol, `research/PROTOCOL_CANONICAL_DEGREE7.md`, was hashed before its pairs existed. SHA-256 `6ce6df1d90998fc38ed52f78da5edef49b8a06b7e85601644fff656be74564b3`. Dataset SHA-256 `d6bf6fa8fe76f24c7d64d6b460419b15d26488645445366ed0f0abdf615683a1`, 20 rows. The templates are the degree-6 product of `(a+b+c+d+e+f)` against itself and against `0`, and the same two comparisons at degree 7. Widths are 1, 2, 4, 8, and 32. This does not replace the 57-pair or 105-row counts, and it is not a new theorem.
+
+The term cap is 1715, the falling-factorial term count of the degree-7 product. That product has 792 monomials. The degree-6 product has 462 monomials and 923 falling-factorial terms. The certificate grid budget is 262144, the syntactic box `8^6`. No row returned `UNKNOWN` or `TIMEOUT`.
+
+False equivalence for the canonical checker, Z3 4.8.17, and cvc5 1.3.2 is 0/5 at each degree and 0/2 at each width. The full set is 0/10, Wilson `[0.0, 0.2775327998628892]`. Each degree-width cell is 0/1. Decisive rate is 10/10 at each degree, 4/4 at each width, and 20/20 overall, Wilson `[0.8388748419471806, 1.0]`. The six self-comparisons at widths 4, 8, and 32 are ground-truth `not_computed`. Their canonical `EQUIVALENT` answers are unlabeled.
+
+Canonical wall sums: degree 6 `11.794027497995557` seconds on n=10, degree 7 `29.69017564799651` seconds on n=10, all 20 rows `41.48420314599207` seconds. Z3 all-row sum `0.3760275700042257`. cvc5 all-row sum `0.32133023800270166`. Counts are in `research/CANONICAL_DEGREE7_RESULTS.md`.
