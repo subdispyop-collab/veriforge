@@ -1,0 +1,19 @@
+{
+  "record_id": "veriforge-canonical-wide-v1",
+  "protocol_sha256": "65ad64b6d5275f402f4a736a6613ce99352cb4d22d61b81e9e9016ea81c249ca",
+  "created_at_utc": "2026-10-12T14:38:59Z",
+  "dataset_generated_before_hash": false,
+  "solver_results_inspected_before_hash": false,
+  "pair_count_planned": 105,
+  "software_version": "1.0.0",
+  "term_budget": 256,
+  "widths_control": [
+    1,
+    2,
+    4
+  ],
+  "widths_wide": [
+    8,
+    32
+  ]
+}
